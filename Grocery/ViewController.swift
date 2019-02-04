@@ -10,33 +10,45 @@ import UIKit
 import SQLite3
 
 class ViewController: UIViewController {
-    
+
     var db: OpaquePointer?
 
-    @IBOutlet weak var descLabel: UILabel!
-    var foodList = [Food]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        descLabel.text = cellDescriptions[myIndex]
-    }
-    
-    func readValues(){
-        foodList.removeAll()
+       // descLabel.text = cellDescriptions[myIndex]
         
-        let foodQueryString = "SELECT * FROM Grocery"
+        let fileURL = try!
+            FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("GroceryDatabase.sqlite")
         
-        var foodQuery: OpaquePointer? = nil
         
-        if sqlite3_prepare(db, foodQueryString, -1, &foodQuery, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
+        
+        if sqlite3_open(fileURL.path, &db) != SQLITE_OK{
+            print("Error opening database")
             return
         }
+        //Please take this out before you turn it in Emily
+        print("SQLITE URL!!" + fileURL.path)
+        
+        let createTableQuery = "CREATE TABLE IF NOT EXISTS Grocery (Id INTEGER PRIMARY KEY AUTOINCREMENT, food TEXT, date TEXT)"
+        
+        if sqlite3_exec(db, createTableQuery, nil, nil, nil) != SQLITE_OK{
+            print("Error creating table")
+            return
+        }
+        
+        print("Everything is fine")
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is AddViewController
+        {
+            let vc = segue.destination as? AddViewController
+            vc?.db = db
+        }
+    }
 
 }
 
