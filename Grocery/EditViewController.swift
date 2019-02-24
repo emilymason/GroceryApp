@@ -11,6 +11,7 @@ import SQLite3
 
 class EditViewController: UIViewController {
     var db: OpaquePointer?
+    var label: String?
     var editFood: NSString = ""
     var editDate: NSString = ""
     var editId: Int32? = nil
@@ -23,7 +24,7 @@ class EditViewController: UIViewController {
         let newFood: NSString = foodEdit.text! as NSString
         let newDate: NSString = dateEdit.text! as NSString
         
-        let updateStatementString = "UPDATE Grocery SET food = '\(newFood)', date = '\(newDate)' WHERE Id = \(editId!);"
+        let updateStatementString = "UPDATE Food SET food = '\(newFood)', date = '\(newDate)' WHERE Id = \(editId!);"
         var updateStatement: OpaquePointer? = nil
 
         
@@ -36,16 +37,17 @@ class EditViewController: UIViewController {
         if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) != SQLITE_OK{
             print("Error binding query")
         }
-        
-        if sqlite3_bind_text(updateStatement, 1, newFood.utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding ID food")
-        }
-        if sqlite3_bind_text(updateStatement, 2, newDate.utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding ID date")
-        }
-        if sqlite3_bind_int(updateStatement, 3, editId ?? -1) != SQLITE_OK{
-            print("Error binding Id")
-        }
+
+//  don't  need because not doing VALUES() in query....
+//        if sqlite3_bind_text(updateStatement, 1, newFood.utf8String, -1, nil) != SQLITE_OK{
+//            print("Error binding ID food")
+//        }
+//        if sqlite3_bind_text(updateStatement, 2, newDate.utf8String, -1, nil) != SQLITE_OK{
+//            print("Error binding ID date")
+//        }
+//        if sqlite3_bind_int(updateStatement, 3, editId ?? -1) != SQLITE_OK{
+//            print("Error binding Id")
+//        }
         
         if sqlite3_step(updateStatement) == SQLITE_DONE{
             print("Food edited successfully")
@@ -63,30 +65,15 @@ class EditViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    
-//    func update(){
-//        var updateStatement: OpaquePointer? = nil
-//        if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) == SQLITE_OK {
-//            if sqlite3_step(updateStatement) == SQLITE_DONE {
-//                print("Successfully updated row.")
-//            } else {
-//                print("Could not update row.")
-//            }
-//        } else {
-//            print("UPDATE statement could not be prepared")
-//        }
-//        sqlite3_finalize(updateStatement)
-//    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is ListTableViewController
+        {
+            let vc = segue.destination as? ListTableViewController
+            vc?.db = db
+            vc?.label = label
+        }
     }
-    */
+    
 
 }

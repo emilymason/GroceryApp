@@ -17,37 +17,23 @@ class ListTableViewController: UITableViewController {
     var editFood: NSString = ""
     var editDate: NSString = ""
     var editId: Int32?
-    let queryStatementString = "SELECT * FROM Grocery ORDER BY food ASC;"
+    var recipeList: [String] = []
+    var label: String?
+    let queryFoodStatementString = "SELECT * FROM Food ORDER BY food ASC;"
+    let queryRecipeStatementString = "SELECT * FROM Recipes ORDER BY name ASC;"
     
-
+    @IBAction func addButton(_ sender: Any) {
+        if label == "Food"{
+            performSegue(withIdentifier: "addFoodSegue", sender: self)
+        }
+        else if label == "Recipes"{
+            performSegue(withIdentifier: "addRecipeSegue", sender: self)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        let fileURL = try!
-            FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("GroceryDatabase.sqlite")
-        
-        
-        
-        if sqlite3_open(fileURL.path, &db) != SQLITE_OK{
-            print("Error opening database")
-            return
-        }
-        //Please take this out before you turn it in Emily
-        print("SQLITE URL!!" + fileURL.path)
-        
-        let createTableQuery = "CREATE TABLE IF NOT EXISTS Grocery (Id INTEGER PRIMARY KEY AUTOINCREMENT, food TEXT, date TEXT)"
-        
-        if sqlite3_exec(db, createTableQuery, nil, nil, nil) != SQLITE_OK{
-            print("Error creating table")
-            return
-        }
-        
-        print("Everything is fine")
         query()
         tableView.reloadData()
     }
@@ -59,6 +45,20 @@ class ListTableViewController: UITableViewController {
         {
             let vc = segue.destination as? AddViewController
             vc?.db = db
+            vc?.label = label
+        }
+        if segue.destination is TableViewController
+        {
+            let vc = segue.destination as? TableViewController
+            vc?.db = db
+            
+            
+        }
+        if segue.destination is AddRecipeViewController
+        {
+            let vc = segue.destination as? AddRecipeViewController
+            vc?.db = db
+            vc?.label = label
         }
         if segue.destination is EditViewController
         {
@@ -66,8 +66,9 @@ class ListTableViewController: UITableViewController {
             vc?.db = db
             vc?.editFood = editFood
             vc?.editDate = editDate
+            vc?.label = label
             
-            let queryIdStatementString = "SELECT Id FROM Grocery WHERE food = '\(editFood)' AND date = '\(editDate)';"
+            let queryIdStatementString = "SELECT Id FROM Food WHERE food = '\(editFood)' AND date = '\(editDate)';"
             var queryIdStatement: OpaquePointer? = nil
             if sqlite3_prepare_v2(db, queryIdStatementString, -1, &queryIdStatement, nil) != SQLITE_OK{
                 print("Error binding get Id query")
@@ -91,18 +92,30 @@ class ListTableViewController: UITableViewController {
  
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return foodList.count
+        if label == "Food"{
+           return foodList.count
+        }
+        else if label == "Recipes"{
+            return recipeList.count
+        }
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath)
         
+        if label == "Food"
+        {
         cell.textLabel?.text = foodList[indexPath.row]
         cell.detailTextLabel?.text = dateList[indexPath.row]
-        let label = UILabel.init(frame: CGRect(x:0,y:0,width:100,height:20))
-        label.text = dateList[indexPath.row]
-        cell.accessoryView = label
+        let dateLabel = UILabel.init(frame: CGRect(x:0,y:0,width:100,height:20))
+        dateLabel.text = dateList[indexPath.row]
+        cell.accessoryView = dateLabel
+        }
+        else if label == "Recipes"
+        {
+            cell.textLabel?.text = recipeList[indexPath.row]
+        }
         
         return cell
     }
@@ -110,7 +123,7 @@ class ListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete{
             
-            let deleteStatementString = "DELETE FROM Grocery WHERE food = '\(foodList[indexPath.row])' AND date = '\(dateList[indexPath.row])';"
+            let deleteStatementString = "DELETE FROM Food WHERE food = '\(foodList[indexPath.row])' AND date = '\(dateList[indexPath.row])';"
             var deleteStatement: OpaquePointer? = nil
             if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
                 if sqlite3_step(deleteStatement) == SQLITE_DONE {
@@ -133,7 +146,8 @@ class ListTableViewController: UITableViewController {
     
     func query() {
         var queryStatement: OpaquePointer? = nil
-        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+        if label == "Food"{
+        if sqlite3_prepare_v2(db, queryFoodStatementString, -1, &queryStatement, nil) == SQLITE_OK {
             
             while (sqlite3_step(queryStatement) == SQLITE_ROW) {
                 let id = sqlite3_column_int(queryStatement, 0)
@@ -147,46 +161,42 @@ class ListTableViewController: UITableViewController {
                 print("\(id) | \(food) | \(date)")
             }
             
+            
         } else {
-            print("SELECT statement could not be prepared")
+            print("SELECT statement for food could not be prepared")
         }
         sqlite3_finalize(queryStatement)
+        }
+        
+        else if label == "Recipes"{
+            if sqlite3_prepare_v2(db, queryRecipeStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                
+                while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                    let id = sqlite3_column_int(queryStatement, 0)
+                    let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
+                    let name = String(cString: queryResultCol1!)
+                    recipeList.append(name)
+                    print("Query Result:")
+                    print("\(id) | \(name)")
+                }
+                
+                
+            } else {
+                print("SELECT statement for recipes could not be prepared")
+            }
+            sqlite3_finalize(queryStatement)
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         myIndex =  indexPath.row
+        if label == "Food"{
         editFood = foodList[indexPath.row] as NSString
         editDate = dateList[indexPath.row] as NSString
         performSegue(withIdentifier: "editSegue", sender: self)
+        }
     }
 
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
 
 
 }

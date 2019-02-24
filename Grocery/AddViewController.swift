@@ -12,6 +12,7 @@ import SQLite3
 class AddViewController: UIViewController {
     
     var db: OpaquePointer?
+    var label: String?
 
     let datePicker = UIDatePicker()
     
@@ -30,7 +31,7 @@ class AddViewController: UIViewController {
         
         var insertStatement: OpaquePointer? = nil
             
-        let insertStatementString = "INSERT INTO Grocery (food, date) VALUES (?, ?)"
+        let insertStatementString = "INSERT INTO Food (food, date) VALUES (?, ?)"
             
         if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding query")
@@ -96,6 +97,16 @@ class AddViewController: UIViewController {
         textFieldDate.text = dateFormatter.string(from: datePicker.date)
         
         view.endEditing(true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is ListTableViewController
+        {
+            let vc = segue.destination as? ListTableViewController
+            vc?.db = db
+            vc?.label = label
+        }
     }
     
 
