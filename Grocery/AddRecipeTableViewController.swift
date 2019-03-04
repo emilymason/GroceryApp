@@ -36,7 +36,8 @@ class AddRecipeTableViewController: UITableViewController {
         queryIngredients()
         querySteps()
         navTitle.title = recipeTitle! as String
-
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
         
          tableView.reloadData()
     }
@@ -56,13 +57,37 @@ class AddRecipeTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! SelfSizingStepsTableViewCell
 
         if indexPath.section == 0{
-            cell.textLabel?.text = lists[0][indexPath.row]
+            cell.editStepLabel.text = lists[0][indexPath.row]
+            if indexPath.row >= 1{
+                let row = indexPath.row - 1
+                var measure = measurements[row].measure
+                var units = measurements[row].unit
+                
+                if measure.contains("None"){
+                    let none: Set<Character> = ["n", "o", "e", "N", " "]
+                    measure.removeAll(where: { none.contains($0) })
+                }
+                if units == "None"{
+                    units = ""
+                }
+                let boldText = measure + " " + units
+                let attrs = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)]
+                let attributedString = NSMutableAttributedString(string:boldText, attributes:attrs)
+                
+                
+                let normalText = "  " + cell.editStepLabel.text!
+                let normalString = NSMutableAttributedString(string:normalText)
+                
+                attributedString.append(normalString)
+                
+                cell.editStepLabel.attributedText = attributedString
+            }
         }
         else{
-            cell.textLabel?.text = lists[1][indexPath.row]
+            cell.editStepLabel.text = lists[1][indexPath.row]
         }
         
         

@@ -54,6 +54,9 @@ class AddStepsViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        self.textView.layer.borderColor = UIColor.gray.cgColor
+        self.textView.layer.borderWidth = 0.5
+        self.textView.layer.cornerRadius = 2
         super.viewDidLoad()
     }
     
