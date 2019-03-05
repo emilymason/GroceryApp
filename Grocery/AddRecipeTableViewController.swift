@@ -18,18 +18,40 @@ class AddRecipeTableViewController: UITableViewController {
     var lists = [["Click to add Ingredients: "],["Click to add Steps: "]]
     var measurements:[(measure: String, unit: String)] = []
     var myIndex = 0
+    var ingredientList: [String] = []
+    var foodList: [String] = []
+    var match: Double = 0.0
     
     
     @IBOutlet weak var navTitle: UINavigationItem!
     
-    
-    
     @IBAction func finalizeButton(_ sender: Any) {
+        //Calculate Percentages for Recipe
+        populateIngredientList()
+        populateFoodList()
+        for ingredient in ingredientList {
+            if foodList.contains(ingredient){
+                match += 1
+            }
+        }
+        
+        let percentage = match/Double(ingredientList.count)
+        
+        let updateStatementString = "UPDATE Recipes SET percentage = \(percentage) WHERE recipeId = \(recipeId!);"
+        var updateStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) != SQLITE_OK{
+            print("Error preparing update statement")
+        }
+        if sqlite3_step(updateStatement) == SQLITE_DONE{
+            print("Recipe edited successfully")
+        }
+        
+        
+        
         performSegue(withIdentifier: "finalizeRecipeSegue", sender: self)
     }
     
-
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getId()
@@ -70,6 +92,7 @@ class AddRecipeTableViewController: UITableViewController {
                     let none: Set<Character> = ["n", "o", "e", "N", " "]
                     measure.removeAll(where: { none.contains($0) })
                 }
+                
                 if units == "None"{
                     units = ""
                 }
@@ -89,8 +112,6 @@ class AddRecipeTableViewController: UITableViewController {
         else{
             cell.editStepLabel.text = lists[1][indexPath.row]
         }
-        
-        
         return cell
     }
     
@@ -205,6 +226,44 @@ class AddRecipeTableViewController: UITableViewController {
         while (sqlite3_step(queryIdStatement) == SQLITE_ROW){
         recipeId = sqlite3_column_int(queryIdStatement, 0)
         }
+    }
+    
+    func populateIngredientList() {
+        let queryIngredientString = "SELECT name FROM Ingredients WHERE recipeId = \(recipeId!);"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryIngredientString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let ingredient = String(cString: queryResultCol1!)
+                
+                ingredientList.append(ingredient)
+            }
+            
+        } else {
+            print("Error Selecting Ingredients")
+        }
+        sqlite3_finalize(queryStatement)
+
+    }
+    
+    func populateFoodList() {
+        let queryFoodString = "SELECT food FROM Food;"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryFoodString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let food = String(cString: queryResultCol1!)
+                
+                foodList.append(food)
+            }
+            
+        } else {
+            print("Error Selecting Food")
+        }
+        sqlite3_finalize(queryStatement)
+        
     }
 
 }

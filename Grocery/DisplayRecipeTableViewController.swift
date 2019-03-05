@@ -83,11 +83,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         }
         else{
             cell.StepLabel.text = list[1][indexPath.row]
-           
-            
         }
-        
-        
         return cell
     }
     
@@ -102,6 +98,8 @@ class DisplayRecipeTableViewController: UITableViewController {
             recipeId = sqlite3_column_int(queryIdStatement, 0)
         }
     }
+    
+    
     func queryIngredients() {
         var queryStatement: OpaquePointer? = nil
         let queryIngredientStatementString = "SELECT * FROM Ingredients WHERE recipeId = '\(recipeId!)';"
@@ -128,8 +126,6 @@ class DisplayRecipeTableViewController: UITableViewController {
             print("SELECT ingredients statement for recipes could not be prepared")
         }
         sqlite3_finalize(queryStatement)
-        
-        
     }
     
     func querySteps() {
@@ -164,18 +160,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         }
     }
     
-//
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//
-//        //return UITableView.automaticDimension
-//        return 50
-//
-//    }
-//
-//    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 100
-//    }
-    
+
   // FOR EDITING!!!!!!!!!!!!!!!!!!!
 //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        myIndex =  indexPath.row
@@ -197,19 +182,6 @@ class DisplayRecipeTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-   
 
     /*
     // MARK: - Navigation

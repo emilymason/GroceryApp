@@ -9,7 +9,7 @@
 import UIKit
 import SQLite3
 
-var cellLabels = ["Food", "Recipes", "Shopping List"]
+var cellLabels = ["Food", "Recipes", "Recipe Match", "Shopping List"]
 var myIndex = 0
 var lastDate: Date?
 var result: NSString?
@@ -75,6 +75,11 @@ class TableViewController: UITableViewController {
             vc?.label = label
            
         }
+        if segue.destination is RecipeMatchTableViewController{
+            let vc = segue.destination as? RecipeMatchTableViewController
+            vc?.db = db
+            vc?.label = label
+        }
     }
     
 
@@ -96,7 +101,13 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         myIndex =  indexPath.row
         label = cellLabels[myIndex]
-        performSegue(withIdentifier: "segue", sender: self)
+        if label == "Recipe Match"{
+            performSegue(withIdentifier: "recipeMatchSegue", sender: self)
+        }
+        else{
+            performSegue(withIdentifier: "segue", sender: self)
+        }
+        
     }
 
     
@@ -105,20 +116,24 @@ class TableViewController: UITableViewController {
         let currDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd/yyyy"
-        let today = formatter.string(from: currDate) as NSString
-        
         var dateComponents = DateComponents()
         dateComponents.setValue(1, for: .day); // +1 day
+        
         let nextDate = Calendar.current.date(byAdding: dateComponents, to: currDate)
         let thirdDate = Calendar.current.date(byAdding: dateComponents, to: nextDate!)
+        
+        let today = formatter.string(from: currDate) as NSString
         let tomorrow = formatter.string(from: nextDate!) as NSString
         let nextDay = formatter.string(from: thirdDate!) as NSString
 
         
         if result != today{
             expirFood = []
+            print("TOOOOOODDDDDAAAAAYYYYY")
+            print(today)
             let queryFoodStatementString = "SELECT food FROM Food WHERE date = '\(today)' OR date = '\(tomorrow)' OR date = '\(nextDay)';"
             var queryFoodStatement: OpaquePointer? = nil
+            
             if sqlite3_prepare_v2(db, queryFoodStatementString, -1, &queryFoodStatement, nil) != SQLITE_OK{
                 print("Error binding get food query")
             }
@@ -129,6 +144,7 @@ class TableViewController: UITableViewController {
                 let food = String(cString: queryResultCol0!)
                 expirFood.append(food)
             }
+            
             var string = expirFood.joined(separator: ", ")
             if string == ""{
                 string = "None"

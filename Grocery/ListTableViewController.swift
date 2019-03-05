@@ -34,7 +34,6 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         query()
         tableView.reloadData()
     }
@@ -84,8 +83,6 @@ class ListTableViewController: UITableViewController {
             while (sqlite3_step(queryIdStatement) == SQLITE_ROW){
                let newId = sqlite3_column_int(queryIdStatement, 0)
                 vc?.editId = newId
-                print("IDDDDDDDD!~!!!!!!")
-                print(newId)
             }
             
         }
@@ -241,7 +238,6 @@ class ListTableViewController: UITableViewController {
                     print("\(id) | \(name)")
                 }
                 
-                
             } else {
                 print("SELECT statement for recipes could not be prepared")
             }
@@ -275,11 +271,5 @@ class ListTableViewController: UITableViewController {
         }
         
         return newId
-       
-        
-        
     }
-
-
-
 }
