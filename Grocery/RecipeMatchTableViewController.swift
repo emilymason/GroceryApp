@@ -58,6 +58,23 @@ class RecipeMatchTableViewController: UITableViewController {
         cell.textLabel?.text = recipeList[indexPath.row]
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        recipeTitle = recipeList[indexPath.row]
+        performSegue(withIdentifier: "recipeMatchSegue", sender: self)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is DisplayRecipeTableViewController
+        {
+            let vc = segue.destination as? DisplayRecipeTableViewController
+            vc?.db = db
+            vc?.label = label
+            vc?.recipeTitle = recipeTitle
+        }
+    }
 
 
 

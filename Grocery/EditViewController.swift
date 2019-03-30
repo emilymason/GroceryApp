@@ -19,13 +19,16 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     var days: [String] = ["None"]
     var years: [String] = ["None"]
     var newDate: NSString = ""
+    var recipeIdList: [Int32] = []
+    var foodList: [String] = []
 
     @IBOutlet weak var foodEdit: UITextField!
     
     @IBOutlet weak var picker: UIPickerView!
     
-    
-    @IBAction func editSave(_ sender: Any) {
+
+    @IBAction func saveButton(_ sender: Any) {
+        
         let newFood: NSString = foodEdit.text! as NSString
         //let newDate: NSString = dateEdit.text! as NSString
         
@@ -39,7 +42,7 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         
         let updateStatementString = "UPDATE Food SET food = '\(newFood)', date = '\(newDate)' WHERE Id = \(editId!);"
         var updateStatement: OpaquePointer? = nil
-
+        
         if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) != SQLITE_OK{
             print("Error binding query")
         }
@@ -48,8 +51,34 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
             print("Food edited successfully")
         }
         
-        //UPDATE PERCENTAGES
+        getRecipeId()
+        populateFoodList()
+        
+        for recipe in recipeIdList{
+            var match: Double = 0
+            let ingredients: [String] = populateIngredientList(recipeId: recipe)
+            for ingredient in ingredients{
+                if foodList.contains(ingredient){
+                    match += 1
+                }
+            }
+            let percentage = match/Double(ingredients.count)
+            
+            let updateStatementString = "UPDATE Recipes SET percentage = \(percentage) WHERE recipeId = \(recipe);"
+            var updateStatement: OpaquePointer? = nil
+            if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) != SQLITE_OK{
+                print("Error preparing update statement")
+            }
+            if sqlite3_step(updateStatement) == SQLITE_DONE{
+                print("Recipe percentage edited successfully")
+            }
+            
+        }
+        
+        performSegue(withIdentifier: "editFoodSegue", sender: self)
+        
     }
+    
     override func viewDidLoad() {
         foodEdit.text? = editFood as String
        // dateEdit.text? = editDate as String
@@ -139,6 +168,65 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
             vc?.label = label
         }
     }
+    
+    
+    func getRecipeId() {
+        var queryStatement: OpaquePointer? = nil
+        let queryStatementString = "SELECT recipeId FROM Recipes;"
+        
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let id = sqlite3_column_int(queryStatement, 0)
+                recipeIdList.append(id)
+            }
+            
+        } else {
+            print("SELECT statement for recipe ids could not be prepared")
+        }
+        sqlite3_finalize(queryStatement)
+    }
+    
+    func populateIngredientList(recipeId: Int32) -> [String] {
+        var ingredientList: [String] = []
+        let queryIngredientString = "SELECT name FROM Ingredients WHERE recipeId = \(recipeId);"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryIngredientString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let ingredient = String(cString: queryResultCol1!)
+                
+                ingredientList.append(ingredient)
+            }
+            
+        } else {
+            print("Error Selecting Ingredients")
+        }
+        sqlite3_finalize(queryStatement)
+        return ingredientList
+        
+    }
+    
+    func populateFoodList() {
+        let queryFoodString = "SELECT food FROM Food;"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryFoodString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let food = String(cString: queryResultCol1!)
+                
+                foodList.append(food)
+            }
+            
+        } else {
+            print("Error Selecting Food")
+        }
+        sqlite3_finalize(queryStatement)
+        
+    }
+
     
 
 }

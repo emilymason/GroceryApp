@@ -19,9 +19,11 @@ class ListTableViewController: UITableViewController {
     var editId: Int32?
     var recipeList: [String] = []
     var recipeTitle: String?
+    var shoppingList: [String] = []
     var label: String?
     let queryFoodStatementString = "SELECT * FROM Food ORDER BY food ASC;"
     let queryRecipeStatementString = "SELECT * FROM Recipes ORDER BY name ASC;"
+    let queryShoppingStatementString = "SELECT * FROM ShoppingList ORDER BY item ASC;"
     
     @IBAction func addButton(_ sender: Any) {
         if label == "Food"{
@@ -29,6 +31,9 @@ class ListTableViewController: UITableViewController {
         }
         else if label == "Recipes"{
             performSegue(withIdentifier: "addRecipeSegue", sender: self)
+        }
+        else if label == "Shopping List"{
+            performSegue(withIdentifier: "addShoppingSegue", sender: self)
         }
     }
     
@@ -51,6 +56,14 @@ class ListTableViewController: UITableViewController {
         {
             let vc = segue.destination as? TableViewController
             vc?.db = db
+            
+            
+        }
+        if segue.destination is AddShoppingViewController
+        {
+            let vc = segue.destination as? AddShoppingViewController
+            vc?.db = db
+            vc?.label = label
             
             
         }
@@ -102,6 +115,9 @@ class ListTableViewController: UITableViewController {
         else if label == "Recipes"{
             return recipeList.count
         }
+        else if label == "Shopping List"{
+            return shoppingList.count
+        }
         return 0
     }
     
@@ -120,8 +136,20 @@ class ListTableViewController: UITableViewController {
         {
             cell.textLabel?.text = recipeList[indexPath.row]
         }
+        else if label == "Shopping List"{
+            cell.textLabel?.text = shoppingList[indexPath.row]
+        }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if label == "Recipes"{
+            if recipeList[indexPath.row] == "Honey Mustard Grilled Chicken" || recipeList[indexPath.row] == "Banana Bread" || recipeList[indexPath.row] == "Peanut Butter Banana Smoothie"{
+                return false
+            }
+        }
+        return true
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -147,7 +175,7 @@ class ListTableViewController: UITableViewController {
             tableView.reloadData()
 
             }
-            else{
+            else if label == "Recipes"{
                 var id: Int32 = 0
                 id = GetId(recipeName: recipeList[indexPath.row])
                 print(id)
@@ -198,6 +226,24 @@ class ListTableViewController: UITableViewController {
                 tableView.reloadData()
                 
             }
+            else if label == "Shopping List" {
+                let deleteStatmentString = "DELETE FROM ShoppingList WHERE item = '\(shoppingList[indexPath.row])';"
+                
+                
+                var deleteStatement: OpaquePointer? = nil
+                if sqlite3_prepare_v2(db, deleteStatmentString, -1, &deleteStatement, nil) == SQLITE_OK {
+                    if sqlite3_step(deleteStatement) == SQLITE_DONE {
+                        print("Successfully deleted row.")
+                    } else {
+                        print("Could not delete row.")
+                    }
+                } else {
+                    print("DELETE statement could not be prepared")
+                }
+                sqlite3_finalize(deleteStatement)
+                shoppingList.remove(at: indexPath.row)
+                tableView.reloadData()
+            }
         }
         
     }
@@ -240,6 +286,23 @@ class ListTableViewController: UITableViewController {
                 
             } else {
                 print("SELECT statement for recipes could not be prepared")
+            }
+            sqlite3_finalize(queryStatement)
+        }
+        else {
+            if sqlite3_prepare_v2(db, queryShoppingStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                
+                while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                    let id = sqlite3_column_int(queryStatement, 0)
+                    let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
+                    let item = String(cString: queryResultCol1!)
+                    shoppingList.append(item)
+                    print("Query Result:")
+                    print("\(id) | \(item)")
+                }
+                
+            } else {
+                print("SELECT statement for shopping list could not be prepared")
             }
             sqlite3_finalize(queryStatement)
         }

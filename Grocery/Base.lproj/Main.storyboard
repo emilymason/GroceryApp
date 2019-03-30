@@ -91,6 +91,7 @@
                         <segue destination="Azy-We-4zo" kind="show" identifier="addFoodSegue" id="JFz-cW-piN"/>
                         <segue destination="C4g-kK-Keh" kind="show" identifier="addRecipeSegue" id="KXo-Mg-TuB"/>
                         <segue destination="hxJ-0J-J3R" kind="show" identifier="displayRecipeSegue" id="280-4d-yho"/>
+                        <segue destination="csS-Ua-0n6" kind="show" identifier="addShoppingSegue" id="mja-ek-mT5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Ei-Kp-FAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -153,6 +154,7 @@
                     <connections>
                         <outlet property="navTitle" destination="U5y-gA-PW4" id="xIV-2j-0tQ"/>
                         <segue destination="dRf-RC-mOQ" kind="show" identifier="backToListSegue" id="QAX-Vf-xpz"/>
+                        <segue destination="ZbU-rX-Wm7" kind="show" identifier="backToMatchSegue" id="RPq-aV-6KH"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frn-7q-vHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -167,13 +169,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Enter Recipe Name:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9M-r0-L0A">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Recipe Name:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9M-r0-L0A">
                                 <rect key="frame" x="25" y="112" width="334" height="31.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Recipe Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iSo-wi-fvV">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Recipe Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iSo-wi-fvV">
                                 <rect key="frame" x="16" y="224.5" width="343" height="30.5"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -361,19 +363,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4a-PS-Ya5">
-                                <rect key="frame" x="170" y="456" width="34" height="30"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="saveButton:" destination="xFX-Fh-MfU" eventType="touchUpInside" id="3Bp-l4-bp2"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ingredient" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mqa-5S-xk0">
-                                <rect key="frame" x="16" y="73" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                            </textField>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y9b-EM-fPV">
                                 <rect key="frame" x="0.0" y="210" width="375" height="216"/>
                                 <connections>
@@ -381,20 +370,46 @@
                                     <outlet property="delegate" destination="xFX-Fh-MfU" id="50n-hZ-zUk"/>
                                 </connections>
                             </pickerView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vcd-QI-Kwj">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Add Ingredient" id="vWJ-7c-BkJ">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="e7R-SS-u6o">
+                                            <connections>
+                                                <segue destination="fsF-UV-LQ6" kind="show" id="h2o-9q-ksn"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="ox2-eP-uGA">
+                                            <connections>
+                                                <action selector="doneButton:" destination="xFX-Fh-MfU" id="rGz-Ki-rnh"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ingredient" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mqa-5S-xk0">
+                                <rect key="frame" x="16" y="125" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="b4a-PS-Ya5" firstAttribute="top" secondItem="Y9b-EM-fPV" secondAttribute="bottom" constant="30" id="7Hw-Pn-8iF"/>
+                            <constraint firstItem="Y9b-EM-fPV" firstAttribute="top" secondItem="mqa-5S-xk0" secondAttribute="bottom" constant="55" id="9CZ-Kd-eGY"/>
                             <constraint firstItem="jyC-Wz-bfO" firstAttribute="trailing" secondItem="mqa-5S-xk0" secondAttribute="trailing" constant="16" id="9N9-5h-PDX"/>
-                            <constraint firstItem="b4a-PS-Ya5" firstAttribute="leading" secondItem="jyC-Wz-bfO" secondAttribute="leading" constant="170" id="CSC-3l-oym"/>
-                            <constraint firstItem="jyC-Wz-bfO" firstAttribute="bottom" secondItem="b4a-PS-Ya5" secondAttribute="bottom" constant="181" id="I3V-9X-THT"/>
+                            <constraint firstItem="Y9b-EM-fPV" firstAttribute="leading" secondItem="jyC-Wz-bfO" secondAttribute="leading" id="9fZ-WG-zgN"/>
+                            <constraint firstItem="Y9b-EM-fPV" firstAttribute="top" secondItem="mqa-5S-xk0" secondAttribute="bottom" constant="55" id="C6G-a9-K2A"/>
+                            <constraint firstItem="Vcd-QI-Kwj" firstAttribute="top" secondItem="jyC-Wz-bfO" secondAttribute="top" id="Gkk-M6-gXk"/>
                             <constraint firstItem="Y9b-EM-fPV" firstAttribute="leading" secondItem="jyC-Wz-bfO" secondAttribute="leading" id="IAI-M6-8PQ"/>
+                            <constraint firstItem="Vcd-QI-Kwj" firstAttribute="trailing" secondItem="jyC-Wz-bfO" secondAttribute="trailing" id="L6n-jM-t3N"/>
                             <constraint firstItem="Y9b-EM-fPV" firstAttribute="trailing" secondItem="jyC-Wz-bfO" secondAttribute="trailing" id="NZH-62-PDV"/>
-                            <constraint firstItem="b4a-PS-Ya5" firstAttribute="top" secondItem="Y9b-EM-fPV" secondAttribute="bottom" constant="30" id="PQc-hg-hI9"/>
-                            <constraint firstItem="mqa-5S-xk0" firstAttribute="top" secondItem="jyC-Wz-bfO" secondAttribute="top" constant="53" id="Wsr-1c-mUO"/>
+                            <constraint firstItem="Y9b-EM-fPV" firstAttribute="trailing" secondItem="jyC-Wz-bfO" secondAttribute="trailing" id="O5s-Gr-2fd"/>
+                            <constraint firstItem="jyC-Wz-bfO" firstAttribute="trailing" secondItem="mqa-5S-xk0" secondAttribute="trailing" constant="16" id="WEh-sA-4Vg"/>
                             <constraint firstItem="mqa-5S-xk0" firstAttribute="leading" secondItem="jyC-Wz-bfO" secondAttribute="leading" constant="16" id="XAv-gq-ph8"/>
-                            <constraint firstItem="jyC-Wz-bfO" firstAttribute="trailing" secondItem="b4a-PS-Ya5" secondAttribute="trailing" constant="171" id="hO9-KE-cTs"/>
-                            <constraint firstItem="Y9b-EM-fPV" firstAttribute="top" secondItem="mqa-5S-xk0" secondAttribute="bottom" constant="107" id="siN-g3-hvZ"/>
+                            <constraint firstItem="mqa-5S-xk0" firstAttribute="top" secondItem="Vcd-QI-Kwj" secondAttribute="bottom" constant="61" id="mAF-UC-Bg4"/>
+                            <constraint firstItem="Vcd-QI-Kwj" firstAttribute="leading" secondItem="jyC-Wz-bfO" secondAttribute="leading" id="xLR-Fg-bgl"/>
+                            <constraint firstItem="mqa-5S-xk0" firstAttribute="leading" secondItem="jyC-Wz-bfO" secondAttribute="leading" constant="16" id="zsT-7E-7Wy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jyC-Wz-bfO"/>
                     </view>
@@ -406,7 +421,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tlE-O5-7ZX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3734" y="237"/>
+            <point key="canvasLocation" x="3733.5999999999999" y="236.13193403298354"/>
         </scene>
         <!--Recipe Match Table View Controller-->
         <scene sceneID="J8T-sP-1dF">
@@ -430,7 +445,7 @@
                             </items>
                         </navigationBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="cxZ-vf-F7G">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="matchCell" id="cxZ-vf-F7G">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cxZ-vf-F7G" id="7Pb-5d-NZG">
@@ -444,10 +459,59 @@
                             <outlet property="delegate" destination="ZbU-rX-Wm7" id="hMF-gX-neE"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="hxJ-0J-J3R" kind="show" identifier="recipeMatchSegue" id="Wbw-k4-bYS"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h3v-dD-mdX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-594" y="-747"/>
+            <point key="canvasLocation" x="-550" y="1106"/>
+        </scene>
+        <!--Add Shopping View Controller-->
+        <scene sceneID="bfI-Ww-V04">
+            <objects>
+                <viewController id="csS-Ua-0n6" customClass="AddShoppingViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P99-4g-KUg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Shopping List Item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-hp-Y8g">
+                                <rect key="frame" x="16" y="130" width="343" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cui-xB-Gpv">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Add Shopping List Item" id="0kS-7k-Mbj">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="EqQ-ND-Qg0">
+                                            <connections>
+                                                <segue destination="dRf-RC-mOQ" kind="show" identifier="backSegue" id="2bM-HD-urW"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="7o0-NN-KCB">
+                                            <connections>
+                                                <action selector="doneButton:" destination="csS-Ua-0n6" id="5v0-5T-nCK"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="sSr-9P-gBo"/>
+                    </view>
+                    <connections>
+                        <outlet property="textField" destination="JfI-hp-Y8g" id="6fD-Z2-HdV"/>
+                        <segue destination="dRf-RC-mOQ" kind="show" identifier="saveShoppingSegue" id="oQJ-z7-KyV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="INb-R8-lts" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="320.80000000000001" y="-698.5007496251875"/>
         </scene>
         <!--Edit View Controller-->
         <scene sceneID="bLa-R7-NPa">
@@ -457,47 +521,64 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ys8-gy-BBP">
-                                <rect key="frame" x="16" y="92" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KBW-Vl-f9q">
-                                <rect key="frame" x="170.5" y="421" width="34" height="30"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="editSave:" destination="kiv-vo-2hf" eventType="touchUpInside" id="jc2-Ra-Crg"/>
-                                    <segue destination="dRf-RC-mOQ" kind="show" id="7ur-jR-ncO"/>
-                                </connections>
-                            </button>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hVH-go-Zfh">
-                                <rect key="frame" x="0.0" y="171" width="375" height="216"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVH-go-Zfh">
+                                <rect key="frame" x="0.0" y="153" width="375" height="216"/>
                                 <connections>
                                     <outlet property="dataSource" destination="kiv-vo-2hf" id="nFd-fw-fiG"/>
                                     <outlet property="delegate" destination="kiv-vo-2hf" id="Pa4-jE-9mt"/>
                                 </connections>
                             </pickerView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BIT-MG-8l4">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Edit Food" id="0BB-Tl-SXJ">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="eIs-Em-SAA">
+                                            <connections>
+                                                <segue destination="dRf-RC-mOQ" kind="show" id="ulc-kc-WVz"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="uJF-li-NSJ">
+                                            <connections>
+                                                <action selector="saveButton:" destination="kiv-vo-2hf" id="IoE-Dl-IZZ"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ys8-gy-BBP">
+                                <rect key="frame" x="16" y="99" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Ys8-gy-BBP" firstAttribute="top" secondItem="BIT-MG-8l4" secondAttribute="bottom" constant="35" id="3YC-iH-nRx"/>
+                            <constraint firstItem="hVH-go-Zfh" firstAttribute="top" secondItem="Ys8-gy-BBP" secondAttribute="bottom" constant="24" id="5az-oK-8FU"/>
                             <constraint firstItem="Ys8-gy-BBP" firstAttribute="leading" secondItem="xTA-QB-6Ir" secondAttribute="leading" constant="16" id="9Rz-vt-jeB"/>
-                            <constraint firstItem="KBW-Vl-f9q" firstAttribute="centerX" secondItem="ByX-tU-e0D" secondAttribute="centerX" id="Yp6-gF-wiB"/>
-                            <constraint firstItem="Ys8-gy-BBP" firstAttribute="top" secondItem="xTA-QB-6Ir" secondAttribute="top" constant="72" id="dWR-83-ASK"/>
+                            <constraint firstItem="hVH-go-Zfh" firstAttribute="top" secondItem="Ys8-gy-BBP" secondAttribute="bottom" constant="24" id="FkE-Qb-Yy4"/>
+                            <constraint firstItem="hVH-go-Zfh" firstAttribute="leading" secondItem="xTA-QB-6Ir" secondAttribute="leading" id="NUB-Ll-5DH"/>
+                            <constraint firstItem="BIT-MG-8l4" firstAttribute="leading" secondItem="xTA-QB-6Ir" secondAttribute="leading" id="cjC-LB-Go2"/>
+                            <constraint firstItem="Ys8-gy-BBP" firstAttribute="leading" secondItem="xTA-QB-6Ir" secondAttribute="leading" constant="16" id="dzF-XO-c9M"/>
+                            <constraint firstItem="xTA-QB-6Ir" firstAttribute="bottom" secondItem="hVH-go-Zfh" secondAttribute="bottom" constant="298" id="gMm-Yp-kVk"/>
+                            <constraint firstItem="hVH-go-Zfh" firstAttribute="trailing" secondItem="xTA-QB-6Ir" secondAttribute="trailing" id="sVE-1X-fFf"/>
+                            <constraint firstItem="xTA-QB-6Ir" firstAttribute="trailing" secondItem="Ys8-gy-BBP" secondAttribute="trailing" constant="16" id="t4n-oG-rFS"/>
+                            <constraint firstItem="BIT-MG-8l4" firstAttribute="top" secondItem="xTA-QB-6Ir" secondAttribute="top" id="wjF-8L-HeR"/>
                             <constraint firstItem="xTA-QB-6Ir" firstAttribute="trailing" secondItem="Ys8-gy-BBP" secondAttribute="trailing" constant="16" id="yP5-9v-Sdm"/>
-                            <constraint firstItem="xTA-QB-6Ir" firstAttribute="bottom" secondItem="KBW-Vl-f9q" secondAttribute="bottom" constant="216" id="ymI-n0-LAo"/>
+                            <constraint firstItem="BIT-MG-8l4" firstAttribute="trailing" secondItem="xTA-QB-6Ir" secondAttribute="trailing" id="z8h-rM-bm0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xTA-QB-6Ir"/>
                     </view>
                     <connections>
                         <outlet property="foodEdit" destination="Ys8-gy-BBP" id="8dv-vg-SnK"/>
                         <outlet property="picker" destination="hVH-go-Zfh" id="leh-Um-CDW"/>
+                        <segue destination="dRf-RC-mOQ" kind="show" identifier="editFoodSegue" id="J1h-oI-QsI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r0c-dt-AiF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1633" y="-673"/>
+            <point key="canvasLocation" x="1487" y="-673"/>
         </scene>
         <!--Add View Controller-->
         <scene sceneID="hlF-17-KNB">
@@ -507,20 +588,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Food Item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Qb-Zn-7ef">
-                                <rect key="frame" x="16" y="65" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u6b-bR-SOX">
-                                <rect key="frame" x="170.5" y="454" width="34" height="30"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="buttonSave:" destination="Azy-We-4zo" eventType="touchUpInside" id="YZr-eN-jk3"/>
-                                    <segue destination="dRf-RC-mOQ" kind="show" id="paf-Ik-Ps8"/>
-                                </connections>
-                            </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FbU-R3-SBg">
                                 <rect key="frame" x="0.0" y="149" width="375" height="216"/>
                                 <connections>
@@ -528,17 +595,46 @@
                                     <outlet property="delegate" destination="Azy-We-4zo" id="cIQ-te-QeC"/>
                                 </connections>
                             </pickerView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Mm-YH-AKy">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Add Food" id="d0S-fu-pMu">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="V24-du-U42">
+                                            <connections>
+                                                <segue destination="dRf-RC-mOQ" kind="show" identifier="" id="DX7-uu-POh"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="dkK-lc-sxR">
+                                            <connections>
+                                                <action selector="doneButton:" destination="Azy-We-4zo" id="s5S-59-94y"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Food Item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Qb-Zn-7ef">
+                                <rect key="frame" x="16" y="100" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Vjz-OQ-2PA" firstAttribute="trailing" secondItem="0Qb-Zn-7ef" secondAttribute="trailing" constant="16" id="20A-8O-QoK"/>
-                            <constraint firstItem="0Qb-Zn-7ef" firstAttribute="top" secondItem="Vjz-OQ-2PA" secondAttribute="top" constant="45" id="C3M-CH-sQc"/>
-                            <constraint firstItem="u6b-bR-SOX" firstAttribute="top" secondItem="FbU-R3-SBg" secondAttribute="bottom" constant="89" id="SaQ-fv-3hc"/>
-                            <constraint firstItem="u6b-bR-SOX" firstAttribute="centerX" secondItem="KfK-6t-FVx" secondAttribute="centerX" id="Xtd-7G-JX1"/>
+                            <constraint firstItem="FbU-R3-SBg" firstAttribute="top" secondItem="0Qb-Zn-7ef" secondAttribute="bottom" constant="19" id="6bK-pF-YZB"/>
+                            <constraint firstItem="FbU-R3-SBg" firstAttribute="trailing" secondItem="Vjz-OQ-2PA" secondAttribute="trailing" id="6rJ-8G-TgZ"/>
+                            <constraint firstItem="4Mm-YH-AKy" firstAttribute="trailing" secondItem="Vjz-OQ-2PA" secondAttribute="trailing" id="8Zl-nG-hOK"/>
+                            <constraint firstItem="FbU-R3-SBg" firstAttribute="top" secondItem="0Qb-Zn-7ef" secondAttribute="bottom" constant="19" id="8uC-fV-o2B"/>
+                            <constraint firstItem="Vjz-OQ-2PA" firstAttribute="trailing" secondItem="0Qb-Zn-7ef" secondAttribute="trailing" constant="16" id="AXd-s9-Gaj"/>
+                            <constraint firstItem="4Mm-YH-AKy" firstAttribute="leading" secondItem="Vjz-OQ-2PA" secondAttribute="leading" id="BAg-wJ-oza"/>
+                            <constraint firstItem="0Qb-Zn-7ef" firstAttribute="leading" secondItem="Vjz-OQ-2PA" secondAttribute="leading" constant="16" id="Qp9-Tx-k5x"/>
+                            <constraint firstItem="4Mm-YH-AKy" firstAttribute="top" secondItem="Vjz-OQ-2PA" secondAttribute="top" id="SUM-m1-UNA"/>
                             <constraint firstItem="FbU-R3-SBg" firstAttribute="trailing" secondItem="Vjz-OQ-2PA" secondAttribute="trailing" id="Y3k-Ir-wbi"/>
-                            <constraint firstItem="u6b-bR-SOX" firstAttribute="centerX" secondItem="KfK-6t-FVx" secondAttribute="centerX" id="YaV-eb-Hdk"/>
-                            <constraint firstItem="FbU-R3-SBg" firstAttribute="top" secondItem="0Qb-Zn-7ef" secondAttribute="bottom" constant="54" id="jo8-CZ-dDE"/>
+                            <constraint firstItem="0Qb-Zn-7ef" firstAttribute="top" secondItem="4Mm-YH-AKy" secondAttribute="bottom" constant="36" id="hzz-1d-RQR"/>
                             <constraint firstItem="FbU-R3-SBg" firstAttribute="leading" secondItem="Vjz-OQ-2PA" secondAttribute="leading" id="oa5-yE-eFN"/>
+                            <constraint firstItem="FbU-R3-SBg" firstAttribute="leading" secondItem="Vjz-OQ-2PA" secondAttribute="leading" id="sbO-dN-94p"/>
+                            <constraint firstItem="0Qb-Zn-7ef" firstAttribute="top" secondItem="4Mm-YH-AKy" secondAttribute="bottom" constant="36" id="xNP-SZ-Nuv"/>
                             <constraint firstItem="0Qb-Zn-7ef" firstAttribute="leading" secondItem="Vjz-OQ-2PA" secondAttribute="leading" constant="16" id="yGw-Xf-9p1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vjz-OQ-2PA"/>
@@ -546,6 +642,7 @@
                     <connections>
                         <outlet property="pickerView" destination="FbU-R3-SBg" id="oyS-5H-0jC"/>
                         <outlet property="textFieldFood" destination="0Qb-Zn-7ef" id="Vzd-C7-NS9"/>
+                        <segue destination="dRf-RC-mOQ" kind="show" identifier="saveFoodSegue" id="af4-Eu-Bwz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S3A-3g-fck" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -554,8 +651,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="mja-ek-mT5"/>
+        <segue reference="RPq-aV-6KH"/>
         <segue reference="eWa-N5-VLa"/>
-        <segue reference="7ur-jR-ncO"/>
-        <segue reference="zqs-Qe-fcq"/>
+        <segue reference="280-4d-yho"/>
+        <segue reference="oQJ-z7-KyV"/>
+        <segue reference="Uk8-OQ-SD4"/>
     </inferredMetricsTieBreakers>
 </document>

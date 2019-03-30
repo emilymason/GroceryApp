@@ -22,12 +22,8 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
     var unit: NSString = ""
     
     
-    
-    @IBOutlet weak var textFieldIngredient: UITextField!
-    
-    @IBOutlet weak var picker: UIPickerView!
-    
-    @IBAction func saveButton(_ sender: Any) {
+    @IBAction func doneButton(_ sender: Any) {
+        
         let ingredient: NSString = textFieldIngredient.text! as NSString
         
         
@@ -62,15 +58,20 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
         
         if sqlite3_bind_int(insertStatement, 5, recipeId ?? -1) != SQLITE_OK{
             print("Error binding recipe Id")
-            }
+        }
         
         if sqlite3_step(insertStatement) == SQLITE_DONE{
             print("Ingredient saved successfully")
         }
         performSegue(withIdentifier: "saveSegue", sender: self)
-
+        
         
     }
+    
+    @IBOutlet weak var textFieldIngredient: UITextField!
+    
+    @IBOutlet weak var picker: UIPickerView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()

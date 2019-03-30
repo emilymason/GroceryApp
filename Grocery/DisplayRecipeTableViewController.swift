@@ -22,7 +22,13 @@ class DisplayRecipeTableViewController: UITableViewController {
     @IBOutlet weak var navTitle: UINavigationItem!
     
     @IBAction func backButton(_ sender: Any) {
-        performSegue(withIdentifier: "backToListSegue", sender: self)
+        if label == "Recipes"{
+            performSegue(withIdentifier: "backToListSegue", sender: self)
+        }
+        else{
+            performSegue(withIdentifier: "backToMatchSegue", sender: self)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -155,6 +161,12 @@ class DisplayRecipeTableViewController: UITableViewController {
         if segue.destination is ListTableViewController
         {
             let vc = segue.destination as? ListTableViewController
+            vc?.db = db
+            vc?.label = label
+        }
+        if segue.destination is RecipeMatchTableViewController
+        {
+            let vc = segue.destination as? RecipeMatchTableViewController
             vc?.db = db
             vc?.label = label
         }
