@@ -21,6 +21,8 @@ class AddRecipeTableViewController: UITableViewController {
     var ingredientList: [String] = []
     var foodList: [String] = []
     var match: Double = 0.0
+    var step: String = ""
+    var editIngredient: String = ""
     
     
     @IBOutlet weak var navTitle: UINavigationItem!
@@ -124,6 +126,14 @@ class AddRecipeTableViewController: UITableViewController {
         else if indexPath.row == 0 && indexPath.section == 1 {
             performSegue(withIdentifier: "addStepSegue", sender: self)
         }
+        else if indexPath.section == 1{
+            step = lists[1][indexPath.row]
+            performSegue(withIdentifier: "editStepSegue", sender: self)
+        }
+        else if indexPath.section == 0{
+            editIngredient = lists[0][indexPath.row]
+            performSegue(withIdentifier: "editIngredSegue", sender: self)
+        }
     }
         
 
@@ -143,6 +153,7 @@ class AddRecipeTableViewController: UITableViewController {
             vc?.label = label
             vc?.recipeTitle = recipeTitle! as String
             vc?.recipeId = recipeId
+            vc?.cameFrom = "Add"
         }
         
         if segue.destination is AddStepsViewController
@@ -152,6 +163,28 @@ class AddRecipeTableViewController: UITableViewController {
             vc?.label = label
             vc?.recipeTitle = recipeTitle!
             vc?.recipeId = recipeId
+            vc?.cameFrom = "Add"
+        }
+        
+        if segue.destination is EditStepViewController
+        {
+            let vc = segue.destination as? EditStepViewController
+            vc?.db = db
+            vc?.label = label
+            vc?.step = step
+            vc?.recipeTitle = recipeTitle
+            vc?.recipeId = recipeId
+            vc?.cameFrom = "Add"
+        }
+        if segue.destination is EditIngredientViewController
+        {
+            let vc = segue.destination as? EditIngredientViewController
+            vc?.db = db
+            vc?.label = label
+            vc?.ingredient = editIngredient
+            vc?.recipeTitle = recipeTitle
+            vc?.recipeId = recipeId
+            vc?.cameFrom = "Add"
         }
     }
     
@@ -265,7 +298,63 @@ class AddRecipeTableViewController: UITableViewController {
         sqlite3_finalize(queryStatement)
         
     }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+       
+            if indexPath.section == 0 && lists[0][indexPath.row] == "Click to add Ingredients: "{
+                return false
+            }
+            else if indexPath.section == 1 && lists[1][indexPath.row] == "Click to add Steps: "{
+                return false
+        }
+            else{
+        
+        return true
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete{
+            let id: Int32 = recipeId!
+            if indexPath.section == 0{
+                let deleteStatmentString = "DELETE FROM Ingredients WHERE name = '\(lists[0][indexPath.row])' AND recipeId = '\(id)';"
+                
+                
+                var deleteStatement: OpaquePointer? = nil
+                if sqlite3_prepare_v2(db, deleteStatmentString, -1, &deleteStatement, nil) == SQLITE_OK {
+                    if sqlite3_step(deleteStatement) == SQLITE_DONE {
+                        print("Successfully deleted ingredient \(lists[0][indexPath.row]) \(id)) row.")
+                    } else {
+                        print("Could not delete row.")
+                    }
+                } else {
+                    print("DELETE statement could not be prepared")
+                }
+                sqlite3_finalize(deleteStatement)
+                lists[0].remove(at: indexPath.row)
+                tableView.reloadData()
+            }
+            else if indexPath.section == 1{
+                let deleteStatmentString = "DELETE FROM Steps WHERE step = '\(lists[1][indexPath.row])' AND recipeId = '\(id)';"
+                
+                
+                var deleteStatement: OpaquePointer? = nil
+                if sqlite3_prepare_v2(db, deleteStatmentString, -1, &deleteStatement, nil) == SQLITE_OK {
+                    if sqlite3_step(deleteStatement) == SQLITE_DONE {
+                        print("Successfully deleted step row.")
+                    } else {
+                        print("Could not delete row.")
+                    }
+                } else {
+                    print("DELETE statement could not be prepared")
+                }
+                sqlite3_finalize(deleteStatement)
+                lists[1].remove(at: indexPath.row)
+                tableView.reloadData()
+            }
+            
+        }
 
 }
-
+}
 

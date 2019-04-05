@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Udf-so-uaf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Udf-so-uaf">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -42,7 +42,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T1K-Q9-QXy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-549" y="122"/>
+            <point key="canvasLocation" x="-1914" y="122"/>
         </scene>
         <!--List Table View Controller-->
         <scene sceneID="ZQ4-qx-Oxd">
@@ -96,7 +96,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Ei-Kp-FAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="320.80000000000001" y="121.88905547226388"/>
+            <point key="canvasLocation" x="-593" y="122"/>
         </scene>
         <!--Display Recipe Table View Controller-->
         <scene sceneID="vW4-6h-XWI">
@@ -114,6 +114,11 @@
                                     <barButtonItem key="leftBarButtonItem" title="Back" id="eC9-RN-2x6">
                                         <connections>
                                             <action selector="backButton:" destination="hxJ-0J-J3R" id="PRd-Ck-tBz"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem key="rightBarButtonItem" title="Edit" id="vXT-UL-ud1">
+                                        <connections>
+                                            <action selector="editButton:" destination="hxJ-0J-J3R" id="IdZ-mK-hRv"/>
                                         </connections>
                                     </barButtonItem>
                                 </navigationItem>
@@ -155,11 +160,83 @@
                         <outlet property="navTitle" destination="U5y-gA-PW4" id="xIV-2j-0tQ"/>
                         <segue destination="dRf-RC-mOQ" kind="show" identifier="backToListSegue" id="QAX-Vf-xpz"/>
                         <segue destination="ZbU-rX-Wm7" kind="show" identifier="backToMatchSegue" id="RPq-aV-6KH"/>
+                        <segue destination="qN4-sA-JeH" kind="show" identifier="editRecipeSegue" id="Ud1-28-nXj"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frn-7q-vHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="320.80000000000001" y="1105.9970014992505"/>
+            <point key="canvasLocation" x="-122" y="1073"/>
+        </scene>
+        <!--Edit Recipe Table View Controller-->
+        <scene sceneID="ANo-h2-DTI">
+            <objects>
+                <tableViewController id="qN4-sA-JeH" customClass="EditRecipeTableViewController" customModule="Recipe_Crunch" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="HUe-k8-uNX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="6Ki-jf-otW">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <navigationItem title="Title" id="zX5-wt-tOl">
+                                    <barButtonItem key="leftBarButtonItem" title="Back" id="GEq-eS-wfz">
+                                        <connections>
+                                            <action selector="backButton:" destination="qN4-sA-JeH" id="xCx-0z-OMl"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem key="rightBarButtonItem" title="Save" id="WOt-Zg-Qy1">
+                                        <connections>
+                                            <action selector="saveButton:" destination="qN4-sA-JeH" id="lBm-zp-oM3"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
+                            </items>
+                        </navigationBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="displayCell" id="SVg-tV-s5s" customClass="SelfSizingStepsTableViewCell" customModule="Recipe_Crunch">
+                                <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SVg-tV-s5s" id="Mbs-Lk-Hfa">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Steps" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JVN-WN-VUX">
+                                            <rect key="frame" x="16" y="11" width="359" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="JVN-WN-VUX" firstAttribute="top" secondItem="Mbs-Lk-Hfa" secondAttribute="top" constant="11" id="aoq-P7-xf8"/>
+                                        <constraint firstItem="JVN-WN-VUX" firstAttribute="leading" secondItem="Mbs-Lk-Hfa" secondAttribute="leading" constant="16" id="hqe-kk-Oyh"/>
+                                        <constraint firstAttribute="bottom" secondItem="JVN-WN-VUX" secondAttribute="bottom" constant="11.5" id="iyQ-yN-Nt2"/>
+                                        <constraint firstAttribute="trailing" secondItem="JVN-WN-VUX" secondAttribute="trailing" id="x9U-xv-Qxs"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="editStepAgainLabel" destination="JVN-WN-VUX" id="iht-Iz-sGp"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="qN4-sA-JeH" id="zou-hl-iQJ"/>
+                            <outlet property="delegate" destination="qN4-sA-JeH" id="IVd-Rz-bcg"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="editTitle" destination="zX5-wt-tOl" id="Pi2-0R-uW8"/>
+                        <segue destination="hxJ-0J-J3R" kind="show" identifier="saveRecipeSegue" id="HDo-wd-bWA"/>
+                        <segue destination="Hbw-7E-6sX" kind="show" identifier="editStepSegue" id="EfK-0q-cqF"/>
+                        <segue destination="RZk-eE-LMn" kind="show" identifier="editIngredientSegue" id="SMe-Oo-dqG"/>
+                        <segue destination="xFX-Fh-MfU" kind="show" identifier="EditAddIngredient" id="N9d-gQ-SAv"/>
+                        <segue destination="Lqn-fI-MaU" kind="show" identifier="EditAddStep" id="6US-fQ-jZy"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2tY-ft-Tio" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-122.40000000000001" y="1852.6236881559221"/>
         </scene>
         <!--Add Recipe View Controller-->
         <scene sceneID="nAG-Lv-kzu">
@@ -219,7 +296,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="69s-5e-17J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1632.8" y="706.59670164917543"/>
+            <point key="canvasLocation" x="1226" y="1073"/>
         </scene>
         <!--Add Recipe Table View Controller-->
         <scene sceneID="uuP-Aj-zPt">
@@ -279,11 +356,145 @@
                         <segue destination="xFX-Fh-MfU" kind="show" identifier="newIngredientSegue" id="jjJ-IO-jOG"/>
                         <segue destination="Lqn-fI-MaU" kind="show" identifier="addStepSegue" id="DA7-IJ-Yes"/>
                         <segue destination="dRf-RC-mOQ" kind="show" identifier="finalizeRecipeSegue" id="Xr1-05-3JA"/>
+                        <segue destination="Hbw-7E-6sX" kind="show" identifier="editStepSegue" id="N3S-i2-wm7"/>
+                        <segue destination="RZk-eE-LMn" kind="show" identifier="editIngredSegue" id="Tnt-KM-S2e"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NAm-v4-mx8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2656.8000000000002" y="707.49625187406298"/>
+            <point key="canvasLocation" x="2303" y="1073"/>
+        </scene>
+        <!--Edit Step View Controller-->
+        <scene sceneID="hka-E8-mJu">
+            <objects>
+                <viewController id="Hbw-7E-6sX" customClass="EditStepViewController" customModule="Recipe_Crunch" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="664-UH-4SQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4D-dq-Q9V">
+                                <rect key="frame" x="16" y="116" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="P00-ch-7ES">
+                                <rect key="frame" x="16" y="180" width="343" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NzU-nG-F9K">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Edit Step:" id="pPX-JF-vWi">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="wV4-1g-jn1">
+                                            <connections>
+                                                <action selector="backButton:" destination="Hbw-7E-6sX" id="vNE-jN-vKE"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="M6h-46-odU">
+                                            <connections>
+                                                <action selector="saveButton:" destination="Hbw-7E-6sX" id="3hv-sc-tsY"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="g4D-dq-Q9V" firstAttribute="top" secondItem="NzU-nG-F9K" secondAttribute="bottom" constant="52" id="8Wg-jG-dG5"/>
+                            <constraint firstItem="VNa-Hn-dzB" firstAttribute="trailing" secondItem="g4D-dq-Q9V" secondAttribute="trailing" constant="16" id="8kZ-jH-cqu"/>
+                            <constraint firstItem="P00-ch-7ES" firstAttribute="leading" secondItem="VNa-Hn-dzB" secondAttribute="leading" constant="16" id="Lnf-Vu-XDa"/>
+                            <constraint firstItem="NzU-nG-F9K" firstAttribute="leading" secondItem="VNa-Hn-dzB" secondAttribute="leading" id="QaH-8y-epr"/>
+                            <constraint firstItem="NzU-nG-F9K" firstAttribute="top" secondItem="VNa-Hn-dzB" secondAttribute="top" id="bWc-hB-50w"/>
+                            <constraint firstItem="g4D-dq-Q9V" firstAttribute="leading" secondItem="VNa-Hn-dzB" secondAttribute="leading" constant="16" id="cE9-N2-gOw"/>
+                            <constraint firstItem="P00-ch-7ES" firstAttribute="top" secondItem="g4D-dq-Q9V" secondAttribute="bottom" constant="43" id="cR6-sX-gWu"/>
+                            <constraint firstItem="g4D-dq-Q9V" firstAttribute="top" secondItem="VNa-Hn-dzB" secondAttribute="top" constant="96" id="g1Y-Y2-iIp"/>
+                            <constraint firstItem="P00-ch-7ES" firstAttribute="top" secondItem="g4D-dq-Q9V" secondAttribute="bottom" constant="43" id="mqz-JK-xbp"/>
+                            <constraint firstItem="VNa-Hn-dzB" firstAttribute="bottom" secondItem="P00-ch-7ES" secondAttribute="bottom" constant="359" id="nfh-X7-DHg"/>
+                            <constraint firstItem="VNa-Hn-dzB" firstAttribute="trailing" secondItem="P00-ch-7ES" secondAttribute="trailing" constant="16" id="oZU-Eo-OdA"/>
+                            <constraint firstItem="NzU-nG-F9K" firstAttribute="trailing" secondItem="VNa-Hn-dzB" secondAttribute="trailing" id="qev-u7-e4R"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VNa-Hn-dzB"/>
+                    </view>
+                    <connections>
+                        <outlet property="stepBox" destination="P00-ch-7ES" id="8MK-qJ-dEP"/>
+                        <segue destination="fsF-UV-LQ6" kind="show" identifier="backEditStepSegue" id="p1a-5L-2Ju"/>
+                        <segue destination="qN4-sA-JeH" kind="show" identifier="editSteptoEdit" id="oeQ-b5-cI9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n2Y-ZT-Way" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1781.5999999999999" y="1875.1124437781111"/>
+        </scene>
+        <!--Edit Ingredient View Controller-->
+        <scene sceneID="BWy-HN-bgF">
+            <objects>
+                <viewController id="RZk-eE-LMn" customClass="EditIngredientViewController" customModule="Recipe_Crunch" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XIv-qH-cO0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0oR-CA-NxU">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Edit Ingredient:" id="khp-Re-6Zm">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="uxq-41-xqB">
+                                            <connections>
+                                                <action selector="backButton:" destination="RZk-eE-LMn" id="CgK-wu-HdR"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="VAl-Cu-BO5">
+                                            <connections>
+                                                <action selector="saveButton:" destination="RZk-eE-LMn" id="UDx-d3-ZCa"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5ka-Cg-ZsF">
+                                <rect key="frame" x="16" y="152" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="reu-1w-zbW">
+                                <rect key="frame" x="0.0" y="252" width="375" height="162"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="RZk-eE-LMn" id="Z7K-xm-vUM"/>
+                                    <outlet property="delegate" destination="RZk-eE-LMn" id="vAf-cW-RRa"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5ka-Cg-ZsF" firstAttribute="top" secondItem="0oR-CA-NxU" secondAttribute="bottom" constant="88" id="37p-tS-KiI"/>
+                            <constraint firstItem="0oR-CA-NxU" firstAttribute="trailing" secondItem="VFE-3T-uQL" secondAttribute="trailing" id="7Uk-ih-DdR"/>
+                            <constraint firstItem="reu-1w-zbW" firstAttribute="trailing" secondItem="VFE-3T-uQL" secondAttribute="trailing" id="87o-ZL-F7l"/>
+                            <constraint firstItem="VFE-3T-uQL" firstAttribute="bottom" secondItem="reu-1w-zbW" secondAttribute="bottom" constant="253" id="AZd-vj-tzQ"/>
+                            <constraint firstItem="VFE-3T-uQL" firstAttribute="bottom" secondItem="0oR-CA-NxU" secondAttribute="bottom" constant="603" id="Bi4-n8-P3n"/>
+                            <constraint firstItem="reu-1w-zbW" firstAttribute="top" secondItem="5ka-Cg-ZsF" secondAttribute="bottom" constant="70" id="EE6-sa-RtP"/>
+                            <constraint firstItem="reu-1w-zbW" firstAttribute="leading" secondItem="VFE-3T-uQL" secondAttribute="leading" id="GtU-bP-dDu"/>
+                            <constraint firstItem="0oR-CA-NxU" firstAttribute="leading" secondItem="VFE-3T-uQL" secondAttribute="leading" id="Jra-i6-qEz"/>
+                            <constraint firstItem="VFE-3T-uQL" firstAttribute="trailing" secondItem="5ka-Cg-ZsF" secondAttribute="trailing" constant="16" id="RMz-wd-aCG"/>
+                            <constraint firstItem="0oR-CA-NxU" firstAttribute="top" secondItem="VFE-3T-uQL" secondAttribute="top" id="Y7j-2S-gRO"/>
+                            <constraint firstItem="VFE-3T-uQL" firstAttribute="bottom" secondItem="5ka-Cg-ZsF" secondAttribute="bottom" constant="485" id="cNj-Xz-KOs"/>
+                            <constraint firstItem="5ka-Cg-ZsF" firstAttribute="leading" secondItem="VFE-3T-uQL" secondAttribute="leading" constant="16" id="wG1-Nk-deS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VFE-3T-uQL"/>
+                    </view>
+                    <connections>
+                        <outlet property="ingredientText" destination="5ka-Cg-ZsF" id="7cb-5L-TXd"/>
+                        <outlet property="measurePicker" destination="reu-1w-zbW" id="zfi-6M-kkI"/>
+                        <segue destination="fsF-UV-LQ6" kind="show" identifier="backEditIngredSegue" id="cFr-HK-NH5"/>
+                        <segue destination="qN4-sA-JeH" kind="show" identifier="editIngredtoEdit" id="CMZ-DB-PIn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s7c-y9-vRd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2772" y="1888.6056971514245"/>
         </scene>
         <!--Add Steps View Controller-->
         <scene sceneID="WbH-xC-V8e">
@@ -349,6 +560,7 @@
                     <connections>
                         <outlet property="textView" destination="OVj-Hz-cyD" id="oMJ-dH-ema"/>
                         <segue destination="fsF-UV-LQ6" kind="show" identifier="saveStepSegue" id="3OG-oe-ZlC"/>
+                        <segue destination="qN4-sA-JeH" kind="show" identifier="addStepBackToEdit" id="HjG-tF-UjG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PAM-0E-Iem" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -417,6 +629,7 @@
                         <outlet property="picker" destination="Y9b-EM-fPV" id="XmJ-rs-fYz"/>
                         <outlet property="textFieldIngredient" destination="mqa-5S-xk0" id="nob-C3-1gD"/>
                         <segue destination="fsF-UV-LQ6" kind="show" identifier="saveSegue" id="eWa-N5-VLa"/>
+                        <segue destination="qN4-sA-JeH" kind="show" identifier="AddIngredBacktoEdit" id="P0m-VI-VuF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tlE-O5-7ZX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -465,7 +678,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h3v-dD-mdX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-550" y="1106"/>
+            <point key="canvasLocation" x="-2698" y="1073"/>
         </scene>
         <!--Add Shopping View Controller-->
         <scene sceneID="bfI-Ww-V04">
@@ -475,16 +688,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Shopping List Item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-hp-Y8g">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Shopping List Item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-hp-Y8g">
                                 <rect key="frame" x="16" y="130" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cui-xB-Gpv">
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cui-xB-Gpv">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Add Shopping List Item" id="0kS-7k-Mbj">
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="EqQ-ND-Qg0">
@@ -502,6 +713,15 @@
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Cui-xB-Gpv" firstAttribute="leading" secondItem="sSr-9P-gBo" secondAttribute="leading" id="9ir-MP-dCn"/>
+                            <constraint firstItem="JfI-hp-Y8g" firstAttribute="leading" secondItem="sSr-9P-gBo" secondAttribute="leading" constant="16" id="IyU-0n-RMm"/>
+                            <constraint firstItem="JfI-hp-Y8g" firstAttribute="top" secondItem="Cui-xB-Gpv" secondAttribute="bottom" constant="66" id="Sd2-Cc-2Z2"/>
+                            <constraint firstItem="Cui-xB-Gpv" firstAttribute="top" secondItem="sSr-9P-gBo" secondAttribute="top" id="To2-iF-Nhe"/>
+                            <constraint firstItem="sSr-9P-gBo" firstAttribute="trailing" secondItem="JfI-hp-Y8g" secondAttribute="trailing" constant="16" id="ZIF-2Y-Ya8"/>
+                            <constraint firstItem="Cui-xB-Gpv" firstAttribute="trailing" secondItem="sSr-9P-gBo" secondAttribute="trailing" id="dbH-5P-U3W"/>
+                            <constraint firstItem="JfI-hp-Y8g" firstAttribute="top" secondItem="Cui-xB-Gpv" secondAttribute="bottom" constant="66" id="vML-82-SP2"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="sSr-9P-gBo"/>
                     </view>
                     <connections>
@@ -511,7 +731,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="INb-R8-lts" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="320.80000000000001" y="-698.5007496251875"/>
+            <point key="canvasLocation" x="-1361" y="-949"/>
         </scene>
         <!--Edit View Controller-->
         <scene sceneID="bLa-R7-NPa">
@@ -578,7 +798,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r0c-dt-AiF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1487" y="-673"/>
+            <point key="canvasLocation" x="553" y="-949"/>
         </scene>
         <!--Add View Controller-->
         <scene sceneID="hlF-17-KNB">
@@ -647,15 +867,19 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S3A-3g-fck" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2658" y="-673"/>
+            <point key="canvasLocation" x="1697" y="-949"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mja-ek-mT5"/>
         <segue reference="RPq-aV-6KH"/>
-        <segue reference="eWa-N5-VLa"/>
-        <segue reference="280-4d-yho"/>
-        <segue reference="oQJ-z7-KyV"/>
+        <segue reference="N9d-gQ-SAv"/>
+        <segue reference="6US-fQ-jZy"/>
+        <segue reference="SMe-Oo-dqG"/>
+        <segue reference="EfK-0q-cqF"/>
+        <segue reference="h2o-9q-ksn"/>
+        <segue reference="P0m-VI-VuF"/>
+        <segue reference="HDo-wd-bWA"/>
+        <segue reference="Xr1-05-3JA"/>
         <segue reference="Uk8-OQ-SD4"/>
     </inferredMetricsTieBreakers>
 </document>

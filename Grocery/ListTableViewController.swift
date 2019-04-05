@@ -103,7 +103,7 @@ class ListTableViewController: UITableViewController {
             let vc = segue.destination as? DisplayRecipeTableViewController
             vc?.db = db
             vc?.label = label
-            vc?.recipeTitle = recipeTitle
+            vc?.recipeTitle = recipeTitle as String?
         }
     }
  
@@ -126,11 +126,18 @@ class ListTableViewController: UITableViewController {
         
         if label == "Food"
         {
-        cell.textLabel?.text = foodList[indexPath.row]
-        cell.detailTextLabel?.text = dateList[indexPath.row]
-        let dateLabel = UILabel.init(frame: CGRect(x:0,y:0,width:100,height:20))
-        dateLabel.text = dateList[indexPath.row]
-        cell.accessoryView = dateLabel
+            cell.textLabel?.text = foodList[indexPath.row]
+            cell.detailTextLabel?.text = dateList[indexPath.row]
+
+            if foodList[indexPath.row] == "Completely Empty Pantry"{
+                cell.textLabel?.textAlignment = .center
+                cell.textLabel?.textColor = .red
+            }
+            else {
+                let dateLabel = UILabel.init(frame: CGRect(x:0,y:0,width:100,height:20))
+                dateLabel.text = dateList[indexPath.row]
+                cell.accessoryView = dateLabel
+            }
         }
         else if label == "Recipes"
         {
@@ -146,6 +153,11 @@ class ListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if label == "Recipes"{
             if recipeList[indexPath.row] == "Honey Mustard Grilled Chicken" || recipeList[indexPath.row] == "Banana Bread" || recipeList[indexPath.row] == "Peanut Butter Banana Smoothie"{
+                return false
+            }
+        }
+        if label == "Food"{
+            if foodList[indexPath.row] == "Completely Empty Pantry"{
                 return false
             }
         }
@@ -172,6 +184,10 @@ class ListTableViewController: UITableViewController {
             sqlite3_finalize(deleteStatement)
             foodList.remove(at: indexPath.row)
             dateList.remove(at: indexPath.row)
+                if foodList.count == 1{
+                    foodList.removeAll()
+                    dateList.removeAll()
+                }
             tableView.reloadData()
 
             }
@@ -264,6 +280,10 @@ class ListTableViewController: UITableViewController {
                 print("Query Result:")
                 print("\(id) | \(food) | \(date)")
             }
+            if foodList.count > 0{
+            foodList.append("Completely Empty Pantry")
+            dateList.append("")
+            }
             
             
         } else {
@@ -311,9 +331,22 @@ class ListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         myIndex =  indexPath.row
         if label == "Food"{
-        editFood = foodList[indexPath.row] as NSString
-        editDate = dateList[indexPath.row] as NSString
-        performSegue(withIdentifier: "editSegue", sender: self)
+            if foodList[indexPath.row] == "Completely Empty Pantry"{
+                let alert = UIAlertController(title: "Warning", message: "Are you sure you want to completely empty your pantry?", preferredStyle: UIAlertController.Style.alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)
+                    self.emptyPantry()
+                }))
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
+            else{
+                editFood = foodList[indexPath.row] as NSString
+                editDate = dateList[indexPath.row] as NSString
+                performSegue(withIdentifier: "editSegue", sender: self)
+            }
         }
         else if label == "Recipes"{
             recipeTitle = recipeList[indexPath.row]
@@ -334,5 +367,23 @@ class ListTableViewController: UITableViewController {
         }
         
         return newId
+    }
+    
+    func emptyPantry() {
+        let emptyString = "DELETE FROM Food;"
+        var emptyStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, emptyString, -1, &emptyStatement, nil) != SQLITE_OK{
+            print("Error deleting all")
+        }
+        
+        if sqlite3_step(emptyStatement) == SQLITE_DONE {
+            print("Successfully deleted food.")
+        } else {
+            print("Could not delete food.")
+        }
+        sqlite3_finalize(emptyStatement)
+        foodList.removeAll()
+        dateList.removeAll()
+        tableView.reloadData()
     }
 }

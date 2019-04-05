@@ -16,7 +16,12 @@ class DisplayRecipeTableViewController: UITableViewController {
     var recipeTitle: String?
     var recipeId: Int32?
     var list = [["Ingredients: "],["Steps: "]]
+    var image = ["First"]
     var measurements:[(measure: String, unit: String)] = []
+    var foodList: [String] = []
+    var shoppingList: [String] = []
+    var imageView: UIImageView?
+    
 
     
     @IBOutlet weak var navTitle: UINavigationItem!
@@ -30,6 +35,11 @@ class DisplayRecipeTableViewController: UITableViewController {
         }
         
     }
+    
+    @IBAction func editButton(_ sender: Any) {
+        performSegue(withIdentifier: "editRecipeSegue", sender: self)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,12 +95,54 @@ class DisplayRecipeTableViewController: UITableViewController {
                 attributedString.append(normalString)
 
                 cell.StepLabel.attributedText = attributedString
+                
+                SelectStatements()
+                
+                if (foodList.contains(list[0][indexPath.row])){
+                    imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
+                    imageView?.image = UIImage(named: "checkmark.png")
+                    cell.accessoryView = imageView
+                    image.append("Check")
+                    //cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+                }
+                else if (shoppingList.contains(list[0][indexPath.row])){
+                    imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
+                    imageView?.image = UIImage(named: "shopping-basket.png")
+                    cell.accessoryView = imageView
+                    image.append("Shopping")
+
+                    //cell.accessoryType = UITableViewCell.AccessoryType
+                }
+                else{
+                    imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
+                    imageView?.image = UIImage(named: "cancel-mark.png")
+                    cell.accessoryView = imageView
+                    image.append("Need")
+
+                }
+                
             }
         }
         else{
             cell.StepLabel.text = list[1][indexPath.row]
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (image[indexPath.row] == "Need"){
+            let alert = UIAlertController(title: "Do you want to add \(list[0][indexPath.row]) to your shopping list?", message: "", preferredStyle: UIAlertController.Style.alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)
+                self.AddToShoppingList(food: self.list[0][indexPath.row])
+                self.image[indexPath.row] = "Shopping"
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+        
     }
     
     func getId(){
@@ -170,39 +222,72 @@ class DisplayRecipeTableViewController: UITableViewController {
             vc?.db = db
             vc?.label = label
         }
+        if segue.destination is EditRecipeTableViewController
+        {
+            let vc = segue.destination as? EditRecipeTableViewController
+            getId()
+            vc?.db = db
+            vc?.label = label
+            vc?.recipeId = recipeId
+            vc?.recipeTitle = recipeTitle
+        }
+
     }
     
+    func AddToShoppingList(food: String){
+        let queryStatementString = "INSERT INTO ShoppingList (item) VALUES('\(food)');"
+        var queryStatement: OpaquePointer?
+        
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) != SQLITE_OK{
+            print("Error binding query")
+        }
+        if sqlite3_step(queryStatement) == SQLITE_DONE{
+            print("Food saved successfully")
+        }
+        sqlite3_finalize(queryStatement)
+        SelectStatements()
+        tableView.reloadData()
 
-  // FOR EDITING!!!!!!!!!!!!!!!!!!!
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        myIndex =  indexPath.row
-//        if indexPath.row == 0 && indexPath.section == 0 {
-//            performSegue(withIdentifier: "newIngredientSegue", sender: self)
-//        }
-//        else if indexPath.row == 0 && indexPath.section == 1 {
-//            performSegue(withIdentifier: "addStepSegue", sender: self)
-//        }
-//    }
-
-  
-
-    /* NEED THIS FOR EDITING (EXCLUDE 0,0 and 1,0
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
     }
-    */
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func SelectStatements(){
+        foodList = []
+        shoppingList = []
+        let queryStatementString = "SELECT food FROM Food;"
+        var queryStatement: OpaquePointer?
+        
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let food = String(cString: queryResultCol1!)
+                
+                foodList.append(food)
+            }
+            
+        } else {
+            print("Error Selecting Food")
+        }
+        sqlite3_finalize(queryStatement)
+        
+        
+        let queryListString = "SELECT item FROM ShoppingList;"
+        var queryListStatement: OpaquePointer?
+        
+        if sqlite3_prepare_v2(db, queryListString, -1, &queryListStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryListStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryListStatement, 0)
+                let food = String(cString: queryResultCol1!)
+                
+                shoppingList.append(food)
+            }
+            
+        } else {
+            print("Error Selecting Food")
+        }
+        sqlite3_finalize(queryListStatement)
     }
-    */
+
 
 }

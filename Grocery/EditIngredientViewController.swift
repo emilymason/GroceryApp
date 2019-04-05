@@ -1,18 +1,20 @@
 //
-//  AddIngredientsViewController.swift
-//  Grocery
+//  EditIngredientViewController.swift
+//  Recipe Crunch
 //
-//  Created by Emily Mason on 2/23/19.
+//  Created by Emily Mason on 4/1/19.
 //  Copyright © 2019 Emily Mason. All rights reserved.
 //
 
 import UIKit
 import SQLite3
 
-class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class EditIngredientViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    
     var db: OpaquePointer?
     var label: String?
-    var recipeTitle: String?
+    var ingredient: String?
+    var recipeTitle: NSString?
     var recipeId: Int32?
     var wholeMeasure = ["None"]
     var fractionMeasure: [String] = []
@@ -23,64 +25,54 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
     var cameFrom: String?
     
     
-    @IBAction func doneButton(_ sender: Any) {
+    @IBOutlet weak var ingredientText: UITextField!
+    @IBOutlet weak var measurePicker: UIPickerView!
+    
+    @IBAction func backButton(_ sender: Any) {
+        if (cameFrom == "Add"){
+        performSegue(withIdentifier: "backEditIngredSegue", sender: self)
+        }
+        else{
+            performSegue(withIdentifier: "editIngredtoEdit", sender: self)
+        }
+    }
+    
+    @IBAction func saveButton(_ sender: Any) {
+        let newIngredient: NSString = ingredientText.text! as NSString
         
-        let ingredient: NSString = textFieldIngredient.text! as NSString
         
-        
-        if (ingredient == ""){
+        if (newIngredient == ""){
             print("ingredient field is empty")
             return;
         }
         
         var insertStatement: OpaquePointer? = nil
         
-        let insertStatementString = "INSERT INTO Ingredients (name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES (?, ?,?,?,?)"
+        let insertStatementString = "UPDATE Ingredients SET name = '\(newIngredient)', wholeMeasure = '\(whole)', fractionMeasure = '\(fraction)', measureUnits = '\(unit)' WHERE name = '\(ingredient!)' AND recipeId = '\(recipeId!)';"
         
         if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding query")
         }
         
-        if sqlite3_bind_text(insertStatement, 1, ingredient.utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding ingredient")
-        }
-        
-        if sqlite3_bind_text(insertStatement, 2, whole.utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding whole measurement")
-        }
-        
-        if sqlite3_bind_text(insertStatement, 3, fraction.utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding fraction measurement")
-        }
-        
-        if sqlite3_bind_text(insertStatement, 4, unit.utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding measurement unit")
-        }
-        
-        if sqlite3_bind_int(insertStatement, 5, recipeId ?? -1) != SQLITE_OK{
-            print("Error binding recipe Id")
-        }
-        
         if sqlite3_step(insertStatement) == SQLITE_DONE{
             print("Ingredient saved successfully")
         }
+        
         if(cameFrom == "Add"){
-        performSegue(withIdentifier: "saveSegue", sender: self)
+        performSegue(withIdentifier: "backEditIngredSegue", sender: self)
         }
         else{
-            performSegue(withIdentifier: "AddIngredBacktoEdit", sender: self)
+            performSegue(withIdentifier: "editIngredtoEdit", sender: self)
         }
         
         
     }
     
-    @IBOutlet weak var textFieldIngredient: UITextField!
-    
-    @IBOutlet weak var picker: UIPickerView!
-
-    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        ingredientText.text = ingredient
+        //measurePicker.selectRow(2, inComponent: 0, animated: true)
         
         for i in 1...100
         {
@@ -101,7 +93,6 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
         measureUnits.append("oz")
         measureUnits.append("lbs")
         
-
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -118,10 +109,9 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
             let vc = segue.destination as? EditRecipeTableViewController
             vc?.db = db
             vc?.label = label
-            vc?.recipeTitle = recipeTitle!
+            vc?.recipeTitle = recipeTitle! as String
             vc?.recipeId = recipeId
         }
-        
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -157,6 +147,6 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
         fraction = fractionMeasure[pickerView.selectedRow(inComponent: 1)] as NSString
         unit = measureUnits[pickerView.selectedRow(inComponent: 2)] as NSString
     }
-    
+
 
 }

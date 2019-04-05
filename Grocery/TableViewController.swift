@@ -294,7 +294,7 @@ class TableViewController: UITableViewController {
         }
         
         
-        let prepop2Ingr3 = "INSERT OR IGNORE INTO Ingredients (Id, name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES(8,'Eggs', '2', 'None', 'tbsp', 2);"
+        let prepop2Ingr3 = "INSERT OR IGNORE INTO Ingredients (Id, name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES(8,'Eggs', '2', 'None', 'None', 2);"
         if sqlite3_prepare_v2(db, prepop2Ingr3, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding 4 query")
         }

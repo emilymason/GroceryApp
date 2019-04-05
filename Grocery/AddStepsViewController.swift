@@ -15,6 +15,8 @@ class AddStepsViewController: UIViewController {
     var recipeTitle: NSString?
     var recipeId: Int32?
     var label: String?
+    var cameFrom: String?
+    
     @IBOutlet weak var textView: UITextView!
     
     @IBAction func saveButton(_ sender: Any) {
@@ -45,7 +47,12 @@ class AddStepsViewController: UIViewController {
         if sqlite3_step(insertStatement) == SQLITE_DONE{
             print("Step saved successfully")
         }
+        if(cameFrom == "Add"){
         performSegue(withIdentifier: "saveStepSegue", sender: self)
+        }
+        else{
+            performSegue(withIdentifier: "addStepBackToEdit", sender: self)
+        }
         
         
     }
@@ -67,6 +74,14 @@ class AddStepsViewController: UIViewController {
             vc?.db = db
             vc?.label = label
             vc?.recipeTitle = recipeTitle
+            vc?.recipeId = recipeId
+        }
+        if segue.destination is EditRecipeTableViewController
+        {
+            let vc = segue.destination as? EditRecipeTableViewController
+            vc?.db = db
+            vc?.label = label
+            vc?.recipeTitle = recipeTitle as String?
             vc?.recipeId = recipeId
         }
     }

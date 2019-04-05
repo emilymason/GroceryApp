@@ -12,4 +12,5 @@ class SelfSizingStepsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var StepLabel: UILabel!
     @IBOutlet weak var editStepLabel: UILabel!
+    @IBOutlet weak var editStepAgainLabel: UILabel!
 }

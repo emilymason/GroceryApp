@@ -28,10 +28,28 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     @IBAction func doneButton(_ sender: Any) {
         let food: NSString = textFieldFood.text! as NSString
+        getRecipeId()
+        populateFoodList()
         
         if (food == ""){
             print("food field is empty")
             return;
+        }
+        else if (food == "Completely Empty Pantry"){
+            let alert = UIAlertController(title: "Error", message: "Invalid food item", preferredStyle: UIAlertController.Style.alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
+            
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        else if (foodList.contains(food as String)){
+            let alert = UIAlertController(title: "Duplicate Food", message: "Food is already in pantry", preferredStyle: UIAlertController.Style.alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
+            
+            self.present(alert, animated: true, completion: nil)
+            return
         }
         if date.contains("None"){
             date = ""
@@ -58,8 +76,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         }
         
         
-        getRecipeId()
-        populateFoodList()
+    
         
         for recipe in recipeIdList{
             var match: Double = 0
