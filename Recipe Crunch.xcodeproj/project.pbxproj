@@ -26,6 +26,9 @@
 		86F5CDCE2257FC8C00E16CED /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F5CDCD2257FC8B00E16CED /* checkmark.png */; };
 		86F5CDD02257FD7700E16CED /* shopping-basket.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F5CDCF2257FD7600E16CED /* shopping-basket.png */; };
 		86F5CDD22257FF6C00E16CED /* cancel-mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F5CDD12257FF6C00E16CED /* cancel-mark.png */; };
+		86F5CDD8225BF4DF00E16CED /* cabbageMan.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F5CDD7225BF4DE00E16CED /* cabbageMan.png */; };
+		86F5CDDA225C352A00E16CED /* diet.png in Resources */ = {isa = PBXBuildFile; fileRef = 86F5CDD9225C352A00E16CED /* diet.png */; };
+		86F5CDDC225C3EDB00E16CED /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F5CDDB225C3EDB00E16CED /* LandingViewController.swift */; };
 		86FB531E22211AAB00A9B0CD /* AddRecipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB531D22211AAB00A9B0CD /* AddRecipeTableViewController.swift */; };
 		86FB5320222195A900A9B0CD /* AddRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB531F222195A800A9B0CD /* AddRecipeViewController.swift */; };
 		86FB53222221AF0900A9B0CD /* AddIngredientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB53212221AF0900A9B0CD /* AddIngredientsViewController.swift */; };
@@ -54,6 +57,9 @@
 		86F5CDCD2257FC8B00E16CED /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkmark.png; path = ../../../../Downloads/checkmark.png; sourceTree = "<group>"; };
 		86F5CDCF2257FD7600E16CED /* shopping-basket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shopping-basket.png"; path = "../../../../Downloads/shopping-basket.png"; sourceTree = "<group>"; };
 		86F5CDD12257FF6C00E16CED /* cancel-mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cancel-mark.png"; path = "../../../../Downloads/cancel-mark.png"; sourceTree = "<group>"; };
+		86F5CDD7225BF4DE00E16CED /* cabbageMan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cabbageMan.png; path = ../../../../Downloads/cabbageMan.png; sourceTree = "<group>"; };
+		86F5CDD9225C352A00E16CED /* diet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = diet.png; path = ../../../../Downloads/diet.png; sourceTree = "<group>"; };
+		86F5CDDB225C3EDB00E16CED /* LandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewController.swift; sourceTree = "<group>"; };
 		86FB531D22211AAB00A9B0CD /* AddRecipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeTableViewController.swift; sourceTree = "<group>"; };
 		86FB531F222195A800A9B0CD /* AddRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeViewController.swift; sourceTree = "<group>"; };
 		86FB53212221AF0900A9B0CD /* AddIngredientsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIngredientsViewController.swift; sourceTree = "<group>"; };
@@ -93,13 +99,16 @@
 			isa = PBXGroup;
 			children = (
 				86F5CDD12257FF6C00E16CED /* cancel-mark.png */,
+				86F5CDD9225C352A00E16CED /* diet.png */,
 				86F5CDCF2257FD7600E16CED /* shopping-basket.png */,
+				86F5CDD7225BF4DE00E16CED /* cabbageMan.png */,
 				86F5CDCD2257FC8B00E16CED /* checkmark.png */,
 				862797E8225301E70093D354 /* EditStepViewController.swift */,
 				86FB531D22211AAB00A9B0CD /* AddRecipeTableViewController.swift */,
 				86B9AA6221F0FEBE00E6A5AB /* AppDelegate.swift */,
 				86B9AA7621F100F400E6A5AB /* TableViewController.swift */,
 				86B9AA6621F0FEBE00E6A5AB /* Main.storyboard */,
+				86F5CDDB225C3EDB00E16CED /* LandingViewController.swift */,
 				868B88D02242DAE4007C88C5 /* AddShoppingViewController.swift */,
 				868B88CE222DD880007C88C5 /* RecipeMatchTableViewController.swift */,
 				868B88CC222AF8E1007C88C5 /* SelfSizingStepsTableViewCell.swift */,
@@ -186,11 +195,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				86B9AA6D21F0FEC000E6A5AB /* LaunchScreen.storyboard in Resources */,
+				86F5CDDA225C352A00E16CED /* diet.png in Resources */,
 				86F5CDCE2257FC8C00E16CED /* checkmark.png in Resources */,
 				86F5CDD02257FD7700E16CED /* shopping-basket.png in Resources */,
 				86B9AA6A21F0FEC000E6A5AB /* Assets.xcassets in Resources */,
 				86F5CDD22257FF6C00E16CED /* cancel-mark.png in Resources */,
 				86B9AA6821F0FEBE00E6A5AB /* Main.storyboard in Resources */,
+				86F5CDD8225BF4DF00E16CED /* cabbageMan.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +225,7 @@
 				868B88CF222DD880007C88C5 /* RecipeMatchTableViewController.swift in Sources */,
 				862797ED2255B6330093D354 /* EditRecipeTableViewController.swift in Sources */,
 				868B88C9222361FC007C88C5 /* DisplayRecipeTableViewController.swift in Sources */,
+				86F5CDDC225C3EDB00E16CED /* LandingViewController.swift in Sources */,
 				86B9AA6321F0FEBE00E6A5AB /* AppDelegate.swift in Sources */,
 				86E8732E2204CF27002A3E33 /* EditViewController.swift in Sources */,
 				86FB532422226AE900A9B0CD /* AddStepsViewController.swift in Sources */,
