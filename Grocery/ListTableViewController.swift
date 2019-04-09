@@ -25,6 +25,8 @@ class ListTableViewController: UITableViewController {
     let queryRecipeStatementString = "SELECT * FROM Recipes ORDER BY name ASC;"
     let queryShoppingStatementString = "SELECT * FROM ShoppingList ORDER BY item ASC;"
     
+    @IBOutlet weak var navBar: UINavigationItem!
+    @IBOutlet weak var navTitle: UINavigationBar!
     @IBAction func addButton(_ sender: Any) {
         if label == "Food"{
             performSegue(withIdentifier: "addFoodSegue", sender: self)
@@ -39,7 +41,21 @@ class ListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if label == "Food"{
+            navBar.title = "My Pantry"
+        }
+        else if label == "Recipes"{
+            navBar.title = "My Recipes"
+        }
+        else if label == "Shopping List"{
+            navBar.title = "Shopping List"
+        }
+        else if label == "Recipe Match"{
+            navBar.title = "Recipe Match"
+        }
+        
         query()
+        print("LABEL" + label!)
         tableView.reloadData()
     }
 

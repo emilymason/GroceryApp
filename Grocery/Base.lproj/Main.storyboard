@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Udf-so-uaf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RpY-ee-2qw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,116 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--View Controller-->
+        <scene sceneID="6QY-Ex-2FD">
+            <objects>
+                <viewController id="RpY-ee-2qw" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yft-ds-Fj7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Recipe Crunch!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ye9-6U-Td2">
+                                <rect key="frame" x="16" y="39" width="343" height="75"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="diet.png" translatesAutoresizingMaskIntoConstraints="NO" id="QBf-3T-a2V">
+                                <rect key="frame" x="67" y="122" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="LP3-r3-LUF"/>
+                                    <constraint firstAttribute="height" constant="128" id="agV-Jf-pTh"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5SK-sr-GqP">
+                                <rect key="frame" x="131" y="285" width="112" height="39"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
+                                <state key="normal" title="My Pantry">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fnN-uX-jO8">
+                                <rect key="frame" x="131" y="332" width="114" height="39"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
+                                <state key="normal" title="My Recipes">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S15-G0-eAA">
+                                <rect key="frame" x="114" y="379" width="149" height="39"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
+                                <state key="normal" title="Recipe Crunch">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndW-J1-wpS">
+                                <rect key="frame" x="115" y="426" width="145" height="39"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
+                                <state key="normal" title="Shopping List">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Tt-ZL-OGk">
+                                <rect key="frame" x="131" y="604" width="112" height="30"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                <state key="normal" title="About">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cabbageMan.png" translatesAutoresizingMaskIntoConstraints="NO" id="r81-9m-QFC">
+                                <rect key="frame" x="104" y="596" width="71" height="38"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3Tt-ZL-OGk" firstAttribute="leading" secondItem="I11-PH-tdH" secondAttribute="leading" constant="131" id="0DS-Tr-fgB"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="bottom" secondItem="ndW-J1-wpS" secondAttribute="bottom" constant="202" id="14e-53-MWJ"/>
+                            <constraint firstItem="QBf-3T-a2V" firstAttribute="leading" secondItem="I11-PH-tdH" secondAttribute="leading" constant="67" id="2j6-eA-aSl"/>
+                            <constraint firstItem="ndW-J1-wpS" firstAttribute="top" secondItem="S15-G0-eAA" secondAttribute="bottom" constant="8" id="4Ih-Px-ied"/>
+                            <constraint firstItem="ndW-J1-wpS" firstAttribute="leading" secondItem="I11-PH-tdH" secondAttribute="leading" constant="115" id="4T0-9x-pRm"/>
+                            <constraint firstItem="fnN-uX-jO8" firstAttribute="leading" secondItem="I11-PH-tdH" secondAttribute="leading" constant="131" id="69e-5B-B2c"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="trailing" secondItem="fnN-uX-jO8" secondAttribute="trailing" constant="130" id="6mz-oY-tre"/>
+                            <constraint firstItem="fnN-uX-jO8" firstAttribute="top" secondItem="5SK-sr-GqP" secondAttribute="bottom" constant="8" id="72f-vB-Bmd"/>
+                            <constraint firstItem="3Tt-ZL-OGk" firstAttribute="top" secondItem="ndW-J1-wpS" secondAttribute="bottom" constant="139" id="AZK-h4-CJz"/>
+                            <constraint firstItem="fnN-uX-jO8" firstAttribute="top" secondItem="5SK-sr-GqP" secondAttribute="bottom" constant="8" id="ClI-5k-K8F"/>
+                            <constraint firstItem="ndW-J1-wpS" firstAttribute="top" secondItem="S15-G0-eAA" secondAttribute="bottom" constant="8" id="Eqi-Vj-a4s"/>
+                            <constraint firstItem="5SK-sr-GqP" firstAttribute="height" secondItem="fnN-uX-jO8" secondAttribute="height" id="Gzz-SD-kC6"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="bottom" secondItem="3Tt-ZL-OGk" secondAttribute="bottom" constant="33" id="Lzk-4R-rxF"/>
+                            <constraint firstItem="fnN-uX-jO8" firstAttribute="height" secondItem="S15-G0-eAA" secondAttribute="height" id="NJ2-na-MFm"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="bottom" secondItem="r81-9m-QFC" secondAttribute="bottom" constant="33" id="PLt-wP-SQs"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="trailing" secondItem="ndW-J1-wpS" secondAttribute="trailing" constant="115" id="Q6m-Y1-ynt"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="trailing" secondItem="5SK-sr-GqP" secondAttribute="trailing" constant="132" id="TmZ-dZ-z2v"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="bottom" secondItem="5SK-sr-GqP" secondAttribute="bottom" constant="343" id="VJ8-zB-vsZ"/>
+                            <constraint firstItem="S15-G0-eAA" firstAttribute="height" secondItem="ndW-J1-wpS" secondAttribute="height" id="Zu5-jG-bsr"/>
+                            <constraint firstItem="Ye9-6U-Td2" firstAttribute="top" secondItem="I11-PH-tdH" secondAttribute="top" constant="19" id="agW-0X-DPe"/>
+                            <constraint firstItem="QBf-3T-a2V" firstAttribute="top" secondItem="I11-PH-tdH" secondAttribute="top" constant="102" id="eL5-Zb-7aH"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="trailing" secondItem="r81-9m-QFC" secondAttribute="trailing" constant="200" id="en2-yw-LU3"/>
+                            <constraint firstItem="Ye9-6U-Td2" firstAttribute="leading" secondItem="I11-PH-tdH" secondAttribute="leading" constant="16" id="h5y-rc-wkk"/>
+                            <constraint firstItem="S15-G0-eAA" firstAttribute="top" secondItem="fnN-uX-jO8" secondAttribute="bottom" constant="8" id="h8Q-oU-Coc"/>
+                            <constraint firstItem="r81-9m-QFC" firstAttribute="top" secondItem="ndW-J1-wpS" secondAttribute="bottom" constant="131" id="hgw-Ga-ZYM"/>
+                            <constraint firstItem="r81-9m-QFC" firstAttribute="leading" secondItem="I11-PH-tdH" secondAttribute="leading" constant="104" id="ixa-8u-PJm"/>
+                            <constraint firstItem="S15-G0-eAA" firstAttribute="top" secondItem="fnN-uX-jO8" secondAttribute="bottom" constant="8" id="jjm-jk-aAZ"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="trailing" secondItem="S15-G0-eAA" secondAttribute="trailing" constant="112" id="jwx-0y-4N1"/>
+                            <constraint firstItem="5SK-sr-GqP" firstAttribute="leading" secondItem="I11-PH-tdH" secondAttribute="leading" constant="131" id="naX-2H-sdV"/>
+                            <constraint firstItem="S15-G0-eAA" firstAttribute="top" secondItem="fnN-uX-jO8" secondAttribute="bottom" constant="8" id="qud-TY-9CY"/>
+                            <constraint firstItem="S15-G0-eAA" firstAttribute="leading" secondItem="I11-PH-tdH" secondAttribute="leading" constant="114" id="sNJ-lM-cmQ"/>
+                            <constraint firstItem="QBf-3T-a2V" firstAttribute="top" secondItem="Ye9-6U-Td2" secondAttribute="bottom" constant="8" id="sgc-z4-lc1"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="trailing" secondItem="3Tt-ZL-OGk" secondAttribute="trailing" constant="132" id="ts2-eK-mkc"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="trailing" secondItem="QBf-3T-a2V" secondAttribute="trailing" constant="68" id="uo0-M5-FCI"/>
+                            <constraint firstItem="5SK-sr-GqP" firstAttribute="top" secondItem="QBf-3T-a2V" secondAttribute="bottom" constant="35" id="v4z-yF-1dw"/>
+                            <constraint firstItem="I11-PH-tdH" firstAttribute="trailing" secondItem="Ye9-6U-Td2" secondAttribute="trailing" constant="16" id="wMl-2b-cjC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="I11-PH-tdH"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CeQ-zM-sdV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3058.4000000000001" y="132.68365817091455"/>
+        </scene>
         <!--Table View Controller-->
         <scene sceneID="wdx-FH-i8a">
             <objects>
-                <tableViewController id="Udf-so-uaf" customClass="TableViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Udf-so-uaf" customClass="TableViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="rAr-3U-W8y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -26,6 +132,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -47,7 +154,7 @@
         <!--List Table View Controller-->
         <scene sceneID="ZQ4-qx-Oxd">
             <objects>
-                <tableViewController id="dRf-RC-mOQ" customClass="ListTableViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="dRf-RC-mOQ" customClass="ListTableViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="S4D-x6-CDK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,6 +194,8 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="navBar" destination="c3F-dh-uHL" id="vGa-O2-dUr"/>
+                        <outlet property="navTitle" destination="63x-br-r00" id="UY0-fk-6Mb"/>
                         <segue destination="kiv-vo-2hf" kind="show" identifier="editSegue" id="Ic3-dO-fmZ"/>
                         <segue destination="Azy-We-4zo" kind="show" identifier="addFoodSegue" id="JFz-cW-piN"/>
                         <segue destination="C4g-kK-Keh" kind="show" identifier="addRecipeSegue" id="KXo-Mg-TuB"/>
@@ -101,7 +210,7 @@
         <!--Display Recipe Table View Controller-->
         <scene sceneID="vW4-6h-XWI">
             <objects>
-                <tableViewController id="hxJ-0J-J3R" customClass="DisplayRecipeTableViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="hxJ-0J-J3R" customClass="DisplayRecipeTableViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="9xn-U7-jZu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -125,7 +234,7 @@
                             </items>
                         </navigationBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="displayCell" id="UdV-vu-Yt3" customClass="SelfSizingStepsTableViewCell" customModule="Grocery" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="displayCell" id="UdV-vu-Yt3" customClass="SelfSizingStepsTableViewCell" customModule="Recipe_Crunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UdV-vu-Yt3" id="NHj-Hw-mvT">
@@ -241,18 +350,18 @@
         <!--Add Recipe View Controller-->
         <scene sceneID="nAG-Lv-kzu">
             <objects>
-                <viewController id="C4g-kK-Keh" customClass="AddRecipeViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="C4g-kK-Keh" customClass="AddRecipeViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wLy-68-iPi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Recipe Name:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9M-r0-L0A">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Enter Recipe Name:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9M-r0-L0A">
                                 <rect key="frame" x="25" y="112" width="334" height="31.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Recipe Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iSo-wi-fvV">
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Recipe Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iSo-wi-fvV">
                                 <rect key="frame" x="16" y="224.5" width="343" height="30.5"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -301,7 +410,7 @@
         <!--Add Recipe Table View Controller-->
         <scene sceneID="uuP-Aj-zPt">
             <objects>
-                <tableViewController id="fsF-UV-LQ6" customClass="AddRecipeTableViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="fsF-UV-LQ6" customClass="AddRecipeTableViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="hhf-uK-5g5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -320,7 +429,7 @@
                             </items>
                         </navigationBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recipeCell" id="Wwv-zR-yeh" customClass="SelfSizingStepsTableViewCell" customModule="Grocery" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recipeCell" id="Wwv-zR-yeh" customClass="SelfSizingStepsTableViewCell" customModule="Recipe_Crunch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wwv-zR-yeh" id="bAh-1V-dMN">
@@ -499,7 +608,7 @@
         <!--Add Steps View Controller-->
         <scene sceneID="WbH-xC-V8e">
             <objects>
-                <viewController id="Lqn-fI-MaU" customClass="AddStepsViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Lqn-fI-MaU" customClass="AddStepsViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PUH-Ll-eCm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -570,7 +679,7 @@
         <!--Add Ingredients View Controller-->
         <scene sceneID="gGw-UV-PwB">
             <objects>
-                <viewController id="xFX-Fh-MfU" customClass="AddIngredientsViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="xFX-Fh-MfU" customClass="AddIngredientsViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UTn-81-JtV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -639,7 +748,7 @@
         <!--Recipe Match Table View Controller-->
         <scene sceneID="J8T-sP-1dF">
             <objects>
-                <tableViewController id="ZbU-rX-Wm7" customClass="RecipeMatchTableViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="ZbU-rX-Wm7" customClass="RecipeMatchTableViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ZYx-eO-eza">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -673,6 +782,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="navTitle" destination="40q-8P-npA" id="5AY-On-S1C"/>
                         <segue destination="hxJ-0J-J3R" kind="show" identifier="recipeMatchSegue" id="Wbw-k4-bYS"/>
                     </connections>
                 </tableViewController>
@@ -683,7 +793,7 @@
         <!--Add Shopping View Controller-->
         <scene sceneID="bfI-Ww-V04">
             <objects>
-                <viewController id="csS-Ua-0n6" customClass="AddShoppingViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="csS-Ua-0n6" customClass="AddShoppingViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P99-4g-KUg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -736,19 +846,19 @@
         <!--Edit View Controller-->
         <scene sceneID="bLa-R7-NPa">
             <objects>
-                <viewController id="kiv-vo-2hf" customClass="EditViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="kiv-vo-2hf" customClass="EditViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ByX-tU-e0D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVH-go-Zfh">
+                            <pickerView contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hVH-go-Zfh">
                                 <rect key="frame" x="0.0" y="153" width="375" height="216"/>
                                 <connections>
                                     <outlet property="dataSource" destination="kiv-vo-2hf" id="nFd-fw-fiG"/>
                                     <outlet property="delegate" destination="kiv-vo-2hf" id="Pa4-jE-9mt"/>
                                 </connections>
                             </pickerView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BIT-MG-8l4">
+                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIT-MG-8l4">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="Edit Food" id="0BB-Tl-SXJ">
@@ -765,7 +875,7 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ys8-gy-BBP">
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ys8-gy-BBP">
                                 <rect key="frame" x="16" y="99" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -803,7 +913,7 @@
         <!--Add View Controller-->
         <scene sceneID="hlF-17-KNB">
             <objects>
-                <viewController id="Azy-We-4zo" customClass="AddViewController" customModule="Grocery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Azy-We-4zo" customClass="AddViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KfK-6t-FVx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -870,16 +980,20 @@
             <point key="canvasLocation" x="1697" y="-949"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cabbageMan.png" width="512" height="512"/>
+        <image name="diet.png" width="409.60000610351562" height="409.60000610351562"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RPq-aV-6KH"/>
+        <segue reference="lq5-4F-qTS"/>
         <segue reference="N9d-gQ-SAv"/>
         <segue reference="6US-fQ-jZy"/>
         <segue reference="SMe-Oo-dqG"/>
         <segue reference="EfK-0q-cqF"/>
         <segue reference="h2o-9q-ksn"/>
         <segue reference="P0m-VI-VuF"/>
-        <segue reference="HDo-wd-bWA"/>
-        <segue reference="Xr1-05-3JA"/>
+        <segue reference="280-4d-yho"/>
+        <segue reference="Mfe-0r-cpk"/>
         <segue reference="Uk8-OQ-SD4"/>
     </inferredMetricsTieBreakers>
 </document>

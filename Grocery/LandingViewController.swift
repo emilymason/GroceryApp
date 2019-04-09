@@ -1,182 +1,30 @@
 //
-//  TableViewController.swift
-//  Grocery
+//  LandingViewController.swift
+//  Recipe Crunch
 //
-//  Created by Emily Mason on 1/17/19.
+//  Created by Emily Mason on 4/8/19.
 //  Copyright © 2019 Emily Mason. All rights reserved.
 //
 
 import UIKit
 import SQLite3
 
-var cellLabels = ["Food", "Recipes", "Recipe Match", "Shopping List"]
-var myIndex = 0
-var lastDate: Date?
-var result: NSString?
-var expirFood: [String] = []
-var label: String?
-
-
-
-class TableViewController: UITableViewController {
+class LandingViewController: UIViewController {
+    var cellLabels = ["Food", "Recipes", "Recipe Match", "Shopping List"]
+    var myIndex = 0
+    var lastDate: Date?
+    var result: NSString?
+    var expirFood: [String] = []
+    var label: String?
     var db: OpaquePointer?
- 
-    
+
     override func viewDidLoad() {
-        let fileURL = try!
-            FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("GroceryDatabase.sqlite")
-        
-        
-        if sqlite3_open(fileURL.path, &db) != SQLITE_OK{
-            print("Error opening database")
-            return
-        }
-        //Please take this out before you turn it in Emily
-        print("SQLITE URL!!" + fileURL.path)
-        
-        let createFoodTableQuery = "CREATE TABLE IF NOT EXISTS Food (Id INTEGER PRIMARY KEY AUTOINCREMENT, food TEXT, date TEXT)"
-        
-        let createRecipeTableQuery = "CREATE TABLE IF NOT EXISTS Recipes (recipeId INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, percentage DOUBLE)"
-        
-        let createIngredientTableQuery = "CREATE TABLE IF NOT EXISTS Ingredients (Id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, wholeMeasure TEXT, fractionMeasure TEXT, measureUnits TEXT, recipeId INTEGER, FOREIGN KEY(recipeId) REFERENCES Recipes(recipeId))"
-        
-        let createStepTableQuery = "CREATE TABLE IF NOT EXISTS Steps (Id INTEGER PRIMARY KEY AUTOINCREMENT, step TEXT, recipeId INTEGER, FOREIGN KEY(recipeId) REFERENCES Recipes(recipeId))"
-        
-        let createShoppingListTableQuery = "CREATE TABLE IF NOT EXISTS ShoppingList (Id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT)"
-        
-        if sqlite3_exec(db, createFoodTableQuery, nil, nil, nil) != SQLITE_OK{
-            print("Error creating food table")
-            return
-        }
-        
-        if sqlite3_exec(db, createRecipeTableQuery, nil, nil, nil) != SQLITE_OK{
-            print("Error creating recipe table")
-            return
-        }
-        if sqlite3_exec(db, createIngredientTableQuery, nil, nil, nil) != SQLITE_OK{
-            print("Error creating ingredient table")
-            return
-        }
-        
-        if sqlite3_exec(db, createStepTableQuery, nil, nil, nil) != SQLITE_OK{
-            print("Error creating Steps table")
-            return
-        }
-        
-        if sqlite3_exec(db, createShoppingListTableQuery, nil, nil, nil) != SQLITE_OK{
-            print("Error creating ShoppingList table")
-            return
-        }
-            prepopulateRecipes()
-      
-        
-        
-        
-        print("Everything is fine")
-        //tableView.backgroundColor = UIColor (patternImage: UIImage(named: "polkadots.png")!)
-        
+        super.viewDidLoad()
 
-    }
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if segue.destination is ListTableViewController
-        {
-
-            let vc = segue.destination as? ListTableViewController
-            vc?.db = db
-            vc?.label = label
-           
-        }
-        if segue.destination is RecipeMatchTableViewController{
-            let vc = segue.destination as? RecipeMatchTableViewController
-            vc?.db = db
-            vc?.label = label
-        }
+        // Do any additional setup after loading the view.
     }
     
 
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  cellLabels.count
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-
-        cell.textLabel?.text = cellLabels[indexPath.row]
-        
-        return cell
-    }
-    
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        myIndex =  indexPath.row
-        label = cellLabels[myIndex]
-        if label == "Recipe Match"{
-            performSegue(withIdentifier: "recipeMatchSegue", sender: self)
-        }
-        else{
-            performSegue(withIdentifier: "segue", sender: self)
-        }
-        
-    }
-
-    
-    override func viewDidAppear(_ animated: Bool) {
-
-        let currDate = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy"
-        var dateComponents = DateComponents()
-        dateComponents.setValue(1, for: .day); // +1 day
-        
-        let nextDate = Calendar.current.date(byAdding: dateComponents, to: currDate)
-        let thirdDate = Calendar.current.date(byAdding: dateComponents, to: nextDate!)
-        
-        let today = formatter.string(from: currDate) as NSString
-        let tomorrow = formatter.string(from: nextDate!) as NSString
-        let nextDay = formatter.string(from: thirdDate!) as NSString
-
-        
-        if result != today{
-            expirFood = []
-            let queryFoodStatementString = "SELECT food FROM Food WHERE date = '\(today)' OR date = '\(tomorrow)' OR date = '\(nextDay)';"
-            var queryFoodStatement: OpaquePointer? = nil
-            
-            if sqlite3_prepare_v2(db, queryFoodStatementString, -1, &queryFoodStatement, nil) != SQLITE_OK{
-                print("Error binding get food query")
-            }
-            
-            while (sqlite3_step(queryFoodStatement) == SQLITE_ROW){
-                
-                let queryResultCol0 = sqlite3_column_text(queryFoodStatement, 0)
-                let food = String(cString: queryResultCol0!)
-                expirFood.append(food)
-            }
-            
-            let string = expirFood.joined(separator: ", ")
-            if string == ""{
-                return
-            }
-            else{
-            let alert = UIAlertController(title: "Food Expiring Within 3 Days:", message: "\(string)", preferredStyle: UIAlertController.Style.alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
-            lastDate = Date()
-            
-            result = formatter.string(from: lastDate!) as NSString
-            
-            self.present(alert, animated: true, completion: nil)
-            }
-        }
-        
-        
-        
-    }
-    
     func prepopulateRecipes() {
         var insertStatement: OpaquePointer? = nil
         
@@ -267,7 +115,7 @@ class TableViewController: UITableViewController {
         }
         
         
-// RECIPE 2
+        // RECIPE 2
         let prepopRecipe2 = "INSERT OR IGNORE INTO Recipes (recipeId, name) VALUES(2,'Banana Bread');"
         if sqlite3_prepare_v2(db, prepopRecipe2, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding query")
@@ -353,7 +201,7 @@ class TableViewController: UITableViewController {
         if sqlite3_step(insertStatement) == SQLITE_DONE{
             print("Ingre saved successfully")
         }
-
+        
         let prepop2Ingr9 = "INSERT OR IGNORE INTO Ingredients (Id, name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES(14, 'Baking Soda', '1', 'None', 'tsp', 2);"
         if sqlite3_prepare_v2(db, prepop2Ingr9, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding 9 query")
@@ -427,7 +275,7 @@ class TableViewController: UITableViewController {
             print("step saved successfully")
         }
         
-//RECIPE 3
+        //RECIPE 3
         
         let prepopRecipe3 = "INSERT OR IGNORE INTO Recipes (recipeId, name) VALUES(3,'Peanut Butter Banana Smoothie');"
         if sqlite3_prepare_v2(db, prepopRecipe3, -1, &insertStatement, nil) != SQLITE_OK{
@@ -494,4 +342,5 @@ class TableViewController: UITableViewController {
         
         
     }
+
 }

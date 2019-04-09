@@ -70,7 +70,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "displayCell", for: indexPath) as! SelfSizingStepsTableViewCell
         
         
-        if indexPath.section == 0{
+        if (indexPath.section == 0){
             cell.StepLabel.text = list[0][indexPath.row]
             if indexPath.row >= 1{
                 let row = indexPath.row - 1
@@ -97,15 +97,14 @@ class DisplayRecipeTableViewController: UITableViewController {
                 cell.StepLabel.attributedText = attributedString
                 
                 SelectStatements()
-                
-                if (foodList.contains(list[0][indexPath.row])){
+                if (indexPath.row > 0){
+                    if (foodList.contains(list[0][indexPath.row]) && cell.StepLabel.text != "Ingredients: "){
                     imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
                     imageView?.image = UIImage(named: "checkmark.png")
                     cell.accessoryView = imageView
                     image.append("Check")
-                    //cell.accessoryType = UITableViewCell.AccessoryType.checkmark
                 }
-                else if (shoppingList.contains(list[0][indexPath.row])){
+                else if (shoppingList.contains(list[0][indexPath.row]) && cell.StepLabel.text != "Ingredients: "){
                     imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
                     imageView?.image = UIImage(named: "shopping-basket.png")
                     cell.accessoryView = imageView
@@ -114,33 +113,42 @@ class DisplayRecipeTableViewController: UITableViewController {
                     //cell.accessoryType = UITableViewCell.AccessoryType
                 }
                 else{
+                    if(cell.StepLabel.text != "Ingredients: "){
+                        
                     imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
                     imageView?.image = UIImage(named: "cancel-mark.png")
                     cell.accessoryView = imageView
                     image.append("Need")
+                    }
 
+                }
                 }
                 
             }
         }
         else{
+            cell.accessoryView = nil
             cell.StepLabel.text = list[1][indexPath.row]
         }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (image[indexPath.row] == "Need"){
+        if (indexPath.section == 0 && image[indexPath.row] == "Need" ){
             let alert = UIAlertController(title: "Do you want to add \(list[0][indexPath.row]) to your shopping list?", message: "", preferredStyle: UIAlertController.Style.alert)
             
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)
                 self.AddToShoppingList(food: self.list[0][indexPath.row])
                 self.image[indexPath.row] = "Shopping"
+                tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
             
             self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            return
         }
         
     }
@@ -246,7 +254,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         }
         sqlite3_finalize(queryStatement)
         SelectStatements()
-        tableView.reloadData()
+        
 
     }
     

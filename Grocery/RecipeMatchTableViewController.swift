@@ -16,9 +16,11 @@ class RecipeMatchTableViewController: UITableViewController {
     var recipeList: [String] = []
     var recipeTitle: String?
 
-
+    @IBOutlet weak var navTitle: UINavigationItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navTitle.title = "Recipe Match"
         query()
         tableView.reloadData()
 
