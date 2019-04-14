@@ -13,6 +13,7 @@ class AddRecipeViewController: UIViewController {
     var db: OpaquePointer?
     var label: String?
     var recipeTitle: String?
+    var recipeList: [String] = []
     var name: NSString?
 
     @IBOutlet weak var recipeName: UITextField!
@@ -25,6 +26,15 @@ class AddRecipeViewController: UIViewController {
         if (name == ""){
             print("name field is empty")
             return;
+        }
+        
+        if (recipeList.contains(name! as String)){
+            let alert = UIAlertController(title: "Duplicate Recipe", message: "You already have a recipe with this name. Please choose something else.", preferredStyle: UIAlertController.Style.alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
+            
+            self.present(alert, animated: true, completion: nil)
+            return
         }
         
         var insertStatement: OpaquePointer? = nil
@@ -49,7 +59,7 @@ class AddRecipeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        query()
     }
     
     
@@ -75,5 +85,24 @@ class AddRecipeViewController: UIViewController {
             vc?.recipeTitle = recipeTitle
         }
     }
+    
+    func query() {
+        var queryStatement: OpaquePointer? = nil
+        let queryRecipeStatementString = "SELECT name FROM Recipes;"
+
+            if sqlite3_prepare_v2(db, queryRecipeStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+                
+                while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                    let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                    let name = String(cString: queryResultCol1!)
+                    recipeList.append(name)
+                    print("Query Result:")
+                }
+                
+            } else {
+                print("SELECT statement for recipes could not be prepared")
+            }
+            sqlite3_finalize(queryStatement)
+        }
 
 }

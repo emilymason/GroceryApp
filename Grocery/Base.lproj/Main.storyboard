@@ -889,51 +889,6 @@
             </objects>
             <point key="canvasLocation" x="3733.5999999999999" y="236.13193403298354"/>
         </scene>
-        <!--Recipe Match Table View Controller-->
-        <scene sceneID="J8T-sP-1dF">
-            <objects>
-                <tableViewController id="ZbU-rX-Wm7" customClass="RecipeMatchTableViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ZYx-eO-eza">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="P8B-vJ-vRx">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <items>
-                                <navigationItem id="40q-8P-npA">
-                                    <barButtonItem key="leftBarButtonItem" title="Back" id="fMA-GQ-9s2">
-                                        <connections>
-                                            <segue destination="RpY-ee-2qw" kind="show" id="LBd-At-bpc"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </navigationItem>
-                            </items>
-                        </navigationBar>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="matchCell" id="cxZ-vf-F7G">
-                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cxZ-vf-F7G" id="7Pb-5d-NZG">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="ZbU-rX-Wm7" id="WTT-eh-ICz"/>
-                            <outlet property="delegate" destination="ZbU-rX-Wm7" id="hMF-gX-neE"/>
-                        </connections>
-                    </tableView>
-                    <connections>
-                        <outlet property="navBar" destination="P8B-vJ-vRx" id="8a2-Wq-F5F"/>
-                        <outlet property="navTitle" destination="40q-8P-npA" id="5AY-On-S1C"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="h3v-dD-mdX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-3586" y="1437"/>
-        </scene>
         <!--Add Shopping View Controller-->
         <scene sceneID="bfI-Ww-V04">
             <objects>

@@ -17,6 +17,7 @@ class EditRecipeTableViewController: UITableViewController {
     var recipeId: Int32?
     var list = [["Click to add Ingredients: "],["Click to add Steps: "]]
     var measurements:[(measure: String, unit: String)] = []
+    var sendMeasure: (measure: String, unit: String)?
     var myIndex = 0
     var ingredientList: [String] = []
     var foodList: [String] = []
@@ -108,6 +109,7 @@ class EditRecipeTableViewController: UITableViewController {
         }
         else if indexPath.section == 0{
             editIngredient = list[0][indexPath.row]
+            sendMeasure = measurements[indexPath.row-1]
             performSegue(withIdentifier: "editIngredientSegue", sender: self)
         }
     }
@@ -191,6 +193,7 @@ class EditRecipeTableViewController: UITableViewController {
             vc?.recipeTitle = recipeTitle as NSString?
             vc?.recipeId = recipeId
             vc?.cameFrom = "Edit"
+            vc?.sendMeasure = sendMeasure
         }
         if segue.destination is AddStepsViewController
         {

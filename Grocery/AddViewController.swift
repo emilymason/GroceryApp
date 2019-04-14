@@ -58,33 +58,46 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if date.contains("None"){
             date = ""
         }
-        else{
+        if date != ""{
             let currDate = Date()
             let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
             let today = formatter.string(from: currDate) as NSString
             let todayArray = today.components(separatedBy: "/")
             let dateArray = date.components(separatedBy: "/")
-            let checkYear = Int(dateArray[0])!
-            let checkMonth = Int(dateArray[1])!
-            let checkDay = Int(dateArray[2])!
+            let checkYear = Int(dateArray[2])!
+            let checkMonth = Int(dateArray[0])!
+            let checkDay = Int(dateArray[1])!
+            let todayYear = Int(todayArray[2])
+            let todayMonth = Int(todayArray[0])
+            let todayDay = Int(todayArray[1])
+//            print("ARRAYS!!!")
+//            print(todayArray)
+//            print(Int(todayArray[0])!)
+//            print(Int(todayArray[1])!)
+//            print(Int(todayArray[2])!)
+//            print(dateArray)
+//            print(checkYear)
+//            print(checkMonth)
+//            print(checkDay)
+//            
+//            print(checkYear > todayYear!)
 
 
-
-            if checkYear < Int(todayArray[0])!{
+            if checkYear < todayYear!{
                 isPast = 1
             }
-            else{
-                if checkMonth < Int(todayArray[1])!{
+            else if checkYear == todayYear!{
+                if checkMonth < todayMonth!{
                     isPast = 1
                 }
                 else{
-                    if checkMonth == Int(todayArray[1])! && checkDay < Int(todayArray[2])!{
+                    if checkMonth == todayMonth! && checkDay < todayDay!{
                         isPast = 1
                     }
                 }
             }
-            
+
         }
         
         

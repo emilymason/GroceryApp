@@ -19,6 +19,9 @@ class recipeViewCell: UITableViewCell{
 class RecipeTestTableViewController: UITableViewController {
     var recipeList: [String] = []
     var recipeTitle: String?
+    var nearExpired: [String]?
+    var foodList: [String] = []
+    var idList: [Int32] = []
     var label: String?
     var recipePercentage: [Double] = []
     var db: OpaquePointer?
@@ -43,6 +46,9 @@ class RecipeTestTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        populateFoodList()
+        print("FOOD")
+        print(foodList)
         navBar.barTintColor = .white
         if (label == "Recipes"){
             navTitle.title = "My Recipes"
@@ -56,6 +62,32 @@ class RecipeTestTableViewController: UITableViewController {
         
         navBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Marker Felt", size: 20)!]
         query()
+        recipePercentage = []
+        print("EXPIRED")
+        print(nearExpired?.count == 0)
+        
+        
+        for recipe in idList{
+            var match: Double = 0
+            let ingredients: [String] = populateIngredientList(recipeId: recipe)
+            for ingredient in ingredients{
+                if foodList.contains(ingredient){
+                    match += 1
+                }
+            }
+            
+            let percentage = match/Double(ingredients.count)
+            recipePercentage.append(percentage)
+            
+            let updateStatementString = "UPDATE Recipes SET percentage = \(percentage) WHERE recipeId = \(recipe);"
+            var updateStatement: OpaquePointer? = nil
+            if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) != SQLITE_OK{
+                print("Error preparing update statement")
+            }
+            if sqlite3_step(updateStatement) == SQLITE_DONE{
+                print("Recipe percentage edited successfully")
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,8 +109,12 @@ class RecipeTestTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! recipeViewCell
+        var used = UsesIngredient(recipeId: idList[indexPath.row])
         cell.backgroundColor = .clear
         cell.recipeLabel?.text = recipeList[indexPath.row]
+        if used == true{
+            cell.recipeLabel.textColor = .green
+        }
         cell.circleView.trackColor = UIColor(displayP3Red: 237/255, green: 1, blue: 237/255, alpha: 1.0)
         cell.circleView.progressColor = UIColor(displayP3Red: 168/255, green: 255, blue: 168/255, alpha: 1)
         cell.circleView.setProgressWithAnimation(duration: 1.0, value: Float(recipePercentage[indexPath.row]))
@@ -107,6 +143,7 @@ class RecipeTestTableViewController: UITableViewController {
                     let percentage = sqlite3_column_double(queryStatement, 2)
                     recipeList.append(name)
                     recipePercentage.append(percentage)
+                    idList.append(id)
                     print("Query Result:")
                     print("\(id) | \(name)")
                 }
@@ -225,6 +262,77 @@ class RecipeTestTableViewController: UITableViewController {
         }
         
         return newId
+    }
+    
+    func UsesIngredient(recipeId: Int32) -> Bool{
+        var ingredientsUsed: [String] = []
+        let queryStatementString = "SELECT name FROM Ingredients WHERE recipeId = '\(recipeId)';"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let someName = String(cString: queryResultCol1!)
+                ingredientsUsed.append(someName)
+            }
+            
+        } else {
+            print("SELECT statement for recipes could not be prepared")
+        }
+        sqlite3_finalize(queryStatement)
+        
+        if ingredientsUsed.count != 0{
+        for ingredient in ingredientsUsed{
+            if nearExpired?.count != nil {
+                if nearExpired!.contains(ingredient){
+                return true
+                }
+            }
+        }
+            
+        }
+        
+        return false
+    }
+    
+    func populateIngredientList(recipeId: Int32) -> [String] {
+        var ingredientList: [String] = []
+        let queryIngredientString = "SELECT name FROM Ingredients WHERE recipeId = \(recipeId);"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryIngredientString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let ingredient = String(cString: queryResultCol1!)
+                
+                ingredientList.append(ingredient)
+            }
+            
+        } else {
+            print("Error Selecting Ingredients")
+        }
+        sqlite3_finalize(queryStatement)
+        return ingredientList
+        
+    }
+    
+    func populateFoodList() {
+        let queryFoodString = "SELECT food FROM Food;"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryFoodString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let food = String(cString: queryResultCol1!)
+                
+                foodList.append(food)
+            }
+            
+        } else {
+            print("Error Selecting Food")
+        }
+        sqlite3_finalize(queryStatement)
+        
     }
 
 

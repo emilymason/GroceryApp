@@ -25,6 +25,7 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     var parseMonth: String = ""
     var parseDay: String = ""
     var parseYear: String = ""
+    var isPast: Int32 = 0
 
     @IBOutlet weak var foodEdit: UITextField!
     
@@ -43,8 +44,38 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         if newDate.contains("None"){
             newDate = ""
         }
+        if newDate != ""{
+            let currDate = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/dd/yyyy"
+            let today = formatter.string(from: currDate) as NSString
+            let todayArray = today.components(separatedBy: "/")
+            let dateArray = newDate.components(separatedBy: "/")
+            let checkYear = Int(dateArray[2])!
+            let checkMonth = Int(dateArray[0])!
+            let checkDay = Int(dateArray[1])!
+            let todayYear = Int(todayArray[2])
+            let todayMonth = Int(todayArray[0])
+            let todayDay = Int(todayArray[1])
+
+            if checkYear < todayYear!{
+                isPast = 1
+            }
+            else if checkYear == todayYear!{
+                if checkMonth < todayMonth!{
+                    isPast = 1
+                }
+                else{
+                    if checkMonth == todayMonth! && checkDay < todayDay!{
+                        isPast = 1
+                    }
+                }
+            }
+            
+            
+        }
         
-        let updateStatementString = "UPDATE Food SET food = '\(newFood)', date = '\(newDate)' WHERE Id = \(editId!);"
+        let updateStatementString = "UPDATE Food SET food = '\(newFood)', date = '\(newDate)', expired = '\(isPast)' WHERE Id = \(editId!);"
         var updateStatement: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) != SQLITE_OK{
@@ -135,6 +166,7 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         picker.selectRow(months.index(of: parseArray[0])!, inComponent: 0, animated: true)
         picker.selectRow(days.index(of: parseArray[1])!, inComponent: 1, animated: true)
         picker.selectRow(years.index(of: parseArray[2])!, inComponent: 2, animated: true)
+        newDate = editDate
 
     }
     

@@ -25,6 +25,7 @@ class ListTableViewController: UITableViewController {
     var db: OpaquePointer?
     var foodList: [String] = []
     var dateList: [String] = []
+    var isExpired: [Int32] = []
     var editFood: NSString = ""
     var editDate: NSString = ""
     var editId: Int32?
@@ -209,7 +210,11 @@ class ListTableViewController: UITableViewController {
                 cell.textLabel?.textColor = .red
                 cell.titleLabel?.text = ""
                 cell.expirLabel?.text = ""
+                cell.cellView.image = nil
                 
+            }
+            if isExpired[indexPath.row] == 1{
+                cell.expirLabel.textColor = .red
             }
             else {
 //                let dateLabel = UILabel.init(frame: CGRect(x:0,y:0,width:100,height:20))
@@ -226,6 +231,10 @@ class ListTableViewController: UITableViewController {
             cell.titleLabel?.text = ""
             cell.expirLabel?.text = ""
             cell.textLabel?.text = shoppingList[indexPath.row]
+            if shoppingList[indexPath.row] == "Completely Empty Shopping List"{
+                cell.textLabel?.textColor = .red
+                cell.textLabel?.textAlignment = .center
+            }
         }
         let cellBGView = UIView()
         cellBGView.backgroundColor = UIColor(red: 175/255, green: 206/255, blue: 255/255, alpha: 0.4)
@@ -241,6 +250,11 @@ class ListTableViewController: UITableViewController {
         }
         if label == "Food"{
             if foodList[indexPath.row] == "Completely Empty Pantry"{
+                return false
+            }
+        }
+        if label == "Shopping List"{
+            if shoppingList[indexPath.row] == "Completely Empty Shopping List"{
                 return false
             }
         }
@@ -272,6 +286,7 @@ class ListTableViewController: UITableViewController {
                     dateList.removeAll()
                 }
             tableView.reloadData()
+                
 
             }
             else if label == "Recipes"{
@@ -358,14 +373,17 @@ class ListTableViewController: UITableViewController {
                 let food = String(cString: queryResultCol1!)
                 let queryResultCol2 = sqlite3_column_text(queryStatement, 2)
                 let date = String(cString: queryResultCol2!)
+                let expired = sqlite3_column_int(queryStatement, 3)
                 foodList.append(food)
                 dateList.append(date)
+                isExpired.append(expired)
                 print("Query Result:")
                 print("\(id) | \(food) | \(date)")
             }
             if foodList.count > 0{
             foodList.append("Completely Empty Pantry")
             dateList.append("")
+            isExpired.append(2)
             }
             
             
@@ -403,6 +421,10 @@ class ListTableViewController: UITableViewController {
                     print("Query Result:")
                     print("\(id) | \(item)")
                 }
+                if shoppingList.count > 0{
+                    shoppingList.append("Completely Empty Shopping List")
+                }
+
                 
             } else {
                 print("SELECT statement for shopping list could not be prepared")
@@ -434,6 +456,19 @@ class ListTableViewController: UITableViewController {
         else if label == "Recipes"{
             recipeTitle = recipeList[indexPath.row]
             performSegue(withIdentifier: "displayRecipeSegue", sender: self)
+        }
+        else if label == "Shopping List"{
+            if shoppingList[indexPath.row] == "Completely Empty Shopping List"{
+                let alert = UIAlertController(title: "Warning", message: "Are you sure you want to completely empty your shopping list?", preferredStyle: UIAlertController.Style.alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)
+                    self.emptyShoppingList()
+                }))
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -469,4 +504,22 @@ class ListTableViewController: UITableViewController {
         dateList.removeAll()
         tableView.reloadData()
     }
+    
+    func emptyShoppingList() {
+        let emptyString = "DELETE FROM ShoppingList;"
+        var emptyStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, emptyString, -1, &emptyStatement, nil) != SQLITE_OK{
+            print("Error deleting all")
+        }
+        
+        if sqlite3_step(emptyStatement) == SQLITE_DONE {
+            print("Successfully deleted list.")
+        } else {
+            print("Could not delete list.")
+        }
+        sqlite3_finalize(emptyStatement)
+        shoppingList.removeAll()
+        tableView.reloadData()
+    }
+
 }

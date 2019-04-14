@@ -11,6 +11,7 @@ import SQLite3
 
     var result: NSString?
 
+
 class LandingViewController: UIViewController {
     var cellLabels = ["Food", "Recipes", "Recipe Match", "Shopping List"]
     var myIndex = 0
@@ -113,15 +114,12 @@ class LandingViewController: UIViewController {
             vc?.label = label
             
         }
-        if segue.destination is RecipeMatchTableViewController{
-            let vc = segue.destination as? RecipeMatchTableViewController
-            vc?.db = db
-            vc?.label = label
-        }
+
         if segue.destination is RecipeTestTableViewController{
             let vc = segue.destination as? RecipeTestTableViewController
             vc?.db = db
             vc?.label = label
+            vc?.nearExpired = expirFood
         }
     }
     
@@ -531,31 +529,33 @@ class LandingViewController: UIViewController {
         formatter.dateFormat = "MM/dd/yyyy"
         let today = formatter.string(from: currDate) as NSString
         let todayArray = today.components(separatedBy: "/")
+        let todayYear = Int(todayArray[2])
+        let todayMonth = Int(todayArray[0])
+        let todayDay = Int(todayArray[1])
         var isPast = 0
         
+        if foodList.count > 0{
         for i in 0...(foodList.count-1){
             if isExpired[i] == 0{
                 if dateList[i] != ""{
                 let dateArray = dateList[i].components(separatedBy: "/")
-                let checkYear = Int(dateArray[0])!
-                let checkMonth = Int(dateArray[1])!
-                let checkDay = Int(dateArray[2])!
-                
-                
-                
-                if checkYear < Int(todayArray[0])!{
-                    isPast = 1
-                }
-                else{
-                    if checkMonth < Int(todayArray[1])!{
+                let checkYear = Int(dateArray[2])!
+                let checkMonth = Int(dateArray[0])!
+                let checkDay = Int(dateArray[1])!
+
+                    if checkYear < todayYear!{
                         isPast = 1
                     }
-                    else{
-                        if checkMonth == Int(todayArray[1])! && checkDay < Int(todayArray[2])!{
+                    else if checkYear == todayYear!{
+                        if checkMonth < todayMonth!{
                             isPast = 1
                         }
+                        else{
+                            if checkMonth == todayMonth! && checkDay < todayDay!{
+                                isPast = 1
+                            }
+                        }
                     }
-                }
                 }
             }
             //Only update table if isPast has changed
@@ -568,10 +568,11 @@ class LandingViewController: UIViewController {
                 if sqlite3_step(updateStatement) == SQLITE_DONE{
                     print("Recipe percentage edited successfully")
                 }
-                
+
                 isPast = 0
             }
-            
+
+        }
         }
     }
 

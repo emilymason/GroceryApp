@@ -54,6 +54,10 @@ class DisplayRecipeTableViewController: UITableViewController {
         navTitle.title = recipeTitle! as String
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
+        print("TEST!!!!")
+        print(measurements[0].measure)
+        print(measurements[0].measure.components(separatedBy: " "))
+        
         
     }
 
@@ -90,6 +94,8 @@ class DisplayRecipeTableViewController: UITableViewController {
                 if units == "None"{
                     units = ""
                 }
+                
+                
                 let boldText = measure + " " + units
                 let attrs = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)]
                 let attributedString = NSMutableAttributedString(string:boldText, attributes:attrs)
@@ -98,9 +104,14 @@ class DisplayRecipeTableViewController: UITableViewController {
                 let normalText = "  " + cell.StepLabel.text!
                 let normalString = NSMutableAttributedString(string:normalText)
                 
+                
                 attributedString.append(normalString)
 
                 cell.StepLabel.attributedText = attributedString
+                if measure == " " && units == ""{
+                    cell.StepLabel.text! = list[0][indexPath.row]
+                }
+                
                 
                 SelectStatements()
                 if (indexPath.row > 0){
@@ -231,12 +242,12 @@ class DisplayRecipeTableViewController: UITableViewController {
             vc?.db = db
             vc?.label = label
         }
-        if segue.destination is RecipeMatchTableViewController
-        {
-            let vc = segue.destination as? RecipeMatchTableViewController
-            vc?.db = db
-            vc?.label = label
-        }
+     //   if segue.destination is RecipeMatchTableViewController
+       // {
+         //   let vc = segue.destination as? RecipeMatchTableViewController
+           // vc?.db = db
+            //vc?.label = label
+        //}
         if segue.destination is EditRecipeTableViewController
         {
             let vc = segue.destination as? EditRecipeTableViewController

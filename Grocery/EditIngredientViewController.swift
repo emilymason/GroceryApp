@@ -16,6 +16,7 @@ class EditIngredientViewController: UIViewController, UIPickerViewDataSource, UI
     var ingredient: String?
     var recipeTitle: NSString?
     var recipeId: Int32?
+    var sendMeasure: (measure: String, unit: String)?
     var wholeMeasure = ["None"]
     var fractionMeasure: [String] = []
     var measureUnits: [String] = []
@@ -72,6 +73,10 @@ class EditIngredientViewController: UIViewController, UIPickerViewDataSource, UI
         
         super.viewDidLoad()
         ingredientText.text = ingredient
+        print("HERE IS A TEST")
+        print(sendMeasure)
+        var measureArray = sendMeasure!.measure.components(separatedBy: " ")
+       
         //measurePicker.selectRow(2, inComponent: 0, animated: true)
         
         for i in 1...100
@@ -92,6 +97,10 @@ class EditIngredientViewController: UIViewController, UIPickerViewDataSource, UI
         measureUnits.append("cup")
         measureUnits.append("oz")
         measureUnits.append("lbs")
+        
+         measurePicker.selectRow(wholeMeasure.index(of: measureArray[0])!, inComponent: 0, animated: true)
+        measurePicker.selectRow(fractionMeasure.index(of: measureArray[1])!, inComponent: 1, animated: true)
+        measurePicker.selectRow(measureUnits.index(of: sendMeasure!.unit)!, inComponent: 2, animated: true)
         
     }
     
