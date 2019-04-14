@@ -9,6 +9,17 @@
 import UIKit
 import SQLite3
 
+
+class ListTableViewCell: UITableViewCell{
+    
+   
+    @IBOutlet weak var cellView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var expirLabel: UILabel!
+    
+    
+}
+
 class ListTableViewController: UITableViewController {
     
     var db: OpaquePointer?
@@ -25,28 +36,55 @@ class ListTableViewController: UITableViewController {
     let queryRecipeStatementString = "SELECT * FROM Recipes ORDER BY name ASC;"
     let queryShoppingStatementString = "SELECT * FROM ShoppingList ORDER BY item ASC;"
     
+    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var navTitle: UINavigationBar!
     @IBAction func addButton(_ sender: Any) {
         if label == "Food"{
             performSegue(withIdentifier: "addFoodSegue", sender: self)
         }
-        else if label == "Recipes"{
-            performSegue(withIdentifier: "addRecipeSegue", sender: self)
-        }
+//        else if label == "Recipes"{
+//            performSegue(withIdentifier: "addRecipeSegue", sender: self)
+//        }
         else if label == "Shopping List"{
             performSegue(withIdentifier: "addShoppingSegue", sender: self)
         }
     }
     
+    // Set navigation bar title and title font. Also query the database to show correct information.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Add a background view to the table view
+        if label == "Food"{
+        let backgroundImage = UIImage(named: "dietBack.png")
+        let imageView = UIImageView(image: backgroundImage)
+        self.tableView.backgroundView = imageView
+        imageView.contentMode = .center
+        imageView.alpha = 0.1
+        }
+        if label == "Shopping List"{
+            let backgroundImage = UIImage(named: "shopping.png")
+            let imageView = UIImageView(image: backgroundImage)
+            self.tableView.backgroundView = imageView
+            imageView.contentMode = .center
+            imageView.alpha = 0.2
+        }
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navTitle.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Marker Felt", size: 20)!]
+
         if label == "Food"{
             navBar.title = "My Pantry"
         }
-        else if label == "Recipes"{
-            navBar.title = "My Recipes"
-        }
+            //RECIPES SHOULDN'T GO HERE ANYMORE
+//        else if label == "Recipes"{
+//            navBar.title = "My Recipes"
+//        }
         else if label == "Shopping List"{
             navBar.title = "Shopping List"
         }
@@ -55,8 +93,9 @@ class ListTableViewController: UITableViewController {
         }
         
         query()
-        print("LABEL" + label!)
-        tableView.reloadData()
+        //Don't think I need this
+        //tableView.reloadData()
+       
     }
 
     
@@ -68,9 +107,9 @@ class ListTableViewController: UITableViewController {
             vc?.db = db
             vc?.label = label
         }
-        if segue.destination is TableViewController
+        if segue.destination is LandingViewController
         {
-            let vc = segue.destination as? TableViewController
+            let vc = segue.destination as? LandingViewController
             vc?.db = db
             
             
@@ -115,12 +154,19 @@ class ListTableViewController: UITableViewController {
             }
             
         }
-        if segue.destination is DisplayRecipeTableViewController{
-            let vc = segue.destination as? DisplayRecipeTableViewController
-            vc?.db = db
-            vc?.label = label
-            vc?.recipeTitle = recipeTitle as String?
-        }
+        //SHOULDN'T GET TO THESE PLACES FROM HERE
+//        if segue.destination is DisplayRecipeTableViewController{
+//            let vc = segue.destination as? DisplayRecipeTableViewController
+//            vc?.db = db
+//            vc?.label = label
+//            vc?.recipeTitle = recipeTitle as String?
+//        }
+//        if segue.destination is RecipeTestTableViewController{
+//            let vc = segue.destination as? RecipeTestTableViewController
+//            vc?.db = db
+//            vc?.label = label
+//            //vc?.recipeTitle = recipeTitle as String?
+//        }
     }
  
 
@@ -128,9 +174,10 @@ class ListTableViewController: UITableViewController {
         if label == "Food"{
            return foodList.count
         }
-        else if label == "Recipes"{
-            return recipeList.count
-        }
+            //NO RECIPES ANYMORE
+//        else if label == "Recipes"{
+//            return recipeList.count
+//        }
         else if label == "Shopping List"{
             return shoppingList.count
         }
@@ -138,31 +185,51 @@ class ListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath)
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath) as! ListTableViewCell
+       // cell.contentView.backgroundColor = UIColor.clear
+        cell.backgroundColor = .clear
+
         if label == "Food"
         {
-            cell.textLabel?.text = foodList[indexPath.row]
-            cell.detailTextLabel?.text = dateList[indexPath.row]
+            //cell.textLabel?.text = foodList[indexPath.row]
+            //cell.detailTextLabel?.text = dateList[indexPath.row]
+            cell.titleLabel.text = foodList[indexPath.row]
+            cell.expirLabel.text = dateList[indexPath.row]
+            
+            if foodList[indexPath.row] != "Completely Empty Pantry"{
+            cell.cellView.image = UIImage(named: "bananana.png")
+            }
+            //cell.cellView.adjustsImageSizeForAccessibilityContentSizeCategory = false
+            
 
             if foodList[indexPath.row] == "Completely Empty Pantry"{
+                cell.textLabel?.text = foodList[indexPath.row]
                 cell.textLabel?.textAlignment = .center
                 cell.textLabel?.textColor = .red
+                cell.titleLabel?.text = ""
+                cell.expirLabel?.text = ""
+                
             }
             else {
-                let dateLabel = UILabel.init(frame: CGRect(x:0,y:0,width:100,height:20))
-                dateLabel.text = dateList[indexPath.row]
-                cell.accessoryView = dateLabel
+//                let dateLabel = UILabel.init(frame: CGRect(x:0,y:0,width:100,height:20))
+//                dateLabel.text = dateList[indexPath.row]
+//                cell.accessoryView = dateLabel
             }
         }
-        else if label == "Recipes"
-        {
-            cell.textLabel?.text = recipeList[indexPath.row]
-        }
+            //THIS SHOULDN'T HAPPEN
+//        else if label == "Recipes"
+//        {
+//            cell.textLabel?.text = recipeList[indexPath.row]
+//        }
         else if label == "Shopping List"{
+            cell.titleLabel?.text = ""
+            cell.expirLabel?.text = ""
             cell.textLabel?.text = shoppingList[indexPath.row]
         }
-        
+        let cellBGView = UIView()
+        cellBGView.backgroundColor = UIColor(red: 175/255, green: 206/255, blue: 255/255, alpha: 0.4)
+        cell.selectedBackgroundView = cellBGView
         return cell
     }
     
@@ -345,7 +412,7 @@ class ListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        myIndex =  indexPath.row
+        //var myIndex =  indexPath.row
         if label == "Food"{
             if foodList[indexPath.row] == "Completely Empty Pantry"{
                 let alert = UIAlertController(title: "Warning", message: "Are you sure you want to completely empty your pantry?", preferredStyle: UIAlertController.Style.alert)

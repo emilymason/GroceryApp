@@ -9,19 +9,175 @@
 import UIKit
 import SQLite3
 
+    var result: NSString?
+
 class LandingViewController: UIViewController {
     var cellLabels = ["Food", "Recipes", "Recipe Match", "Shopping List"]
     var myIndex = 0
     var lastDate: Date?
-    var result: NSString?
+    var foodList: [String] = []
+    var dateList: [String] = []
+    var isExpired: [Int32] = []
+    var idList: [Int32] = []
     var expirFood: [String] = []
     var label: String?
     var db: OpaquePointer?
+    
+    @IBAction func PantryButton(_ sender: Any) {
+        label = "Food"
+        performSegue(withIdentifier: "firstSegue", sender: self)
 
+    }
+    
+    @IBAction func recipeButton(_ sender: Any) {
+        label = "Recipes"
+        performSegue(withIdentifier: "recipeSegue", sender: self)
+
+    }
+    @IBAction func recipeMatchButton(_ sender: Any) {
+        label = "Recipe Match"
+        performSegue(withIdentifier: "recipeSegue", sender: self)
+
+    }
+    @IBAction func shoppingButton(_ sender: Any) {
+        label = "Shopping List"
+        performSegue(withIdentifier: "firstSegue", sender: self)
+
+    }
+    @IBAction func aboutButton(_ sender: Any) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        let fileURL = try!
+            FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("GroceryDatabase.sqlite")
+        
+        
+        if sqlite3_open(fileURL.path, &db) != SQLITE_OK{
+            print("Error opening database")
+            return
+        }
+        //Please take this out before you turn it in Emily
+        print("SQLITE URL!!" + fileURL.path)
+        
+        let createFoodTableQuery = "CREATE TABLE IF NOT EXISTS Food (Id INTEGER PRIMARY KEY AUTOINCREMENT, food TEXT, date TEXT, expired INTEGER)"
+        
+        let createRecipeTableQuery = "CREATE TABLE IF NOT EXISTS Recipes (recipeId INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, percentage DOUBLE)"
+        
+        let createIngredientTableQuery = "CREATE TABLE IF NOT EXISTS Ingredients (Id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, wholeMeasure TEXT, fractionMeasure TEXT, measureUnits TEXT, recipeId INTEGER, FOREIGN KEY(recipeId) REFERENCES Recipes(recipeId))"
+        
+        let createStepTableQuery = "CREATE TABLE IF NOT EXISTS Steps (Id INTEGER PRIMARY KEY AUTOINCREMENT, step TEXT, recipeId INTEGER, FOREIGN KEY(recipeId) REFERENCES Recipes(recipeId))"
+        
+        let createShoppingListTableQuery = "CREATE TABLE IF NOT EXISTS ShoppingList (Id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT)"
+        
+        if sqlite3_exec(db, createFoodTableQuery, nil, nil, nil) != SQLITE_OK{
+            print("Error creating food table")
+            return
+        }
+        
+        if sqlite3_exec(db, createRecipeTableQuery, nil, nil, nil) != SQLITE_OK{
+            print("Error creating recipe table")
+            return
+        }
+        if sqlite3_exec(db, createIngredientTableQuery, nil, nil, nil) != SQLITE_OK{
+            print("Error creating ingredient table")
+            return
+        }
+        
+        if sqlite3_exec(db, createStepTableQuery, nil, nil, nil) != SQLITE_OK{
+            print("Error creating Steps table")
+            return
+        }
+        
+        if sqlite3_exec(db, createShoppingListTableQuery, nil, nil, nil) != SQLITE_OK{
+            print("Error creating ShoppingList table")
+            return
+        }
+        prepopulateRecipes()
+        checkExpirDates()
+        
+        
+        
+        
+        print("Everything is fine")
+       
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is ListTableViewController
+        {
+            
+            let vc = segue.destination as? ListTableViewController
+            vc?.db = db
+            vc?.label = label
+            
+        }
+        if segue.destination is RecipeMatchTableViewController{
+            let vc = segue.destination as? RecipeMatchTableViewController
+            vc?.db = db
+            vc?.label = label
+        }
+        if segue.destination is RecipeTestTableViewController{
+            let vc = segue.destination as? RecipeTestTableViewController
+            vc?.db = db
+            vc?.label = label
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        let currDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        var dateComponents = DateComponents()
+        dateComponents.setValue(1, for: .day); // +1 day
+        
+        let nextDate = Calendar.current.date(byAdding: dateComponents, to: currDate)
+        let thirdDate = Calendar.current.date(byAdding: dateComponents, to: nextDate!)
+        
+        let today = formatter.string(from: currDate) as NSString
+        let tomorrow = formatter.string(from: nextDate!) as NSString
+        let nextDay = formatter.string(from: thirdDate!) as NSString
+        
+        
+        if result != today{
+            expirFood = []
+            let queryFoodStatementString = "SELECT food FROM Food WHERE date = '\(today)' OR date = '\(tomorrow)' OR date = '\(nextDay)';"
+            var queryFoodStatement: OpaquePointer? = nil
+            
+            if sqlite3_prepare_v2(db, queryFoodStatementString, -1, &queryFoodStatement, nil) != SQLITE_OK{
+                print("Error binding get food query")
+            }
+            
+            while (sqlite3_step(queryFoodStatement) == SQLITE_ROW){
+                
+                let queryResultCol0 = sqlite3_column_text(queryFoodStatement, 0)
+                let food = String(cString: queryResultCol0!)
+                expirFood.append(food)
+            }
+            
+            let string = expirFood.joined(separator: ", ")
+            if string == ""{
+                lastDate = Date()
+                result = formatter.string(from: lastDate!) as NSString
+               
 
-        // Do any additional setup after loading the view.
+                return
+            }
+            else{
+                let alert = UIAlertController(title: "Food Expiring Within 3 Days:", message: "\(string)", preferredStyle: UIAlertController.Style.alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
+                lastDate = Date()
+                
+                result = formatter.string(from: lastDate!) as NSString
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        
+        
+        
     }
     
 
@@ -341,6 +497,82 @@ class LandingViewController: UIViewController {
         }
         
         
+    }
+    
+    func checkExpirDates() {
+        let queryFoodStatementString = "SELECT * FROM Food;"
+        var queryStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(db, queryFoodStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let id = sqlite3_column_int(queryStatement, 0)
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
+                let food = String(cString: queryResultCol1!)
+                let queryResultCol2 = sqlite3_column_text(queryStatement, 2)
+                let date = String(cString: queryResultCol2!)
+                let expir = sqlite3_column_int(queryStatement, 3)
+                foodList.append(food)
+                dateList.append(date)
+                isExpired.append(expir)
+                idList.append(id)
+                print("Query Result:")
+                print("\(id) | \(food) | \(date)")
+            }
+            if foodList.count > 0{
+                foodList.append("Completely Empty Pantry")
+                dateList.append("")
+                isExpired.append(2)
+            }
+        
+    }
+        let currDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        let today = formatter.string(from: currDate) as NSString
+        let todayArray = today.components(separatedBy: "/")
+        var isPast = 0
+        
+        for i in 0...(foodList.count-1){
+            if isExpired[i] == 0{
+                if dateList[i] != ""{
+                let dateArray = dateList[i].components(separatedBy: "/")
+                let checkYear = Int(dateArray[0])!
+                let checkMonth = Int(dateArray[1])!
+                let checkDay = Int(dateArray[2])!
+                
+                
+                
+                if checkYear < Int(todayArray[0])!{
+                    isPast = 1
+                }
+                else{
+                    if checkMonth < Int(todayArray[1])!{
+                        isPast = 1
+                    }
+                    else{
+                        if checkMonth == Int(todayArray[1])! && checkDay < Int(todayArray[2])!{
+                            isPast = 1
+                        }
+                    }
+                }
+                }
+            }
+            //Only update table if isPast has changed
+            if isPast == 1 {
+                let queryStatementString = "UPDATE Food SET expired = 1 WHERE id = '\(idList[i])';"
+                var updateStatement: OpaquePointer? = nil
+                if sqlite3_prepare_v2(db, queryStatementString, -1, &updateStatement, nil) != SQLITE_OK{
+                    print("Error preparing update statement")
+                }
+                if sqlite3_step(updateStatement) == SQLITE_DONE{
+                    print("Recipe percentage edited successfully")
+                }
+                
+                isPast = 0
+            }
+            
+        }
     }
 
 }

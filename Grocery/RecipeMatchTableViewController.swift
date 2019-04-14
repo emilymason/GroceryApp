@@ -16,11 +16,14 @@ class RecipeMatchTableViewController: UITableViewController {
     var recipeList: [String] = []
     var recipeTitle: String?
 
+    @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var navTitle: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navTitle.title = "Recipe Match"
+        navTitle.title = "Recipe Crunch"
+        navBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Marker Felt", size: 20)!]
+        navBar.barTintColor = .white
         query()
         tableView.reloadData()
 

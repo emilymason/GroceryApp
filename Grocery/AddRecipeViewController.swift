@@ -55,9 +55,9 @@ class AddRecipeViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        if segue.destination is ListTableViewController
+        if segue.destination is RecipeTestTableViewController
         {
-            let vc = segue.destination as? ListTableViewController
+            let vc = segue.destination as? RecipeTestTableViewController
             vc?.db = db
             vc?.label = label
         }

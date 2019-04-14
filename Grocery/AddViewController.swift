@@ -19,6 +19,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var date: NSString = ""
     var recipeIdList: [Int32] = []
     var foodList: [String] = []
+    var isPast: Int = 0
 
     let datePicker = UIDatePicker()
     
@@ -51,13 +52,46 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             self.present(alert, animated: true, completion: nil)
             return
         }
+        
+        
+        
         if date.contains("None"){
             date = ""
         }
+        else{
+            let currDate = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/dd/yyyy"
+            let today = formatter.string(from: currDate) as NSString
+            let todayArray = today.components(separatedBy: "/")
+            let dateArray = date.components(separatedBy: "/")
+            let checkYear = Int(dateArray[0])!
+            let checkMonth = Int(dateArray[1])!
+            let checkDay = Int(dateArray[2])!
+
+
+
+            if checkYear < Int(todayArray[0])!{
+                isPast = 1
+            }
+            else{
+                if checkMonth < Int(todayArray[1])!{
+                    isPast = 1
+                }
+                else{
+                    if checkMonth == Int(todayArray[1])! && checkDay < Int(todayArray[2])!{
+                        isPast = 1
+                    }
+                }
+            }
+            
+        }
+        
+        
         
         var insertStatement: OpaquePointer? = nil
         
-        let insertStatementString = "INSERT INTO Food (food, date) VALUES (?, ?)"
+        let insertStatementString = "INSERT INTO Food (food, date, expired) VALUES (?, ?, ?)"
         
         if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding query")
@@ -71,8 +105,13 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             print("Error binding date")
         }
         
+        if sqlite3_bind_int(insertStatement, 3, Int32(isPast)) != SQLITE_OK{
+            print("Error binding expired")
+        }
+        
         if sqlite3_step(insertStatement) == SQLITE_DONE{
             print("Food saved successfully")
+            foodList.append(food as String)
         }
         
         
@@ -176,6 +215,11 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         let day = days[pickerView.selectedRow(inComponent: 1)] as NSString
         let year = years[pickerView.selectedRow(inComponent: 2)] as NSString
         date = ((month as String) + "/" + (day as String) + "/" + (year as String)) as NSString
+        
+     
+        
+        
+        
         
     }
     

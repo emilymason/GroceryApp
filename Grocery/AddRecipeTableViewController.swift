@@ -82,6 +82,9 @@ class AddRecipeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! SelfSizingStepsTableViewCell
+        let cellBGView = UIView()
+        cellBGView.backgroundColor = UIColor(red: 175/255, green: 206/255, blue: 255/255, alpha: 0.4)
+        cell.selectedBackgroundView = cellBGView
 
         if indexPath.section == 0{
             cell.editStepLabel.text = lists[0][indexPath.row]
@@ -139,9 +142,9 @@ class AddRecipeTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        if segue.destination is ListTableViewController
+        if segue.destination is RecipeTestTableViewController
         {
-            let vc = segue.destination as? ListTableViewController
+            let vc = segue.destination as? RecipeTestTableViewController
             vc?.db = db
             vc?.label = label
         }

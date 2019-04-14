@@ -21,6 +21,10 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     var newDate: NSString = ""
     var recipeIdList: [Int32] = []
     var foodList: [String] = []
+    var parseDate: String = ""
+    var parseMonth: String = ""
+    var parseDay: String = ""
+    var parseYear: String = ""
 
     @IBOutlet weak var foodEdit: UITextField!
     
@@ -118,6 +122,19 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         {
             years.append(String(i))
         }
+        
+        parseDate = editDate as String
+        var parseArray = parseDate.components(separatedBy: "/")
+        if parseArray.count == 1{
+            parseArray[0] = "None"
+            parseArray.append("None")
+            parseArray.append("None")
+        }
+        print(parseArray)
+        
+        picker.selectRow(months.index(of: parseArray[0])!, inComponent: 0, animated: true)
+        picker.selectRow(days.index(of: parseArray[1])!, inComponent: 1, animated: true)
+        picker.selectRow(years.index(of: parseArray[2])!, inComponent: 2, animated: true)
 
     }
     

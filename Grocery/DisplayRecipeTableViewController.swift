@@ -27,12 +27,13 @@ class DisplayRecipeTableViewController: UITableViewController {
     @IBOutlet weak var navTitle: UINavigationItem!
     
     @IBAction func backButton(_ sender: Any) {
-        if label == "Recipes"{
-            performSegue(withIdentifier: "backToListSegue", sender: self)
-        }
-        else{
-            performSegue(withIdentifier: "backToMatchSegue", sender: self)
-        }
+        performSegue(withIdentifier: "backToListSegue", sender: self)
+//        if label == "Recipes"{
+//            performSegue(withIdentifier: "backToListSegue", sender: self)
+//        }
+//        else{
+//            performSegue(withIdentifier: "backToMatchSegue", sender: self)
+//        }
         
     }
     
@@ -45,6 +46,8 @@ class DisplayRecipeTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        tableView.backgroundColor = .white
+        
         getId()
         queryIngredients()
         querySteps()
@@ -68,10 +71,13 @@ class DisplayRecipeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "displayCell", for: indexPath) as! SelfSizingStepsTableViewCell
-        
+        let cellBGView = UIView()
+        cellBGView.backgroundColor = UIColor(red: 175/255, green: 206/255, blue: 255/255, alpha: 0.4)
+        cell.selectedBackgroundView = cellBGView
         
         if (indexPath.section == 0){
             cell.StepLabel.text = list[0][indexPath.row]
+            
             if indexPath.row >= 1{
                 let row = indexPath.row - 1
                 var measure = measurements[row].measure
@@ -119,6 +125,7 @@ class DisplayRecipeTableViewController: UITableViewController {
                     imageView?.image = UIImage(named: "cancel-mark.png")
                     cell.accessoryView = imageView
                     image.append("Need")
+                        
                     }
 
                 }
@@ -218,9 +225,9 @@ class DisplayRecipeTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        if segue.destination is ListTableViewController
+        if segue.destination is RecipeTestTableViewController
         {
-            let vc = segue.destination as? ListTableViewController
+            let vc = segue.destination as? RecipeTestTableViewController
             vc?.db = db
             vc?.label = label
         }

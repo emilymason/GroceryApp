@@ -26,7 +26,7 @@ class EditRecipeTableViewController: UITableViewController {
     
     @IBOutlet weak var editTitle: UINavigationItem!
     @IBAction func saveButton(_ sender: Any) {
-        
+        performSegue(withIdentifier: "saveRecipeSegue", sender: self)
     }
     
     @IBAction func backButton(_ sender: Any) {
@@ -35,6 +35,7 @@ class EditRecipeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         editTitle.title = "Edit " + recipeTitle!
+        
         super.viewDidLoad()
         querySteps()
         queryIngredients()
@@ -55,7 +56,9 @@ class EditRecipeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "displayCell", for: indexPath) as! SelfSizingStepsTableViewCell
-        
+        let cellBGView = UIView()
+        cellBGView.backgroundColor = UIColor(red: 175/255, green: 206/255, blue: 255/255, alpha: 0.4)
+        cell.selectedBackgroundView = cellBGView
         
         if indexPath.section == 0{
             cell.editStepAgainLabel.text = list[0][indexPath.row]
@@ -86,6 +89,7 @@ class EditRecipeTableViewController: UITableViewController {
         }
         else{
             cell.editStepAgainLabel.text = list[1][indexPath.row]
+            
         }
         return cell
     }
