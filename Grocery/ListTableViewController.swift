@@ -155,19 +155,7 @@ class ListTableViewController: UITableViewController {
             }
             
         }
-        //SHOULDN'T GET TO THESE PLACES FROM HERE
-//        if segue.destination is DisplayRecipeTableViewController{
-//            let vc = segue.destination as? DisplayRecipeTableViewController
-//            vc?.db = db
-//            vc?.label = label
-//            vc?.recipeTitle = recipeTitle as String?
-//        }
-//        if segue.destination is RecipeTestTableViewController{
-//            let vc = segue.destination as? RecipeTestTableViewController
-//            vc?.db = db
-//            vc?.label = label
-//            //vc?.recipeTitle = recipeTitle as String?
-//        }
+
     }
  
 
@@ -175,10 +163,6 @@ class ListTableViewController: UITableViewController {
         if label == "Food"{
            return foodList.count
         }
-            //NO RECIPES ANYMORE
-//        else if label == "Recipes"{
-//            return recipeList.count
-//        }
         else if label == "Shopping List"{
             return shoppingList.count
         }
@@ -228,8 +212,9 @@ class ListTableViewController: UITableViewController {
 //            cell.textLabel?.text = recipeList[indexPath.row]
 //        }
         else if label == "Shopping List"{
-            cell.titleLabel?.text = ""
-            cell.expirLabel?.text = ""
+            cell.titleLabel?.text = " "
+            cell.expirLabel?.text = " "
+            
             cell.textLabel?.text = shoppingList[indexPath.row]
             if shoppingList[indexPath.row] == "Completely Empty Shopping List"{
                 cell.textLabel?.textColor = .red
@@ -240,6 +225,10 @@ class ListTableViewController: UITableViewController {
         cellBGView.backgroundColor = UIColor(red: 175/255, green: 206/255, blue: 255/255, alpha: 0.4)
         cell.selectedBackgroundView = cellBGView
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -356,6 +345,9 @@ class ListTableViewController: UITableViewController {
                 }
                 sqlite3_finalize(deleteStatement)
                 shoppingList.remove(at: indexPath.row)
+                if shoppingList.count == 1{
+                    shoppingList.removeAll()
+                }
                 tableView.reloadData()
             }
         }
@@ -469,6 +461,19 @@ class ListTableViewController: UITableViewController {
                 
                 self.present(alert, animated: true, completion: nil)
             }
+            else{
+                let alert = UIAlertController(title: "Do you want to add \(shoppingList[indexPath.row]) to your pantry?", message: "", preferredStyle: UIAlertController.Style.alert)
+
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)
+                    self.AddToPantry(food: self.shoppingList[indexPath.row])
+                    tableView.reloadData()
+//                    tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+                }))
+
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {(action) in alert.dismiss(animated: true, completion: nil)}))
+
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -520,6 +525,40 @@ class ListTableViewController: UITableViewController {
         sqlite3_finalize(emptyStatement)
         shoppingList.removeAll()
         tableView.reloadData()
+    }
+
+    func AddToPantry(food: String){
+        let date = ""
+        let expired = 0
+        let queryStatementString = "INSERT INTO Food (food,date,expired) VALUES('\(food)','\(date)','\(expired)');"
+        let queryDeleteStatementString = "DELETE FROM ShoppingList WHERE item = '\(food)';"
+        var queryStatement: OpaquePointer?
+
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) != SQLITE_OK{
+            print("Error binding query")
+        }
+
+        if sqlite3_step(queryStatement) == SQLITE_DONE{
+            print("Food saved successfully")
+        }
+        if sqlite3_prepare_v2(db, queryDeleteStatementString, -1, &queryStatement, nil) != SQLITE_OK{
+            print("Error binding delete")
+        }
+        if sqlite3_step(queryStatement) == SQLITE_DONE{
+            print("Food deleted successfully")
+        }
+
+
+
+        sqlite3_finalize(queryStatement)
+        shoppingList.remove(at: shoppingList.index(of: food)!)
+        print(shoppingList.count)
+        if shoppingList.count == 1{
+            shoppingList.removeAll()
+        }
+        tableView.reloadData()
+
+
     }
 
 }

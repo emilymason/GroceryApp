@@ -21,6 +21,7 @@ class DisplayRecipeTableViewController: UITableViewController {
     var foodList: [String] = []
     var shoppingList: [String] = []
     var imageView: UIImageView?
+    let laymanFood: [String] = ["Water", "Salt", "Ice Cubes", "Pepper"]
     
 
     
@@ -54,9 +55,6 @@ class DisplayRecipeTableViewController: UITableViewController {
         navTitle.title = recipeTitle! as String
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
-        print("TEST!!!!")
-        print(measurements[0].measure)
-        print(measurements[0].measure.components(separatedBy: " "))
         
         
     }
@@ -121,6 +119,12 @@ class DisplayRecipeTableViewController: UITableViewController {
                     cell.accessoryView = imageView
                     image.append("Check")
                 }
+                else if laymanFood.contains(list[0][indexPath.row]) && cell.StepLabel.text != "Ingredients: "{
+                        imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
+                        imageView?.image = UIImage(named: "yellowcheck.png")
+                        cell.accessoryView = imageView
+                        image.append("yellow")
+                    }
                 else if (shoppingList.contains(list[0][indexPath.row]) && cell.StepLabel.text != "Ingredients: "){
                     imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
                     imageView?.image = UIImage(named: "shopping-basket.png")

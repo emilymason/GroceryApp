@@ -259,7 +259,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Vv-gZ-7cV">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Vv-gZ-7cV">
                                             <rect key="frame" x="16" y="6" width="32.5" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="32.5" id="MPh-zl-p4A"/>
@@ -325,7 +325,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Ei-Kp-FAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1068" y="-505"/>
+            <point key="canvasLocation" x="-1068" y="-505.09745127436287"/>
         </scene>
         <!--Display Recipe Table View Controller-->
         <scene sceneID="vW4-6h-XWI">
@@ -483,20 +483,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Recipe Name:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9M-r0-L0A">
-                                <rect key="frame" x="25" y="112" width="334" height="31.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <rect key="frame" x="20" y="139" width="335" height="31"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="29"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Recipe Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iSo-wi-fvV">
-                                <rect key="frame" x="16" y="224.5" width="343" height="30.5"/>
+                                <rect key="frame" x="16" y="225" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="URE-dZ-2Uf">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URE-dZ-2Uf">
+                                <rect key="frame" x="0.0" y="20" width="375" height="45"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
                                     <navigationItem id="08n-k5-egp">
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="Bfq-Jd-xvJ">
@@ -512,16 +512,31 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recipe-book.png" translatesAutoresizingMaskIntoConstraints="NO" id="gVb-EE-zD5">
+                                <rect key="frame" x="-61.5" y="332" width="498" height="229"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="gVb-EE-zD5" secondAttribute="height" multiplier="498:229" id="6ye-25-Jk1"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="he0-9q-JOr" firstAttribute="trailing" secondItem="iSo-wi-fvV" secondAttribute="trailing" constant="16" id="BKM-i7-s6N"/>
-                            <constraint firstItem="he0-9q-JOr" firstAttribute="bottom" secondItem="iSo-wi-fvV" secondAttribute="bottom" constant="412" id="Der-YH-7DL"/>
-                            <constraint firstItem="iSo-wi-fvV" firstAttribute="leading" secondItem="he0-9q-JOr" secondAttribute="leading" constant="16" id="Etu-Wy-P0j"/>
-                            <constraint firstItem="w9M-r0-L0A" firstAttribute="top" secondItem="he0-9q-JOr" secondAttribute="top" constant="92" id="W2S-Vr-dM4"/>
-                            <constraint firstItem="iSo-wi-fvV" firstAttribute="top" secondItem="w9M-r0-L0A" secondAttribute="bottom" constant="81" id="aLH-ay-luc"/>
-                            <constraint firstItem="he0-9q-JOr" firstAttribute="trailing" secondItem="w9M-r0-L0A" secondAttribute="trailing" constant="16" id="u0K-CE-Odv"/>
-                            <constraint firstItem="w9M-r0-L0A" firstAttribute="leading" secondItem="he0-9q-JOr" secondAttribute="leading" constant="25" id="ydh-JM-fbG"/>
+                            <constraint firstItem="URE-dZ-2Uf" firstAttribute="trailing" secondItem="he0-9q-JOr" secondAttribute="trailing" id="4kb-rv-DlO"/>
+                            <constraint firstAttribute="trailing" secondItem="gVb-EE-zD5" secondAttribute="trailing" constant="-61.5" id="AuM-zj-ZoK"/>
+                            <constraint firstItem="w9M-r0-L0A" firstAttribute="top" secondItem="wLy-68-iPi" secondAttribute="topMargin" constant="119" id="HYL-DE-bdS"/>
+                            <constraint firstAttribute="trailing" secondItem="gVb-EE-zD5" secondAttribute="trailing" constant="-61.5" id="HyV-Kz-F7g"/>
+                            <constraint firstItem="gVb-EE-zD5" firstAttribute="top" secondItem="iSo-wi-fvV" secondAttribute="bottom" constant="77" id="JsP-bd-Ygv"/>
+                            <constraint firstItem="iSo-wi-fvV" firstAttribute="leading" secondItem="he0-9q-JOr" secondAttribute="leading" constant="16" id="Oaf-6Q-Mh6"/>
+                            <constraint firstItem="URE-dZ-2Uf" firstAttribute="top" secondItem="he0-9q-JOr" secondAttribute="top" id="RGP-80-E1r"/>
+                            <constraint firstItem="gVb-EE-zD5" firstAttribute="leading" secondItem="wLy-68-iPi" secondAttribute="leading" constant="-61.5" id="RU4-U2-mke"/>
+                            <constraint firstItem="he0-9q-JOr" firstAttribute="trailing" secondItem="iSo-wi-fvV" secondAttribute="trailing" constant="16" id="VTv-Ij-3oA"/>
+                            <constraint firstItem="gVb-EE-zD5" firstAttribute="top" secondItem="iSo-wi-fvV" secondAttribute="bottom" constant="77" id="byg-0q-7a0"/>
+                            <constraint firstItem="gVb-EE-zD5" firstAttribute="leading" secondItem="wLy-68-iPi" secondAttribute="leading" constant="-61.5" id="jGD-a1-tRR"/>
+                            <constraint firstItem="w9M-r0-L0A" firstAttribute="top" secondItem="URE-dZ-2Uf" secondAttribute="bottom" constant="74" id="lDD-5A-05t"/>
+                            <constraint firstItem="URE-dZ-2Uf" firstAttribute="leading" secondItem="he0-9q-JOr" secondAttribute="leading" id="sb1-ga-cfG"/>
+                            <constraint firstItem="w9M-r0-L0A" firstAttribute="leading" secondItem="he0-9q-JOr" secondAttribute="leading" constant="20" id="tsc-1f-LUj"/>
+                            <constraint firstItem="he0-9q-JOr" firstAttribute="trailing" secondItem="w9M-r0-L0A" secondAttribute="trailing" constant="20" id="xaM-vU-ZSw"/>
+                            <constraint firstItem="iSo-wi-fvV" firstAttribute="top" secondItem="w9M-r0-L0A" secondAttribute="bottom" constant="55" id="yd9-if-vZU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="he0-9q-JOr"/>
                     </view>
@@ -532,7 +547,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="69s-5e-17J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1010" y="427"/>
+            <point key="canvasLocation" x="1008.8" y="425.93703148425789"/>
         </scene>
         <!--Add Recipe Table View Controller-->
         <scene sceneID="uuP-Aj-zPt">
@@ -546,6 +561,9 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <textAttributes key="titleTextAttributes">
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                            </textAttributes>
                             <textAttributes key="largeTitleTextAttributes">
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
                             </textAttributes>
@@ -897,14 +915,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Shopping List Item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-hp-Y8g">
-                                <rect key="frame" x="16" y="130" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                            </textField>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cui-xB-Gpv">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="Add Shopping List Item" id="0kS-7k-Mbj">
                                         <barButtonItem key="leftBarButtonItem" title="Back" id="EqQ-ND-Qg0">
@@ -920,16 +936,30 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Item Here:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwO-X0-vR6">
+                                <rect key="frame" x="97" y="126" width="180" height="31.5"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="29"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Shopping List Item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JfI-hp-Y8g">
+                                <rect key="frame" x="16" y="214" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="sSr-9P-gBo" firstAttribute="trailing" secondItem="cwO-X0-vR6" secondAttribute="trailing" constant="98" id="7N3-Fx-qNf"/>
                             <constraint firstItem="Cui-xB-Gpv" firstAttribute="leading" secondItem="sSr-9P-gBo" secondAttribute="leading" id="9ir-MP-dCn"/>
-                            <constraint firstItem="JfI-hp-Y8g" firstAttribute="leading" secondItem="sSr-9P-gBo" secondAttribute="leading" constant="16" id="IyU-0n-RMm"/>
-                            <constraint firstItem="JfI-hp-Y8g" firstAttribute="top" secondItem="Cui-xB-Gpv" secondAttribute="bottom" constant="66" id="Sd2-Cc-2Z2"/>
+                            <constraint firstItem="sSr-9P-gBo" firstAttribute="trailing" secondItem="JfI-hp-Y8g" secondAttribute="trailing" constant="16" id="Dyf-6S-x8O"/>
+                            <constraint firstItem="cwO-X0-vR6" firstAttribute="top" secondItem="Cui-xB-Gpv" secondAttribute="bottom" constant="62" id="IRQ-s5-Rd0"/>
                             <constraint firstItem="Cui-xB-Gpv" firstAttribute="top" secondItem="sSr-9P-gBo" secondAttribute="top" id="To2-iF-Nhe"/>
-                            <constraint firstItem="sSr-9P-gBo" firstAttribute="trailing" secondItem="JfI-hp-Y8g" secondAttribute="trailing" constant="16" id="ZIF-2Y-Ya8"/>
                             <constraint firstItem="Cui-xB-Gpv" firstAttribute="trailing" secondItem="sSr-9P-gBo" secondAttribute="trailing" id="dbH-5P-U3W"/>
-                            <constraint firstItem="JfI-hp-Y8g" firstAttribute="top" secondItem="Cui-xB-Gpv" secondAttribute="bottom" constant="66" id="vML-82-SP2"/>
+                            <constraint firstItem="JfI-hp-Y8g" firstAttribute="leading" secondItem="sSr-9P-gBo" secondAttribute="leading" constant="16" id="hXP-1S-621"/>
+                            <constraint firstItem="cwO-X0-vR6" firstAttribute="leading" secondItem="sSr-9P-gBo" secondAttribute="leading" constant="97" id="heu-g8-dd8"/>
+                            <constraint firstItem="JfI-hp-Y8g" firstAttribute="top" secondItem="cwO-X0-vR6" secondAttribute="bottom" constant="56.5" id="pk6-GJ-e3t"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="sSr-9P-gBo"/>
                     </view>
@@ -940,7 +970,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="INb-R8-lts" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2319" y="-1354"/>
+            <point key="canvasLocation" x="-2319.1999999999998" y="-1354.2728635682161"/>
         </scene>
         <!--Edit View Controller-->
         <scene sceneID="bLa-R7-NPa">
@@ -1090,17 +1120,19 @@
     <resources>
         <image name="cabbageMan.png" width="512" height="512"/>
         <image name="diet.png" width="409.60000610351562" height="409.60000610351562"/>
+        <image name="recipe-book.png" width="498.16217041015625" height="498.16217041015625"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jjJ-IO-jOG"/>
-        <segue reference="DA7-IJ-Yes"/>
-        <segue reference="Tnt-KM-S2e"/>
-        <segue reference="N3S-i2-wm7"/>
+        <segue reference="mja-ek-mT5"/>
+        <segue reference="N9d-gQ-SAv"/>
+        <segue reference="6US-fQ-jZy"/>
+        <segue reference="SMe-Oo-dqG"/>
+        <segue reference="EfK-0q-cqF"/>
         <segue reference="Gcb-R2-zKH"/>
-        <segue reference="HjG-tF-UjG"/>
-        <segue reference="HDo-wd-bWA"/>
-        <segue reference="af4-Eu-Bwz"/>
-        <segue reference="mUc-oc-6bG"/>
-        <segue reference="70T-Ll-1Ha"/>
+        <segue reference="Ud1-28-nXj"/>
+        <segue reference="GtH-rJ-JrY"/>
+        <segue reference="oQJ-z7-KyV"/>
+        <segue reference="Siy-LO-m9g"/>
+        <segue reference="bcx-fe-Gbc"/>
     </inferredMetricsTieBreakers>
 </document>

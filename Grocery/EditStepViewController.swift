@@ -56,6 +56,9 @@ class EditStepViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         stepBox.text = step
+        self.stepBox.layer.borderColor = UIColor.gray.cgColor
+        self.stepBox.layer.borderWidth = 0.5
+        self.stepBox.layer.cornerRadius = 2
         getStepId()
 
         // Do any additional setup after loading the view.

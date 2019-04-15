@@ -86,6 +86,10 @@ class EditRecipeTableViewController: UITableViewController {
                 attributedString.append(normalString)
                 
                 cell.editStepAgainLabel.attributedText = attributedString
+                
+                if measure == " " && units == ""{
+                    cell.editStepAgainLabel.text! = list[0][indexPath.row]
+                }
             }
         }
         else{

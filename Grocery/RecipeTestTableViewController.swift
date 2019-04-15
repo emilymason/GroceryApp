@@ -26,6 +26,7 @@ class RecipeTestTableViewController: UITableViewController {
     var recipePercentage: [Double] = []
     var db: OpaquePointer?
     var queryRecipeStatementString: String?
+    let laymanFood: [String] = ["Water", "Salt", "Ice Cubes", "Pepper"]
 //    let queryRecipePercentageStatementString = "SELECT * FROM Recipes ORDER BY percentage ASC;"
     @IBOutlet weak var addButtonLabel: UIBarButtonItem!
     
@@ -71,7 +72,7 @@ class RecipeTestTableViewController: UITableViewController {
             var match: Double = 0
             let ingredients: [String] = populateIngredientList(recipeId: recipe)
             for ingredient in ingredients{
-                if foodList.contains(ingredient){
+                if foodList.contains(ingredient) || laymanFood.contains(ingredient){
                     match += 1
                 }
             }
@@ -109,7 +110,7 @@ class RecipeTestTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! recipeViewCell
-        var used = UsesIngredient(recipeId: idList[indexPath.row])
+        let used = UsesIngredient(recipeId: idList[indexPath.row])
         cell.backgroundColor = .clear
         cell.recipeLabel?.text = recipeList[indexPath.row]
         if used == true{
