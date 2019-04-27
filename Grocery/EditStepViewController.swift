@@ -21,6 +21,8 @@ class EditStepViewController: UIViewController {
     
     
     @IBOutlet weak var stepBox: UITextView!
+    
+    
     @IBAction func backButton(_ sender: Any) {
         if (cameFrom == "Add"){
         performSegue(withIdentifier: "backEditStepSegue", sender: self)
@@ -30,6 +32,7 @@ class EditStepViewController: UIViewController {
         }
     }
     
+//Updates database and performs segue
     @IBAction func saveButton(_ sender: Any) {
         let newStep: NSString = stepBox.text! as NSString
 
@@ -86,7 +89,7 @@ class EditStepViewController: UIViewController {
         }
     }
     
-    //Gets the id of the step you're editing.
+//Gets the id of the step you're editing.
     func getStepId() {
         var queryStatement: OpaquePointer? = nil
         let queryStatementString = "SELECT Id FROM Steps WHERE step = '\(step!)' AND recipeId = '\(recipeId!)';"

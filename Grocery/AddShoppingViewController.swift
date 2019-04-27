@@ -15,6 +15,7 @@ class AddShoppingViewController: UIViewController {
     
     @IBOutlet weak var textField: UITextField!
     
+//Adds items into database and performs segue
     @IBAction func doneButton(_ sender: Any) {
         let item: NSString = textField.text! as NSString
         

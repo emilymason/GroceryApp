@@ -19,10 +19,11 @@ class AddStepsViewController: UIViewController {
     
     @IBOutlet weak var textView: UITextView!
     
+//Inserts steps into database and performs segue
     @IBAction func saveButton(_ sender: Any) {
         let step: NSString = textView.text! as NSString
         
-        
+        //Don't add step if there is nothing entered.
         if (step == ""){
             print("step field is empty")
             return;
@@ -57,7 +58,7 @@ class AddStepsViewController: UIViewController {
         
     }
     
-    
+//Add border so text box is visible
     override func viewDidLoad() {
         self.textView.layer.borderColor = UIColor.gray.cgColor
         self.textView.layer.borderWidth = 0.5

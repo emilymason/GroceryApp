@@ -63,11 +63,13 @@ class EditRecipeTableViewController: UITableViewController {
         
         if indexPath.section == 0{
             cell.editStepAgainLabel.text = list[0][indexPath.row]
+            // If the cell is not the section header, calculate the measurements for the ingredient
             if indexPath.row >= 1{
                 let row = indexPath.row - 1
                 var measure = measurements[row].measure
                 var units = measurements[row].unit
                 
+                //If user has entered none in the picker view, do no display it.
                 if measure.contains("None"){
                     let none: Set<Character> = ["n", "o", "e", "N", " "]
                     measure.removeAll(where: { none.contains($0) })
@@ -86,9 +88,6 @@ class EditRecipeTableViewController: UITableViewController {
                 attributedString.append(normalString)
                 
                 cell.editStepAgainLabel.attributedText = attributedString
-                print("EDIT MEASUREMENTS!!!")
-                print("/" + measure + "/")
-                print("/" + units + "/")
                 if measure == "" && units == "" || measure == " " && units == ""{
                     cell.editStepAgainLabel.text! = list[0][indexPath.row]
                 }
@@ -101,6 +100,7 @@ class EditRecipeTableViewController: UITableViewController {
         return cell
     }
     
+//This allows ability to edit and add ingredients and steps
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         myIndex =  indexPath.row
         if indexPath.row == 0 && indexPath.section == 0 {
@@ -121,6 +121,7 @@ class EditRecipeTableViewController: UITableViewController {
     }
     
     
+//Populates ingredient list
     func queryIngredients() {
         var queryStatement: OpaquePointer? = nil
         let queryIngredientStatementString = "SELECT * FROM Ingredients WHERE recipeId = '\(recipeId!)';"
@@ -149,6 +150,7 @@ class EditRecipeTableViewController: UITableViewController {
         sqlite3_finalize(queryStatement)
     }
     
+//Populates steps list
     func querySteps() {
         var queryStatement: OpaquePointer? = nil
         let queryStepStatementString = "SELECT * FROM Steps WHERE recipeId = '\(recipeId!)';"
@@ -222,7 +224,7 @@ class EditRecipeTableViewController: UITableViewController {
         
     }
     
-    // Can't delete header cells
+// Can't delete header cells
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
         if indexPath.section == 0 && list[0][indexPath.row] == "Click to add Ingredients: "{
@@ -237,6 +239,7 @@ class EditRecipeTableViewController: UITableViewController {
         }
     }
     
+//Makes necessary database deletions when swiping to delete
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete{
             let id: Int32 = recipeId!

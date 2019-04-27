@@ -23,11 +23,12 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
     var cameFrom: String?
     
     
+//Adds ingredients to database and performs segue
     @IBAction func doneButton(_ sender: Any) {
         
         let ingredient: NSString = textFieldIngredient.text! as NSString
         
-        
+        //If ingredient is blank, do not add to database.
         if (ingredient == ""){
             print("ingredient field is empty")
             return;

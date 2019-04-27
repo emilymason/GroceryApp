@@ -5,6 +5,8 @@
 //  This file creates the circular progress view that is displayed on
 //  the cells next to recipes.
 //
+//  Author: Swift Tutorials via Youtube
+//  https://www.youtube.com/watch?v=Qh1Sxict3io
 //  Created by Emily Mason on 4/10/19.
 //  Copyright © 2019 Emily Mason. All rights reserved.
 //

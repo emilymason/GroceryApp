@@ -69,14 +69,17 @@ class DisplayRecipeTableViewController: UITableViewController {
         cellBGView.backgroundColor = UIColor(red: 175/255, green: 206/255, blue: 255/255, alpha: 0.4)
         cell.selectedBackgroundView = cellBGView
         
+        //If we are in the ingredients section
         if (indexPath.section == 0){
             cell.StepLabel.text = list[0][indexPath.row]
             
+            // Make sure that we do not calculate measurements for section header
             if indexPath.row >= 1{
                 let row = indexPath.row - 1
                 var measure = measurements[row].measure
                 var units = measurements[row].unit
                 
+                //If user selected "None" in the picker view, do not show it
                 if measure.contains("None"){
                     let none: Set<Character> = ["n", "o", "e", "N", " "]
                     measure.removeAll(where: { none.contains($0) })
@@ -147,7 +150,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         return cell
     }
     
-    //Select ingredients to be able to add them to your shopping list.
+//Select ingredients to be able to add them to your shopping list.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (indexPath.section == 0 && image[indexPath.row] == "Need" ){
             let alert = UIAlertController(title: "Do you want to add \(list[0][indexPath.row]) to your shopping list?", message: "", preferredStyle: UIAlertController.Style.alert)
@@ -168,6 +171,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         
     }
     
+//returns id of recipe given the title.
     func getId(){
         let queryIdStatementString = "SELECT recipeId FROM Recipes WHERE name = '\(recipeTitle!)';"
         var queryIdStatement: OpaquePointer? = nil
@@ -180,7 +184,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         }
     }
     
-    
+//Populates ingredients list and measurements list
     func queryIngredients() {
         var queryStatement: OpaquePointer? = nil
         let queryIngredientStatementString = "SELECT * FROM Ingredients WHERE recipeId = '\(recipeId!)';"
@@ -209,6 +213,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         sqlite3_finalize(queryStatement)
     }
     
+//Populates steps list
     func querySteps() {
         var queryStatement: OpaquePointer? = nil
         let queryStepStatementString = "SELECT * FROM Steps WHERE recipeId = '\(recipeId!)';"
@@ -251,6 +256,7 @@ class DisplayRecipeTableViewController: UITableViewController {
 
     }
     
+// This function inserts food into shopping list.
     func AddToShoppingList(food: String){
         let queryStatementString = "INSERT INTO ShoppingList (item) VALUES('\(food)');"
         var queryStatement: OpaquePointer?
@@ -267,6 +273,7 @@ class DisplayRecipeTableViewController: UITableViewController {
 
     }
     
+//Populates food list and shopping list
     func SelectStatements(){
         foodList = []
         shoppingList = []

@@ -32,10 +32,12 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     @IBOutlet weak var picker: UIPickerView!
     
 
+//Updates food in database and performs segue
     @IBAction func saveButton(_ sender: Any) {
         
         let newFood: NSString = foodEdit.text! as NSString
         
+        //Don't add food that doesn't have a name
         if (newFood == ""){
             print("food field is empty")
             return;
@@ -218,7 +220,7 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         }
     }
     
-    
+// Populates recipeId List
     func getRecipeId() {
         var queryStatement: OpaquePointer? = nil
         let queryStatementString = "SELECT recipeId FROM Recipes;"
@@ -236,6 +238,7 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         sqlite3_finalize(queryStatement)
     }
     
+//Populates ingredient list
     func populateIngredientList(recipeId: Int32) -> [String] {
         var ingredientList: [String] = []
         let queryIngredientString = "SELECT name FROM Ingredients WHERE recipeId = \(recipeId);"
@@ -257,6 +260,7 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         
     }
     
+//Populates food list
     func populateFoodList() {
         let queryFoodString = "SELECT food FROM Food;"
         var queryStatement: OpaquePointer? = nil

@@ -53,6 +53,7 @@ class RecipeTestTableViewController: UITableViewController {
             navTitle.title = "My Recipes"
         }
         
+        //Make add button disappear if we are viewing Recipe Crunch
         if (label == "Recipe Match"){
             navTitle.title = "Recipe Crunch"
             addButtonLabel.isEnabled = false
@@ -63,7 +64,7 @@ class RecipeTestTableViewController: UITableViewController {
         query()
         recipePercentage = []
         
-        
+        //Recalculate recipe percentages
         for recipe in idList{
             var match: Double = 0
             let ingredients: [String] = populateIngredientList(recipeId: recipe)
@@ -87,6 +88,7 @@ class RecipeTestTableViewController: UITableViewController {
                 print("Recipe percentage edited successfully")
             }
         }
+        //Refresh so new percentages are reflected in view
         recipeList = []
         idList = []
         recipePercentage = []
@@ -95,6 +97,7 @@ class RecipeTestTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
+//Set background
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let backgroundImage = UIImage(named: "recipe.png")
@@ -107,11 +110,10 @@ class RecipeTestTableViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return recipeList.count
     }
 
-    
+//Set the recipe label with the circular progress view
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! recipeViewCell
         cell.backgroundColor = .clear
@@ -126,7 +128,7 @@ class RecipeTestTableViewController: UITableViewController {
     }
     
     
-    //Gets all the recipes in the Recipe table and puts them in recipeList
+//Gets all the recipes in the Recipe table and puts them in recipeList
     func query() {
         var queryStatement: OpaquePointer? = nil
         if label == "Recipes"{
@@ -157,6 +159,7 @@ class RecipeTestTableViewController: UITableViewController {
     }
  
 
+//Cannot delete prepopulated recipes
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if recipeList[indexPath.row] == "Honey Mustard Grilled Chicken" || recipeList[indexPath.row] == "Banana Bread" || recipeList[indexPath.row] == "Peanut Butter Banana Smoothie"{
             return false
@@ -171,6 +174,7 @@ class RecipeTestTableViewController: UITableViewController {
     }
     
     
+//Allows swipe to delete and performs necessary deletions in database
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete{
             
@@ -221,7 +225,7 @@ class RecipeTestTableViewController: UITableViewController {
                 }
                 sqlite3_finalize(deleteStatement)
                 recipeList.remove(at: indexPath.row)
-            recipePercentage.remove(at: indexPath.row)
+                recipePercentage.remove(at: indexPath.row)
                 tableView.reloadData()
             
         }
@@ -245,6 +249,7 @@ class RecipeTestTableViewController: UITableViewController {
         }
     }
     
+//Gets id from recipe name. This works since we require that all recipe names be unique.
     func GetId(recipeName: String) -> Int32 {
         var newId: Int32 = 0
         let queryIdStatementString = "SELECT recipeId FROM Recipes WHERE name = '\(recipeName)';"
@@ -260,7 +265,7 @@ class RecipeTestTableViewController: UITableViewController {
         return newId
     }
     
-    // Can be used in the future to indicate whether a recipe uses ingredients that uses recipes that will expire soon.
+// Can be used in the future to indicate whether a recipe uses ingredients that uses recipes that will expire soon.
     func UsesIngredient(recipeId: Int32) -> Bool{
         var ingredientsUsed: [String] = []
         let queryStatementString = "SELECT name FROM Ingredients WHERE recipeId = '\(recipeId)';"
@@ -292,6 +297,7 @@ class RecipeTestTableViewController: UITableViewController {
         return false
     }
     
+//Populates ingredient list
     func populateIngredientList(recipeId: Int32) -> [String] {
         var ingredientList: [String] = []
         let queryIngredientString = "SELECT name FROM Ingredients WHERE recipeId = \(recipeId);"
@@ -313,6 +319,7 @@ class RecipeTestTableViewController: UITableViewController {
         
     }
     
+//Populates food list
     func populateFoodList() {
         let queryFoodString = "SELECT food FROM Food;"
         var queryStatement: OpaquePointer? = nil

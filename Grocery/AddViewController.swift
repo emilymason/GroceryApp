@@ -29,6 +29,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     @IBOutlet weak var pickerView: UIPickerView!
     
+    //Adds food to database and performs segue
     @IBAction func doneButton(_ sender: Any) {
         let food: NSString = textFieldFood.text! as NSString
         getRecipeId()
@@ -231,6 +232,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     }
     
     
+// Populates recipe list
    func getRecipeId() {
     var queryStatement: OpaquePointer? = nil
     let queryStatementString = "SELECT recipeId FROM Recipes;"
@@ -248,6 +250,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     sqlite3_finalize(queryStatement)
     }
     
+//Populates ingredient list
     func populateIngredientList(recipeId: Int32) -> [String] {
         var ingredientList: [String] = []
         let queryIngredientString = "SELECT name FROM Ingredients WHERE recipeId = \(recipeId);"
@@ -269,6 +272,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
     }
     
+//Populates food list
     func populateFoodList() {
         let queryFoodString = "SELECT food FROM Food;"
         var queryStatement: OpaquePointer? = nil

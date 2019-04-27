@@ -38,6 +38,7 @@ class EditIngredientViewController: UIViewController, UIPickerViewDataSource, UI
         }
     }
     
+//Updates ingredient in database and performs segue
     @IBAction func saveButton(_ sender: Any) {
         let newIngredient: NSString = ingredientText.text! as NSString
         
@@ -116,16 +117,15 @@ class EditIngredientViewController: UIViewController, UIPickerViewDataSource, UI
         if sendMeasure!.unit.count == 0{
             pickerUnits = "None"
         }
-         measurePicker.selectRow(wholeMeasure.index(of: measureArray[0])!, inComponent: 0, animated: true)
+        measurePicker.selectRow(wholeMeasure.index(of: measureArray[0])!, inComponent: 0, animated: true)
         measurePicker.selectRow(fractionMeasure.index(of: measureArray[1])!, inComponent: 1, animated: true)
         measurePicker.selectRow(measureUnits.index(of: pickerUnits)!, inComponent: 2, animated: true)
         
         whole = wholeMeasure[measurePicker.selectedRow(inComponent: 0)] as NSString
         fraction = fractionMeasure[measurePicker.selectedRow(inComponent: 1)] as NSString
         unit = measureUnits[measurePicker.selectedRow(inComponent: 2)] as NSString
-        
-        
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {

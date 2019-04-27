@@ -18,11 +18,12 @@ class AddRecipeViewController: UIViewController {
 
     @IBOutlet weak var recipeName: UITextField!
     
-    
+// Adds new recipe to database and performs segue
     @IBAction func nextButtons(_ sender: Any) {
         name = recipeName.text! as NSString
         recipeTitle = recipeName.text!
         
+        //If recipe name is empty, don't add it.
         if (name == ""){
             print("name field is empty")
             return;
@@ -86,6 +87,7 @@ class AddRecipeViewController: UIViewController {
         }
     }
     
+// Populates recipe list in order to make sure no duplicate recipes are added.
     func query() {
         var queryStatement: OpaquePointer? = nil
         let queryRecipeStatementString = "SELECT name FROM Recipes;"

@@ -40,6 +40,7 @@ class ListTableViewController: UITableViewController {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var navTitle: UINavigationBar!
+    
     @IBAction func addButton(_ sender: Any) {
         if label == "Food"{
             performSegue(withIdentifier: "addFoodSegue", sender: self)
@@ -174,7 +175,7 @@ class ListTableViewController: UITableViewController {
             cell.cellView.image = UIImage(named: "bananana.png")
             }
             
-
+            //format completely empty pantry to show as centered and red
             if foodList[indexPath.row] == "Completely Empty Pantry"{
                 cell.textLabel?.text = foodList[indexPath.row]
                 cell.textLabel?.textAlignment = .center
@@ -194,6 +195,7 @@ class ListTableViewController: UITableViewController {
             cell.expirLabel?.text = " "
             
             cell.textLabel?.text = shoppingList[indexPath.row]
+            //format completely empty shopping list to show as centered and red
             if shoppingList[indexPath.row] == "Completely Empty Shopping List"{
                 cell.textLabel?.textColor = .red
                 cell.textLabel?.textAlignment = .center
@@ -209,6 +211,7 @@ class ListTableViewController: UITableViewController {
         return 40
     }
     
+    //Not able to edit prepopulated recipes
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if label == "Recipes"{
             if recipeList[indexPath.row] == "Honey Mustard Grilled Chicken" || recipeList[indexPath.row] == "Banana Bread" || recipeList[indexPath.row] == "Peanut Butter Banana Smoothie"{
@@ -281,6 +284,7 @@ class ListTableViewController: UITableViewController {
         
     }
     
+// Populates food list, date list, and isExpired list
     func query() {
         var queryStatement: OpaquePointer? = nil
         if label == "Food"{
@@ -335,6 +339,7 @@ class ListTableViewController: UITableViewController {
         }
     }
     
+    //Allows the user to completely empty pantry/shopping list
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if label == "Food"{
             if foodList[indexPath.row] == "Completely Empty Pantry"{
@@ -383,6 +388,7 @@ class ListTableViewController: UITableViewController {
         }
     }
     
+// Gets recipe Id given the recipe name.
     func GetId(recipeName: String) -> Int32 {
         var newId: Int32 = 0
         let queryIdStatementString = "SELECT recipeId FROM Recipes WHERE name = '\(recipeName)';"
@@ -398,6 +404,7 @@ class ListTableViewController: UITableViewController {
         return newId
     }
     
+// This function completely empties your pantry
     func emptyPantry() {
         let emptyString = "DELETE FROM Food;"
         var emptyStatement: OpaquePointer? = nil
@@ -416,6 +423,7 @@ class ListTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+// This function completely empties your shopping list
     func emptyShoppingList() {
         let emptyString = "DELETE FROM ShoppingList;"
         var emptyStatement: OpaquePointer? = nil
@@ -433,6 +441,7 @@ class ListTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
+// This function adds food to pantry and deletes it from the shopping list.
     func AddToPantry(food: String){
         let date = ""
         let expired = 0

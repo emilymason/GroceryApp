@@ -48,6 +48,7 @@ class LandingViewController: UIViewController {
     @IBAction func aboutButton(_ sender: Any) {
     }
     
+//Creates the database if it doesn't already exist
     override func viewDidLoad() {
         super.viewDidLoad()
         let fileURL = try!
@@ -59,10 +60,6 @@ class LandingViewController: UIViewController {
             return
         }
         
-        //Please take this out before you turn it in Emily
-        print("SQLITE URL!!" + fileURL.path)
-        
-        //Create database if it doesn't already exist
         let createFoodTableQuery = "CREATE TABLE IF NOT EXISTS Food (Id INTEGER PRIMARY KEY AUTOINCREMENT, food TEXT, date TEXT, expired INTEGER)"
         
         let createRecipeTableQuery = "CREATE TABLE IF NOT EXISTS Recipes (recipeId INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, percentage DOUBLE)"
@@ -120,9 +117,9 @@ class LandingViewController: UIViewController {
         }
     }
     
+//Creates an alert if you have any food that will expire within 3 days.
     override func viewDidAppear(_ animated: Bool) {
         
-        // Check for food that will expire within 3 days
         let currDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd/yyyy"
@@ -172,7 +169,7 @@ class LandingViewController: UIViewController {
         }
     }
     
-    // Prepopulate 3 recipes
+// Prepopulate 3 recipes
     func prepopulateRecipes() {
         var insertStatement: OpaquePointer? = nil
         
@@ -486,7 +483,7 @@ class LandingViewController: UIViewController {
         
     }
     
-    // Update the expired field in the food table
+// Update the expired field in the food table
     func checkExpirDates() {
         let queryFoodStatementString = "SELECT * FROM Food;"
         var queryStatement: OpaquePointer? = nil

@@ -28,6 +28,8 @@ class AddRecipeTableViewController: UITableViewController {
     
     @IBOutlet weak var navTitle: UINavigationItem!
     
+    
+//Updates recipe percentages and performs segue
     @IBAction func finalizeButton(_ sender: Any) {
         //Calculate Percentages for Recipe
         populateIngredientList()
@@ -48,13 +50,11 @@ class AddRecipeTableViewController: UITableViewController {
         if sqlite3_step(updateStatement) == SQLITE_DONE{
             print("Recipe edited successfully")
         }
-        
-        
-        
         performSegue(withIdentifier: "finalizeRecipeSegue", sender: self)
     }
     
-    
+   
+//Populate lists and set self sizing view cells
     override func viewDidLoad() {
         super.viewDidLoad()
         getId()
@@ -82,10 +82,12 @@ class AddRecipeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! SelfSizingStepsTableViewCell
+        //Set cell selection color
         let cellBGView = UIView()
         cellBGView.backgroundColor = UIColor(red: 175/255, green: 206/255, blue: 255/255, alpha: 0.4)
         cell.selectedBackgroundView = cellBGView
 
+        //If in ingredients section
         if indexPath.section == 0{
             cell.editStepLabel.text = lists[0][indexPath.row]
             if indexPath.row >= 1{
@@ -117,16 +119,16 @@ class AddRecipeTableViewController: UITableViewController {
                 if measure == " " && units == "" || measure == "" && units == ""{
                     cell.editStepLabel.text! = lists[0][indexPath.row]
                 }
-                
             }
         }
+        // Else in steps section
         else{
             cell.editStepLabel.text = lists[1][indexPath.row]
         }
         return cell
     }
     
-    
+    //Can select rows that are not section headers
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         myIndex =  indexPath.row
         if indexPath.row == 0 && indexPath.section == 0 {
@@ -141,8 +143,6 @@ class AddRecipeTableViewController: UITableViewController {
         }
         else if indexPath.section == 0{
             editIngredient = lists[0][indexPath.row]
-            print("ARRAY!!!")
-            print(measurements)
             sendMeasure = measurements[indexPath.row-1]
             performSegue(withIdentifier: "editIngredSegue", sender: self)
         }
@@ -201,7 +201,7 @@ class AddRecipeTableViewController: UITableViewController {
         }
     }
     
-    
+//Populate ingredient list
     func queryIngredients() {
         var queryStatement: OpaquePointer? = nil
         let queryIngredientStatementString = "SELECT * FROM Ingredients WHERE recipeId = '\(recipeId!)';"
@@ -235,6 +235,7 @@ class AddRecipeTableViewController: UITableViewController {
     
 }
     
+//Populate steps list
     func querySteps() {
         var queryStatement: OpaquePointer? = nil
         let queryStepStatementString = "SELECT * FROM Steps WHERE recipeId = '\(recipeId!)';"
@@ -245,9 +246,7 @@ class AddRecipeTableViewController: UITableViewController {
                 _ = sqlite3_column_int(queryStatement, 0)
                 let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
                 let step = String(cString: queryResultCol1!)
-                
                 lists[1].append(step)
-               
                 print("Query Result:")
                 print("\(step)")
             }
@@ -257,12 +256,10 @@ class AddRecipeTableViewController: UITableViewController {
         }
         sqlite3_finalize(queryStatement)
         
-        
     }
     
+//Populate Id List
     func getId() {
-        
-        
         let queryIdStatementString = "SELECT recipeId FROM Recipes WHERE name = '\(recipeTitle!)';"
         var queryIdStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, queryIdStatementString, -1, &queryIdStatement, nil) != SQLITE_OK{
@@ -274,6 +271,7 @@ class AddRecipeTableViewController: UITableViewController {
         }
     }
     
+//Populate ingredient List
     func populateIngredientList() {
         let queryIngredientString = "SELECT name FROM Ingredients WHERE recipeId = \(recipeId!);"
         var queryStatement: OpaquePointer? = nil
@@ -292,7 +290,8 @@ class AddRecipeTableViewController: UITableViewController {
         sqlite3_finalize(queryStatement)
 
     }
-    
+
+//Populate food list
     func populateFoodList() {
         let queryFoodString = "SELECT food FROM Food;"
         var queryStatement: OpaquePointer? = nil
@@ -312,7 +311,7 @@ class AddRecipeTableViewController: UITableViewController {
         
     }
     
-    // Make sure we're not able to select the section headers.
+// Make sure we're not able to select the section headers.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
        
             if indexPath.section == 0 && lists[0][indexPath.row] == "Click to add Ingredients: "{
@@ -326,6 +325,7 @@ class AddRecipeTableViewController: UITableViewController {
         }
     }
     
+//This function allows swipe to delete and performs the necessary database deletions
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete{
             let id: Int32 = recipeId!
