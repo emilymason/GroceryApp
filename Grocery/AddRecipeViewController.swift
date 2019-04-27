@@ -27,7 +27,7 @@ class AddRecipeViewController: UIViewController {
             print("name field is empty")
             return;
         }
-        
+        // Don't allow duplicate recipe names.
         if (recipeList.contains(name! as String)){
             let alert = UIAlertController(title: "Duplicate Recipe", message: "You already have a recipe with this name. Please choose something else.", preferredStyle: UIAlertController.Style.alert)
             

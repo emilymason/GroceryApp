@@ -58,9 +58,11 @@ class LandingViewController: UIViewController {
             print("Error opening database")
             return
         }
+        
         //Please take this out before you turn it in Emily
         print("SQLITE URL!!" + fileURL.path)
         
+        //Create database if it doesn't already exist
         let createFoodTableQuery = "CREATE TABLE IF NOT EXISTS Food (Id INTEGER PRIMARY KEY AUTOINCREMENT, food TEXT, date TEXT, expired INTEGER)"
         
         let createRecipeTableQuery = "CREATE TABLE IF NOT EXISTS Recipes (recipeId INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, percentage DOUBLE)"
@@ -96,10 +98,6 @@ class LandingViewController: UIViewController {
         }
         prepopulateRecipes()
         checkExpirDates()
-        
-        
-        
-        
         print("Everything is fine")
        
     }
@@ -114,7 +112,6 @@ class LandingViewController: UIViewController {
             vc?.label = label
             
         }
-
         if segue.destination is RecipeTestTableViewController{
             let vc = segue.destination as? RecipeTestTableViewController
             vc?.db = db
@@ -125,6 +122,7 @@ class LandingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
+        // Check for food that will expire within 3 days
         let currDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd/yyyy"
@@ -156,11 +154,10 @@ class LandingViewController: UIViewController {
             }
             
             let string = expirFood.joined(separator: ", ")
+            // If no food will expire within 3 days, don't display alert
             if string == ""{
                 lastDate = Date()
                 result = formatter.string(from: lastDate!) as NSString
-               
-
                 return
             }
             else{
@@ -173,12 +170,9 @@ class LandingViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
-        
-        
-        
     }
     
-
+    // Prepopulate 3 recipes
     func prepopulateRecipes() {
         var insertStatement: OpaquePointer? = nil
         
@@ -191,7 +185,6 @@ class LandingViewController: UIViewController {
             print("REC saved successfully")
         }
         
-        
         let prepopIngr1 = "INSERT OR IGNORE INTO Ingredients (Id, name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES(1,'Dijon Mustard', 'None', '1/3', 'cup', 1);"
         if sqlite3_prepare_v2(db, prepopIngr1, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding 2 query")
@@ -200,7 +193,6 @@ class LandingViewController: UIViewController {
         if sqlite3_step(insertStatement) == SQLITE_DONE{
             print("Ingre saved successfully")
         }
-        
         
         let prepopIngr2 = "INSERT OR IGNORE INTO Ingredients (Id, name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES(2, 'Honey', 'None', '1/4', 'cup', 1);"
         if sqlite3_prepare_v2(db, prepopIngr2, -1, &insertStatement, nil) != SQLITE_OK{
@@ -211,7 +203,6 @@ class LandingViewController: UIViewController {
             print("Ingre saved successfully")
         }
         
-        
         let prepopIngr3 = "INSERT OR IGNORE INTO Ingredients (Id, name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES(3,'Mayonnaise', 'None', '2', 'tbsp', 1);"
         if sqlite3_prepare_v2(db, prepopIngr3, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding 4 query")
@@ -221,7 +212,6 @@ class LandingViewController: UIViewController {
             print("Ingre saved successfully")
         }
         
-        
         let prepopIngr4 = "INSERT OR IGNORE INTO Ingredients (Id, name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES(4, 'Steak Sauce', '1', 'None', 'tsp', 1);"
         if sqlite3_prepare_v2(db, prepopIngr4, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding 5 query")
@@ -230,7 +220,6 @@ class LandingViewController: UIViewController {
         if sqlite3_step(insertStatement) == SQLITE_DONE{
             print("Ingre saved successfully")
         }
-        
         
         let prepopIngr5 = "INSERT OR IGNORE INTO Ingredients (Id, name, wholeMeasure, fractionMeasure, measureUnits, recipeId) VALUES(5, 'Chicken Breasts', '4', 'None', 'None', 1);"
         if sqlite3_prepare_v2(db, prepopIngr5, -1, &insertStatement, nil) != SQLITE_OK{
@@ -242,6 +231,7 @@ class LandingViewController: UIViewController {
         }
         
         let prepopStep1 = "INSERT OR IGNORE INTO Steps (Id, step, recipeId) VALUES(1,'Preheat grill to medium heat', 1);"
+        
         if sqlite3_prepare_v2(db, prepopStep1, -1, &insertStatement, nil) != SQLITE_OK{
             print("Error binding step query")
         }
@@ -249,7 +239,6 @@ class LandingViewController: UIViewController {
         if sqlite3_step(insertStatement) == SQLITE_DONE{
             print("step saved successfully")
         }
-        
         
         let prepopStep2 = "INSERT OR IGNORE INTO Steps (Id, step, recipeId) VALUES(2,'In a shallow bowl, mix the mustard, honey, mayonnaise, and steak sauce. Set aside a small amount of the honey mustard sauce for basting, and dip the chicken into the remaining sauce to coat.', 1);"
         if sqlite3_prepare_v2(db, prepopStep2, -1, &insertStatement, nil) != SQLITE_OK{
@@ -497,6 +486,7 @@ class LandingViewController: UIViewController {
         
     }
     
+    // Update the expired field in the food table
     func checkExpirDates() {
         let queryFoodStatementString = "SELECT * FROM Food;"
         var queryStatement: OpaquePointer? = nil

@@ -27,7 +27,7 @@ class RecipeTestTableViewController: UITableViewController {
     var db: OpaquePointer?
     var queryRecipeStatementString: String?
     let laymanFood: [String] = ["Water", "Salt", "Ice Cubes", "Pepper"]
-//    let queryRecipePercentageStatementString = "SELECT * FROM Recipes ORDER BY percentage ASC;"
+
     @IBOutlet weak var addButtonLabel: UIBarButtonItem!
     
     @IBOutlet weak var navBar: UINavigationBar!
@@ -46,10 +46,8 @@ class RecipeTestTableViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+        
         populateFoodList()
-        print("FOOD")
-        print(foodList)
         navBar.barTintColor = .white
         if (label == "Recipes"){
             navTitle.title = "My Recipes"
@@ -64,15 +62,15 @@ class RecipeTestTableViewController: UITableViewController {
         navBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Marker Felt", size: 20)!]
         query()
         recipePercentage = []
-        print("EXPIRED")
-        print(nearExpired?.count == 0)
         
         
         for recipe in idList{
             var match: Double = 0
             let ingredients: [String] = populateIngredientList(recipeId: recipe)
             for ingredient in ingredients{
-                if foodList.contains(ingredient) || laymanFood.contains(ingredient){
+                
+                
+                if foodList.contains(ingredient) || laymanFood.contains(ingredient) || foodList.contains(String(ingredient.dropLast())) || foodList.contains(ingredient + "s") || foodList.contains(ingredient + "es") || foodList.contains(ingredient.dropLast()+"ies") || foodList.contains(ingredient.dropLast(3) + "y"){
                     match += 1
                 }
             }
@@ -89,6 +87,12 @@ class RecipeTestTableViewController: UITableViewController {
                 print("Recipe percentage edited successfully")
             }
         }
+        recipeList = []
+        idList = []
+        recipePercentage = []
+        query()
+        
+        super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,12 +114,8 @@ class RecipeTestTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! recipeViewCell
-        let used = UsesIngredient(recipeId: idList[indexPath.row])
         cell.backgroundColor = .clear
         cell.recipeLabel?.text = recipeList[indexPath.row]
-        if used == true{
-            cell.recipeLabel.textColor = .green
-        }
         cell.circleView.trackColor = UIColor(displayP3Red: 237/255, green: 1, blue: 237/255, alpha: 1.0)
         cell.circleView.progressColor = UIColor(displayP3Red: 168/255, green: 255, blue: 168/255, alpha: 1)
         cell.circleView.setProgressWithAnimation(duration: 1.0, value: Float(recipePercentage[indexPath.row]))
@@ -157,13 +157,10 @@ class RecipeTestTableViewController: UITableViewController {
     }
  
 
-    
-    // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if recipeList[indexPath.row] == "Honey Mustard Grilled Chicken" || recipeList[indexPath.row] == "Banana Bread" || recipeList[indexPath.row] == "Peanut Butter Banana Smoothie"{
             return false
         }
-        // Return false if you do not want the specified item to be editable.
         return true
     }
  
@@ -172,6 +169,7 @@ class RecipeTestTableViewController: UITableViewController {
         recipeTitle = recipeList[indexPath.row]
         performSegue(withIdentifier: "displayRecipeSegue", sender: self)
     }
+    
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete{
@@ -230,9 +228,6 @@ class RecipeTestTableViewController: UITableViewController {
         
     }
 
-
-
-
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is DisplayRecipeTableViewController{
@@ -265,6 +260,7 @@ class RecipeTestTableViewController: UITableViewController {
         return newId
     }
     
+    // Can be used in the future to indicate whether a recipe uses ingredients that uses recipes that will expire soon.
     func UsesIngredient(recipeId: Int32) -> Bool{
         var ingredientsUsed: [String] = []
         let queryStatementString = "SELECT name FROM Ingredients WHERE recipeId = '\(recipeId)';"
@@ -335,7 +331,4 @@ class RecipeTestTableViewController: UITableViewController {
         sqlite3_finalize(queryStatement)
         
     }
-
-
-
 }

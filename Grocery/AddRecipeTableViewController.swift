@@ -17,6 +17,7 @@ class AddRecipeTableViewController: UITableViewController {
     var recipeId: Int32?
     var lists = [["Click to add Ingredients: "],["Click to add Steps: "]]
     var measurements:[(measure: String, unit: String)] = []
+    var sendMeasure: (measure: String, unit: String)?
     var myIndex = 0
     var ingredientList: [String] = []
     var foodList: [String] = []
@@ -62,8 +63,7 @@ class AddRecipeTableViewController: UITableViewController {
         navTitle.title = recipeTitle! as String
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
-        
-         tableView.reloadData()
+        tableView.reloadData()
     }
 
 
@@ -93,6 +93,7 @@ class AddRecipeTableViewController: UITableViewController {
                 var measure = measurements[row].measure
                 var units = measurements[row].unit
                 
+                // Parse measurements if either fraction measure or whole measure is "None"
                 if measure.contains("None"){
                     let none: Set<Character> = ["n", "o", "e", "N", " "]
                     measure.removeAll(where: { none.contains($0) })
@@ -110,9 +111,10 @@ class AddRecipeTableViewController: UITableViewController {
                 let normalString = NSMutableAttributedString(string:normalText)
                 
                 attributedString.append(normalString)
-                
                 cell.editStepLabel.attributedText = attributedString
-                if measure == " " && units == ""{
+                
+                // Fix alignment if measure and units are empty.
+                if measure == " " && units == "" || measure == "" && units == ""{
                     cell.editStepLabel.text! = lists[0][indexPath.row]
                 }
                 
@@ -139,6 +141,9 @@ class AddRecipeTableViewController: UITableViewController {
         }
         else if indexPath.section == 0{
             editIngredient = lists[0][indexPath.row]
+            print("ARRAY!!!")
+            print(measurements)
+            sendMeasure = measurements[indexPath.row-1]
             performSegue(withIdentifier: "editIngredSegue", sender: self)
         }
     }
@@ -192,6 +197,7 @@ class AddRecipeTableViewController: UITableViewController {
             vc?.recipeTitle = recipeTitle
             vc?.recipeId = recipeId
             vc?.cameFrom = "Add"
+            vc?.sendMeasure = sendMeasure
         }
     }
     
@@ -306,6 +312,7 @@ class AddRecipeTableViewController: UITableViewController {
         
     }
     
+    // Make sure we're not able to select the section headers.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
        
             if indexPath.section == 0 && lists[0][indexPath.row] == "Click to add Ingredients: "{
@@ -315,7 +322,6 @@ class AddRecipeTableViewController: UITableViewController {
                 return false
         }
             else{
-        
         return true
         }
     }

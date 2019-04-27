@@ -73,12 +73,10 @@ class EditIngredientViewController: UIViewController, UIPickerViewDataSource, UI
         
         super.viewDidLoad()
         ingredientText.text = ingredient
-        print("HERE IS A TEST")
-        print(sendMeasure)
-        var measureArray = sendMeasure!.measure.components(separatedBy: " ")
-       
-        //measurePicker.selectRow(2, inComponent: 0, animated: true)
         
+       
+       
+        //Populate picker view data
         for i in 1...100
         {
             wholeMeasure.append(String(i))
@@ -92,15 +90,40 @@ class EditIngredientViewController: UIViewController, UIPickerViewDataSource, UI
         fractionMeasure.append("3/4")
         
         measureUnits.append("None")
+        measureUnits.append("bunch")
+        measureUnits.append("can")
+        measureUnits.append("clove")
+        measureUnits.append("cup")
+        measureUnits.append("lbs")
+        measureUnits.append("oz")
+        measureUnits.append("pinch")
+        measureUnits.append("quart")
         measureUnits.append("tsp")
         measureUnits.append("tbsp")
-        measureUnits.append("cup")
-        measureUnits.append("oz")
-        measureUnits.append("lbs")
         
+        // Make picker view show up with correct values
+        var measureArray = sendMeasure!.measure.components(separatedBy: " ")
+        var pickerUnits = sendMeasure!.unit
+        print("MEASUREMENTS!!!")
+        print(measureArray)
+        print(sendMeasure!.unit.count)
+        if measureArray[0] == ""{
+            measureArray[0] = "None"
+        }
+        if measureArray[1] == ""{
+            measureArray[1] = "None"
+        }
+        if sendMeasure!.unit.count == 0{
+            pickerUnits = "None"
+        }
          measurePicker.selectRow(wholeMeasure.index(of: measureArray[0])!, inComponent: 0, animated: true)
         measurePicker.selectRow(fractionMeasure.index(of: measureArray[1])!, inComponent: 1, animated: true)
-        measurePicker.selectRow(measureUnits.index(of: sendMeasure!.unit)!, inComponent: 2, animated: true)
+        measurePicker.selectRow(measureUnits.index(of: pickerUnits)!, inComponent: 2, animated: true)
+        
+        whole = wholeMeasure[measurePicker.selectedRow(inComponent: 0)] as NSString
+        fraction = fractionMeasure[measurePicker.selectedRow(inComponent: 1)] as NSString
+        unit = measureUnits[measurePicker.selectedRow(inComponent: 2)] as NSString
+        
         
     }
     

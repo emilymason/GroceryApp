@@ -86,8 +86,10 @@ class EditRecipeTableViewController: UITableViewController {
                 attributedString.append(normalString)
                 
                 cell.editStepAgainLabel.attributedText = attributedString
-                
-                if measure == " " && units == ""{
+                print("EDIT MEASUREMENTS!!!")
+                print("/" + measure + "/")
+                print("/" + units + "/")
+                if measure == "" && units == "" || measure == " " && units == ""{
                     cell.editStepAgainLabel.text! = list[0][indexPath.row]
                 }
             }
@@ -220,6 +222,7 @@ class EditRecipeTableViewController: UITableViewController {
         
     }
     
+    // Can't delete header cells
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
         if indexPath.section == 0 && list[0][indexPath.row] == "Click to add Ingredients: "{

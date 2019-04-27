@@ -13,7 +13,6 @@
         <!--Recipe Test Table View Controller-->
         <scene sceneID="Sxy-Gk-wCe">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3V9-Ev-qw2" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="T9a-fl-iOL" customClass="RecipeTestTableViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="blX-g2-MJg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -94,8 +93,103 @@
                         <segue destination="C4g-kK-Keh" kind="show" identifier="addRecipeSegue" id="AOj-Ao-jZD"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3V9-Ev-qw2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1068" y="427"/>
+        </scene>
+        <!--About View Controller-->
+        <scene sceneID="uT8-Fs-gTk">
+            <objects>
+                <viewController id="Gsr-gh-HlR" customClass="AboutViewController" customModule="Recipe_Crunch" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8vH-YV-oQv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="harvest.png" translatesAutoresizingMaskIntoConstraints="NO" id="Fz4-Nz-GWA">
+                                <rect key="frame" x="70" y="91.5" width="235" height="161"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="161" id="fca-Dq-KvS"/>
+                                    <constraint firstAttribute="width" constant="235" id="iF2-Pf-AV3"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Icons were provided by Freepik, Eucalyp, and SmashIcons from www.flaticon.com Food waste stats come from the NRDC." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s0a-0A-VZK">
+                                <rect key="frame" x="16" y="551.5" width="343" height="46"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fda-db-4pT">
+                                <rect key="frame" x="167" y="610.5" width="41" height="36"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="22"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="RpY-ee-2qw" kind="show" id="u78-fA-u4H"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIK-s4-HfV">
+                                <rect key="frame" x="16" y="260.5" width="343" height="152.5"/>
+                                <string key="text">Recipe Crunch is an app designed to help reduce food waste. It helps track the food in your home, recipes, and a shopping list. This app also has a feature called Recipe Crunch that returns all your recipes in order of how many ingredient matches you have.</string>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The average person in the United States throws away 238 lbs of food annually" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IVm-bl-AFF">
+                                <rect key="frame" x="16" y="427.5" width="343" height="43.5"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                <color key="textColor" red="0.18239172300000001" green="0.45460249349999998" blue="0.26776040210000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="That costs a person about $450 per year!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fXJ-tK-WeV">
+                                <rect key="frame" x="16" y="479.5" width="343" height="22"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                <color key="textColor" red="0.18239172300000001" green="0.45460249349999998" blue="0.26776040210000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Recipe Crunch" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ku-CM-dRC">
+                                <rect key="frame" x="53" y="52" width="268" height="32"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="29"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Wlq-il-PmN" firstAttribute="trailing" secondItem="s0a-0A-VZK" secondAttribute="trailing" constant="16" id="5GZ-4c-FrJ"/>
+                            <constraint firstItem="Fz4-Nz-GWA" firstAttribute="top" secondItem="4Ku-CM-dRC" secondAttribute="bottom" constant="7.5" id="7tV-Rg-uwc"/>
+                            <constraint firstItem="Wlq-il-PmN" firstAttribute="trailing" secondItem="4Ku-CM-dRC" secondAttribute="trailing" constant="54" id="DbS-zE-DwE"/>
+                            <constraint firstItem="fXJ-tK-WeV" firstAttribute="leading" secondItem="Wlq-il-PmN" secondAttribute="leading" constant="16" id="EjM-sz-kma"/>
+                            <constraint firstItem="fda-db-4pT" firstAttribute="leading" secondItem="Wlq-il-PmN" secondAttribute="leading" constant="167" id="Gdq-O0-7ru"/>
+                            <constraint firstItem="CIK-s4-HfV" firstAttribute="top" secondItem="Fz4-Nz-GWA" secondAttribute="bottom" constant="8" id="HqR-yK-hFJ"/>
+                            <constraint firstItem="Fz4-Nz-GWA" firstAttribute="leading" secondItem="Wlq-il-PmN" secondAttribute="leading" constant="70" id="IFs-gA-4UN"/>
+                            <constraint firstItem="Wlq-il-PmN" firstAttribute="trailing" secondItem="Fz4-Nz-GWA" secondAttribute="trailing" constant="70" id="K0q-Pk-yAm"/>
+                            <constraint firstItem="CIK-s4-HfV" firstAttribute="leading" secondItem="Wlq-il-PmN" secondAttribute="leading" constant="16" id="Pa9-Ix-9AA"/>
+                            <constraint firstItem="IVm-bl-AFF" firstAttribute="leading" secondItem="Wlq-il-PmN" secondAttribute="leading" constant="16" id="Roj-OL-dQU"/>
+                            <constraint firstItem="IVm-bl-AFF" firstAttribute="top" secondItem="CIK-s4-HfV" secondAttribute="bottom" constant="14.5" id="Z9f-90-3Ts"/>
+                            <constraint firstItem="4Ku-CM-dRC" firstAttribute="top" secondItem="Wlq-il-PmN" secondAttribute="top" constant="32" id="aOF-YI-Hd2"/>
+                            <constraint firstItem="fXJ-tK-WeV" firstAttribute="top" secondItem="IVm-bl-AFF" secondAttribute="bottom" constant="8.5" id="d7C-eb-j5M"/>
+                            <constraint firstItem="Wlq-il-PmN" firstAttribute="trailing" secondItem="fXJ-tK-WeV" secondAttribute="trailing" constant="16" id="dWN-Wi-oq8"/>
+                            <constraint firstItem="s0a-0A-VZK" firstAttribute="top" secondItem="fXJ-tK-WeV" secondAttribute="bottom" constant="50" id="kob-jN-hec"/>
+                            <constraint firstItem="s0a-0A-VZK" firstAttribute="leading" secondItem="Wlq-il-PmN" secondAttribute="leading" constant="16" id="l5z-Id-6km"/>
+                            <constraint firstItem="Wlq-il-PmN" firstAttribute="trailing" secondItem="CIK-s4-HfV" secondAttribute="trailing" constant="16" id="lyf-Va-X2t"/>
+                            <constraint firstItem="Wlq-il-PmN" firstAttribute="trailing" secondItem="IVm-bl-AFF" secondAttribute="trailing" constant="16" id="ntZ-yD-IM7"/>
+                            <constraint firstItem="4Ku-CM-dRC" firstAttribute="leading" secondItem="Wlq-il-PmN" secondAttribute="leading" constant="53" id="sd3-Fn-I9G"/>
+                            <constraint firstItem="Wlq-il-PmN" firstAttribute="trailing" secondItem="fda-db-4pT" secondAttribute="trailing" constant="167" id="wyT-NS-nz2"/>
+                            <constraint firstItem="Wlq-il-PmN" firstAttribute="bottom" secondItem="fda-db-4pT" secondAttribute="bottom" constant="20.5" id="x3g-9s-Udm"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Wlq-il-PmN"/>
+                    </view>
+                    <connections>
+                        <outlet property="blubLabel" destination="CIK-s4-HfV" id="rYW-W4-DyB"/>
+                        <outlet property="cabbageImage" destination="Fz4-Nz-GWA" id="0do-3l-EhR"/>
+                        <outlet property="iconLabel" destination="s0a-0A-VZK" id="ljc-pD-b7a"/>
+                        <outlet property="titleLabel" destination="4Ku-CM-dRC" id="u1V-l6-0mi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lW7-ZC-LfI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3250.4000000000001" y="557.27136431784118"/>
         </scene>
         <!--Landing View Controller-->
         <scene sceneID="6QY-Ex-2FD">
@@ -166,6 +260,7 @@
                                 </state>
                                 <connections>
                                     <action selector="aboutButton:" destination="RpY-ee-2qw" eventType="touchUpInside" id="WwH-Nu-9PF"/>
+                                    <segue destination="Gsr-gh-HlR" kind="show" id="6zQ-a9-otn"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cabbageMan.png" translatesAutoresizingMaskIntoConstraints="NO" id="r81-9m-QFC">
@@ -630,15 +725,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4D-dq-Q9V">
-                                <rect key="frame" x="16" y="116" width="343" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Step Here:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4D-dq-Q9V">
+                                <rect key="frame" x="16" y="116" width="343" height="32"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="29"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="P00-ch-7ES">
-                                <rect key="frame" x="16" y="180" width="343" height="128"/>
+                                <rect key="frame" x="16" y="191" width="343" height="117"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="P00-ch-7ES" secondAttribute="height" multiplier="343:117" id="8ap-C3-gUo"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -670,6 +768,7 @@
                             <constraint firstItem="VNa-Hn-dzB" firstAttribute="trailing" secondItem="g4D-dq-Q9V" secondAttribute="trailing" constant="16" id="8kZ-jH-cqu"/>
                             <constraint firstItem="P00-ch-7ES" firstAttribute="leading" secondItem="VNa-Hn-dzB" secondAttribute="leading" constant="16" id="Lnf-Vu-XDa"/>
                             <constraint firstItem="NzU-nG-F9K" firstAttribute="leading" secondItem="VNa-Hn-dzB" secondAttribute="leading" id="QaH-8y-epr"/>
+                            <constraint firstItem="VNa-Hn-dzB" firstAttribute="bottom" secondItem="P00-ch-7ES" secondAttribute="bottom" constant="359" id="V8z-hX-e0q"/>
                             <constraint firstItem="NzU-nG-F9K" firstAttribute="top" secondItem="VNa-Hn-dzB" secondAttribute="top" id="bWc-hB-50w"/>
                             <constraint firstItem="g4D-dq-Q9V" firstAttribute="leading" secondItem="VNa-Hn-dzB" secondAttribute="leading" constant="16" id="cE9-N2-gOw"/>
                             <constraint firstItem="P00-ch-7ES" firstAttribute="top" secondItem="g4D-dq-Q9V" secondAttribute="bottom" constant="43" id="cR6-sX-gWu"/>
@@ -792,8 +891,14 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Step Here:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYq-BZ-YF2">
+                                <rect key="frame" x="92" y="137" width="193" height="31.5"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="29"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OVj-Hz-cyD">
-                                <rect key="frame" x="16" y="214" width="343" height="128"/>
+                                <rect key="frame" x="16" y="189" width="343" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="U5h-Kn-UTL"/>
                                     <constraint firstAttribute="width" constant="343" id="iY7-Qw-TzL"/>
@@ -801,25 +906,18 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYq-BZ-YF2">
-                                <rect key="frame" x="92" y="137" width="193" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="sYq-BZ-YF2" firstAttribute="leading" secondItem="CQ9-yH-4Bj" secondAttribute="leading" constant="92" id="48g-xK-JD5"/>
-                            <constraint firstItem="OVj-Hz-cyD" firstAttribute="top" secondItem="sYq-BZ-YF2" secondAttribute="bottom" constant="53" id="6he-R5-zQz"/>
                             <constraint firstItem="wRd-L4-suP" firstAttribute="leading" secondItem="CQ9-yH-4Bj" secondAttribute="leading" id="B0c-nn-bT9"/>
                             <constraint firstItem="CQ9-yH-4Bj" firstAttribute="trailing" secondItem="OVj-Hz-cyD" secondAttribute="trailing" constant="16" id="E84-vQ-8Gy"/>
                             <constraint firstItem="OVj-Hz-cyD" firstAttribute="leading" secondItem="CQ9-yH-4Bj" secondAttribute="leading" constant="16" id="Jd0-b0-UrH"/>
+                            <constraint firstItem="CQ9-yH-4Bj" firstAttribute="bottom" secondItem="OVj-Hz-cyD" secondAttribute="bottom" constant="350" id="QqH-Yg-J3X"/>
                             <constraint firstItem="wRd-L4-suP" firstAttribute="top" secondItem="CQ9-yH-4Bj" secondAttribute="top" id="Ywk-mq-vbt"/>
-                            <constraint firstItem="CQ9-yH-4Bj" firstAttribute="bottom" secondItem="OVj-Hz-cyD" secondAttribute="bottom" constant="325" id="mEE-mE-MIe"/>
+                            <constraint firstItem="OVj-Hz-cyD" firstAttribute="top" secondItem="sYq-BZ-YF2" secondAttribute="bottom" constant="20.5" id="gzY-tZ-jVH"/>
                             <constraint firstItem="wRd-L4-suP" firstAttribute="trailing" secondItem="CQ9-yH-4Bj" secondAttribute="trailing" id="nvJ-I7-Yra"/>
                             <constraint firstItem="sYq-BZ-YF2" firstAttribute="top" secondItem="wRd-L4-suP" secondAttribute="bottom" constant="73" id="tHo-h7-loS"/>
-                            <constraint firstItem="OVj-Hz-cyD" firstAttribute="top" secondItem="sYq-BZ-YF2" secondAttribute="bottom" constant="53" id="tgy-gs-ScE"/>
                             <constraint firstItem="CQ9-yH-4Bj" firstAttribute="trailing" secondItem="sYq-BZ-YF2" secondAttribute="trailing" constant="90" id="zmW-gU-zfw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CQ9-yH-4Bj"/>
@@ -1120,19 +1218,19 @@
     <resources>
         <image name="cabbageMan.png" width="512" height="512"/>
         <image name="diet.png" width="409.60000610351562" height="409.60000610351562"/>
+        <image name="harvest.png" width="512" height="512"/>
         <image name="recipe-book.png" width="498.16217041015625" height="498.16217041015625"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mja-ek-mT5"/>
-        <segue reference="N9d-gQ-SAv"/>
-        <segue reference="6US-fQ-jZy"/>
-        <segue reference="SMe-Oo-dqG"/>
-        <segue reference="EfK-0q-cqF"/>
-        <segue reference="Gcb-R2-zKH"/>
-        <segue reference="Ud1-28-nXj"/>
+        <segue reference="jjJ-IO-jOG"/>
+        <segue reference="DA7-IJ-Yes"/>
+        <segue reference="Tnt-KM-S2e"/>
+        <segue reference="N3S-i2-wm7"/>
+        <segue reference="p1a-5L-2Ju"/>
+        <segue reference="oeQ-b5-cI9"/>
         <segue reference="GtH-rJ-JrY"/>
-        <segue reference="oQJ-z7-KyV"/>
-        <segue reference="Siy-LO-m9g"/>
-        <segue reference="bcx-fe-Gbc"/>
+        <segue reference="bXS-et-Col"/>
+        <segue reference="u78-fA-u4H"/>
+        <segue reference="djl-ee-wvb"/>
     </inferredMetricsTieBreakers>
 </document>

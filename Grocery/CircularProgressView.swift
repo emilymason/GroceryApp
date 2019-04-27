@@ -2,6 +2,9 @@
 //  CircularProgressView.swift
 //  Recipe Crunch
 //
+//  This file creates the circular progress view that is displayed on
+//  the cells next to recipes.
+//
 //  Created by Emily Mason on 4/10/19.
 //  Copyright © 2019 Emily Mason. All rights reserved.
 //

@@ -81,7 +81,7 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // Populate picker view data
         for i in 1...100
         {
             wholeMeasure.append(String(i))
@@ -95,11 +95,22 @@ class AddIngredientsViewController: UIViewController, UIPickerViewDataSource, UI
         fractionMeasure.append("3/4")
         
         measureUnits.append("None")
+        measureUnits.append("bunch")
+        measureUnits.append("can")
+        measureUnits.append("clove")
+        measureUnits.append("cup")
+        measureUnits.append("lbs")
+        measureUnits.append("oz")
+        measureUnits.append("pinch")
+        measureUnits.append("quart")
         measureUnits.append("tsp")
         measureUnits.append("tbsp")
-        measureUnits.append("cup")
-        measureUnits.append("oz")
-        measureUnits.append("lbs")
+       
+        
+        
+       
+        
+        
         
 
     }

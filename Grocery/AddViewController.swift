@@ -20,6 +20,8 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var recipeIdList: [Int32] = []
     var foodList: [String] = []
     var isPast: Int = 0
+    let laymanFood: [String] = ["Water", "Salt", "Ice Cubes", "Pepper"]
+
 
     let datePicker = UIDatePicker()
     
@@ -58,6 +60,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         if date.contains("None"){
             date = ""
         }
+        //Check if food is expired
         if date != ""{
             let currDate = Date()
             let formatter = DateFormatter()
@@ -71,18 +74,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             let todayYear = Int(todayArray[2])
             let todayMonth = Int(todayArray[0])
             let todayDay = Int(todayArray[1])
-//            print("ARRAYS!!!")
-//            print(todayArray)
-//            print(Int(todayArray[0])!)
-//            print(Int(todayArray[1])!)
-//            print(Int(todayArray[2])!)
-//            print(dateArray)
-//            print(checkYear)
-//            print(checkMonth)
-//            print(checkDay)
-//            
-//            print(checkYear > todayYear!)
-
 
             if checkYear < todayYear!{
                 isPast = 1
@@ -99,8 +90,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             }
 
         }
-        
-        
         
         var insertStatement: OpaquePointer? = nil
         
@@ -127,14 +116,12 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             foodList.append(food as String)
         }
         
-        
-    
-        
+        //Update percentage
         for recipe in recipeIdList{
             var match: Double = 0
             let ingredients: [String] = populateIngredientList(recipeId: recipe)
             for ingredient in ingredients{
-                if foodList.contains(ingredient){
+                if foodList.contains(ingredient) || laymanFood.contains(ingredient) || foodList.contains(String(ingredient.dropLast())) || foodList.contains(ingredient + "s") || foodList.contains(ingredient + "es") || foodList.contains(ingredient.dropLast()+"ies"){
                     match += 1
                 }
             }
@@ -158,6 +145,7 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //Populate picker view data
         months.append("01")
         months.append("02")
         months.append("03")
@@ -228,11 +216,6 @@ class AddViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         let day = days[pickerView.selectedRow(inComponent: 1)] as NSString
         let year = years[pickerView.selectedRow(inComponent: 2)] as NSString
         date = ((month as String) + "/" + (day as String) + "/" + (year as String)) as NSString
-        
-     
-        
-        
-        
         
     }
     

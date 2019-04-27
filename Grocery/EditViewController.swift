@@ -35,12 +35,13 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     @IBAction func saveButton(_ sender: Any) {
         
         let newFood: NSString = foodEdit.text! as NSString
-        //let newDate: NSString = dateEdit.text! as NSString
         
         if (newFood == ""){
             print("food field is empty")
             return;
         }
+        
+        //Check if food is expired
         if newDate.contains("None"){
             newDate = ""
         }
@@ -89,6 +90,7 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         getRecipeId()
         populateFoodList()
         
+        // Update percentage for recipes
         for recipe in recipeIdList{
             var match: Double = 0
             let ingredients: [String] = populateIngredientList(recipeId: recipe)
@@ -116,11 +118,9 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     
     override func viewDidLoad() {
         foodEdit.text? = editFood as String
-       // dateEdit.text? = editDate as String
-        print("ID IN EDIT VIEW")
-        print(editId!)
         super.viewDidLoad()
         
+        // Populate picker view data
         months.append("01")
         months.append("02")
         months.append("03")
@@ -161,8 +161,8 @@ class EditViewController: UIViewController, UIPickerViewDataSource, UIPickerView
             parseArray.append("None")
             parseArray.append("None")
         }
-        print(parseArray)
         
+        // Make picker view show up with correct values
         picker.selectRow(months.index(of: parseArray[0])!, inComponent: 0, animated: true)
         picker.selectRow(days.index(of: parseArray[1])!, inComponent: 1, animated: true)
         picker.selectRow(years.index(of: parseArray[2])!, inComponent: 2, animated: true)

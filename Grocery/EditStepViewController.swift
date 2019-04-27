@@ -33,6 +33,7 @@ class EditStepViewController: UIViewController {
     @IBAction func saveButton(_ sender: Any) {
         let newStep: NSString = stepBox.text! as NSString
 
+        //Update Step in Database
         let updateStatementString = "UPDATE Steps SET step = '\(newStep)' WHERE recipeId = '\(recipeId!)' AND Id = '\(stepId!)';"
         var updateStatement: OpaquePointer? = nil
         
@@ -56,13 +57,15 @@ class EditStepViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         stepBox.text = step
+        // Put border on step box so you can see where the boundaries are.
         self.stepBox.layer.borderColor = UIColor.gray.cgColor
         self.stepBox.layer.borderWidth = 0.5
         self.stepBox.layer.cornerRadius = 2
+        //Get the Id of the step you're editing
         getStepId()
-
-        // Do any additional setup after loading the view.
     }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if segue.destination is AddRecipeTableViewController
@@ -83,6 +86,7 @@ class EditStepViewController: UIViewController {
         }
     }
     
+    //Gets the id of the step you're editing.
     func getStepId() {
         var queryStatement: OpaquePointer? = nil
         let queryStatementString = "SELECT Id FROM Steps WHERE step = '\(step!)' AND recipeId = '\(recipeId!)';"

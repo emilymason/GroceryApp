@@ -29,12 +29,6 @@ class DisplayRecipeTableViewController: UITableViewController {
     
     @IBAction func backButton(_ sender: Any) {
         performSegue(withIdentifier: "backToListSegue", sender: self)
-//        if label == "Recipes"{
-//            performSegue(withIdentifier: "backToListSegue", sender: self)
-//        }
-//        else{
-//            performSegue(withIdentifier: "backToMatchSegue", sender: self)
-//        }
         
     }
     
@@ -48,15 +42,13 @@ class DisplayRecipeTableViewController: UITableViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         tableView.backgroundColor = .white
-        
         getId()
         queryIngredients()
         querySteps()
         navTitle.title = recipeTitle! as String
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
-        
-        
+
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -98,26 +90,27 @@ class DisplayRecipeTableViewController: UITableViewController {
                 let attrs = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)]
                 let attributedString = NSMutableAttributedString(string:boldText, attributes:attrs)
                 
-                
                 let normalText = "  " + cell.StepLabel.text!
                 let normalString = NSMutableAttributedString(string:normalText)
                 
-                
                 attributedString.append(normalString)
-
                 cell.StepLabel.attributedText = attributedString
-                if measure == " " && units == ""{
+                
+                // Fix alignment if measure and units are both empty.
+                if measure == "" && units == "" || measure == " " && units == ""{
                     cell.StepLabel.text! = list[0][indexPath.row]
                 }
                 
-                
+                // Add Icons next to ingredients in a recipe. Green check if you have that item, shopping basket if it's in your shopping list, yellow check if it is a food that most people should have (salt, water, etc.), and a X if you do not have that ingredient and it is not in your shopping list.
                 SelectStatements()
                 if (indexPath.row > 0){
-                    if (foodList.contains(list[0][indexPath.row]) && cell.StepLabel.text != "Ingredients: "){
+                    if foodList.contains(list[0][indexPath.row]) || foodList.contains(String(list[0][indexPath.row].dropLast())) || foodList.contains(list[0][indexPath.row] + "s") || foodList.contains(list[0][indexPath.row] + "es") || foodList.contains(list[0][indexPath.row].dropLast()+"ies") || foodList.contains(list[0][indexPath.row].dropLast(3) + "y"){
+                        if cell.StepLabel.text != "Ingredients: "{
                     imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
                     imageView?.image = UIImage(named: "checkmark.png")
                     cell.accessoryView = imageView
                     image.append("Check")
+                        }
                 }
                 else if laymanFood.contains(list[0][indexPath.row]) && cell.StepLabel.text != "Ingredients: "{
                         imageView = UIImageView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
@@ -131,7 +124,6 @@ class DisplayRecipeTableViewController: UITableViewController {
                     cell.accessoryView = imageView
                     image.append("Shopping")
 
-                    //cell.accessoryType = UITableViewCell.AccessoryType
                 }
                 else{
                     if(cell.StepLabel.text != "Ingredients: "){
@@ -155,6 +147,7 @@ class DisplayRecipeTableViewController: UITableViewController {
         return cell
     }
     
+    //Select ingredients to be able to add them to your shopping list.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (indexPath.section == 0 && image[indexPath.row] == "Need" ){
             let alert = UIAlertController(title: "Do you want to add \(list[0][indexPath.row]) to your shopping list?", message: "", preferredStyle: UIAlertController.Style.alert)
@@ -246,12 +239,6 @@ class DisplayRecipeTableViewController: UITableViewController {
             vc?.db = db
             vc?.label = label
         }
-     //   if segue.destination is RecipeMatchTableViewController
-       // {
-         //   let vc = segue.destination as? RecipeMatchTableViewController
-           // vc?.db = db
-            //vc?.label = label
-        //}
         if segue.destination is EditRecipeTableViewController
         {
             let vc = segue.destination as? EditRecipeTableViewController
